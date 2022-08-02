@@ -1,11 +1,11 @@
 <?php
 
-namespace Shekel\ShekelLib;
+namespace Shekel\ShekelLib\Middlewares;
 
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Auth\GenericUser;
-use Shekel\ShekelLib\AuthService;
+use Shekel\ShekelLib\Services\AuthService;
 use Illuminate\Support\Facades\Auth;
 
 class ServiceAuthentication

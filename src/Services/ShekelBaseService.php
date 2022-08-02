@@ -1,6 +1,6 @@
 <?php
 
-namespace Shekel\ShekelLib;
+namespace Shekel\ShekelLib\Services;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Config;

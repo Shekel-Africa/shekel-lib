@@ -1,8 +1,8 @@
 <?php 
 
-namespace Shekel\ShekelLib;
+namespace Shekel\ShekelLib\Services;
 
-use Shekel\ShekelLib\ShekelBaseService;
+use Shekel\ShekelLib\Services\ShekelBaseService;
 
 class AuthService extends ShekelBaseService {
     
