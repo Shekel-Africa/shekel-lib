@@ -1,0 +1,32 @@
+{
+    "name": "shekel/shekel-lib",
+    "description": "Shekel Internal Services",
+    "type": "project",
+    "require": {
+        "php": "^7.2",
+        "guzzlehttp/guzzle": "^7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Shekel\\ShekelLib\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Muheez Jimoh",
+            "email": "jamuheez2009@gmail.com"
+        }
+    ],
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Shekel\\ShekelLib\\ShekelServiceProvider"
+            ]
+        }
+    }
+}
