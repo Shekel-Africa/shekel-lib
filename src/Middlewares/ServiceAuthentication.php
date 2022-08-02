@@ -1,6 +1,6 @@
 <?php
 
-namespace Shekel\ShekelLib\Middlewares;
+namespace Shekel\ShekelLib\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
