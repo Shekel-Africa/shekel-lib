@@ -10,7 +10,7 @@ class ShekelServiceProvider extends ServiceProvider {
         $config = realpath(__DIR__.'/../resources/config/shekel.php');
         $this->publishes([
             $config => config_path('shekel.php')
-        ], 'shekel-config');
+        ], 'laravel-assets');
     }
 
     public function register() {
