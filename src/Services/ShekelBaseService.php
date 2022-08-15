@@ -15,4 +15,9 @@ class ShekelBaseService {
             'Content-Type' => 'application/json',
         ])->baseUrl(Config::get("shekel.$serviceName"));
     }
+
+    public function getItem(string $id){
+        $url = "/$id";
+        return $this->client->get($url);
+    }
 }
