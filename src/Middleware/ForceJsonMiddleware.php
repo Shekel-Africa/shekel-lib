@@ -18,6 +18,9 @@ class ForceJsonMiddleware {
     {
         $request->headers->set('Accept', 'application/json');
         $request->headers->set('Access-Control-Allow-Origin', '*');
+        $request->headers->set('Access-Control-Allow-Methods', '*');
+        $request->headers->set('Access-Control-Allow-Credentials', true);
+        $request->headers->set('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,X-Token-Auth,Authorization');
         return $next($request);
     }
 }
