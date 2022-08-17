@@ -2,6 +2,7 @@
 
 namespace Shekel\ShekelLib\Services;
 
+use Illuminate\Support\Arr;
 use Shekel\ShekelLib\Services\ShekelBaseService;
 
 class UploadService extends ShekelBaseService {
@@ -14,5 +15,10 @@ class UploadService extends ShekelBaseService {
     public function storeFiles($data) {
         $url = '/';
         return $this->client->post($url, $data);
+    }
+
+    public function listUploads($data) {
+        $url = "/";
+        return $this->client->get($url, $data);
     }
 }
