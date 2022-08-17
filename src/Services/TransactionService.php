@@ -10,4 +10,11 @@ class TransactionService extends ShekelBaseService {
     {
         parent::__construct($token, 'transaction');
     }
+
+    public function createWallet($currency='NGN') {
+        $url ="/wallet";
+        return $this->client->post($url, [
+            'currency' => $currency
+        ]);
+    }
 }
