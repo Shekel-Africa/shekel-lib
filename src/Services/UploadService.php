@@ -10,4 +10,9 @@ class UploadService extends ShekelBaseService {
     {
         parent::__construct($token, 'upload');
     }
+
+    public function storeFiles($data) {
+        $url = '/';
+        return $this->client->post($url, $data);
+    }
 }
