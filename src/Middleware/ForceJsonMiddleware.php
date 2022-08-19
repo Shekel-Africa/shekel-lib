@@ -16,11 +16,12 @@ class ForceJsonMiddleware {
      */
     public function handle(Request $request, Closure $next)
     {
-        $request->headers->set('Accept', 'application/json');
-        $request->headers->set('Access-Control-Allow-Origin', '*');
-        $request->headers->set('Access-Control-Allow-Methods', '*');
-        $request->headers->set('Access-Control-Allow-Credentials', true);
-        $request->headers->set('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,X-Token-Auth,Authorization');
-        return $next($request);
+        $response = $next($request);
+        $response->headers->set('Accept', 'application/json');
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set('Access-Control-Allow-Methods', '*');
+        $response->headers->set('Access-Control-Allow-Credentials', true);
+        $response->headers->set('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,X-Token-Auth,Authorization');
+        return $response;
     }
 }
