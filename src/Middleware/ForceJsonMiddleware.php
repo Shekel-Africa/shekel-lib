@@ -16,6 +16,7 @@ class ForceJsonMiddleware {
      */
     public function handle(Request $request, Closure $next)
     {
+        $request->headers->set('Accept', 'application/json');
         $response = $next($request);
         $response->headers->set('Accept', 'application/json');
         $response->headers->set('Access-Control-Allow-Origin', '*');
