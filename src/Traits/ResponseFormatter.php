@@ -11,7 +11,7 @@ trait ResponseFormatter {
      * @param int $code
      * @return JsonResponse
      */
-    public function jsonResponse(array $data =[], string $message, int $code = 200) 
+    public function jsonResponse(array $data =[], string $message ='', int $code = 200) 
     {
         if ($message) {
             $data['message'] = $message;
