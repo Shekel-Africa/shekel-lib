@@ -10,4 +10,9 @@ class LoanService extends ShekelBaseService {
     {
         parent::__construct($token, 'loan');
     }
+
+    public function getApprovedLoanOffer($loan_id) {
+        $url = "/$loan_id/offer";
+        return $this->client->get($url);
+    }
 }
