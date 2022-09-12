@@ -26,7 +26,7 @@ class BaseRepository {
     }
 
     public function edit(string $id, array $data) {
-        return $this->model->where('id', $id)
+        return $this->model->find($id)
             ->update(Arr::only($data, $this->model->getFillable()));
     }
 
