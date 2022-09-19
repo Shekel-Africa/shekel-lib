@@ -20,4 +20,9 @@ class ShekelBaseService {
         $url = "/$id";
         return $this->client->get($url);
     }
+
+    public function editItem(string $id, array $data) {
+        $url ="/$id";
+        return $this->client->post($url, $data);
+    }
 }
