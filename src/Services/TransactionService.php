@@ -17,4 +17,12 @@ class TransactionService extends ShekelBaseService {
             'currency' => $currency
         ]);
     }
+
+    public function createProvidusAccount($name, $bvn) {
+        $url = "/bank/account/reserve";
+        return $this->client->post($url, [
+            'name' => $name,
+            'bvn' => $bvn
+        ]);
+    }
 }
