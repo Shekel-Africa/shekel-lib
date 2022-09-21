@@ -28,4 +28,9 @@ class LoanService extends ShekelBaseService {
         $url = "/repayment/$id";
         return $this->client->post($url, $data);
     }
+
+    public function getRepayment($id) {
+        $url = "/repayment/$id";
+        return $this->client->get($url);
+    }
 }
