@@ -25,4 +25,11 @@ class TransactionService extends ShekelBaseService {
             'bvn' => $bvn
         ]);
     }
+
+    public function updateWalletType($currency='NGN'){
+        $url ="/wallet/convert";
+        return $this->client->post($url,[
+            'currency' => $currency
+        ]);
+    }
 }
