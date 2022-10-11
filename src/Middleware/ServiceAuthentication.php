@@ -24,7 +24,7 @@ class ServiceAuthentication
         if (!$userCheck->successful()) {
             return response()->json($userCheck->json(), $userCheck->status());
         }
-        Auth::guard()->setUser(new GenericUser($userCheck->object()->data));
+        Auth::guard()->setUser(new GenericUser($userCheck->json('data')));
         return $next($request);
     }
 }
