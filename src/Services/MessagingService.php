@@ -16,6 +16,12 @@ class MessagingService extends ShekelBaseService {
         return $this->client->post($url, $data);
     }
 
+    public function sendInviteEmail($data)
+    {
+        $url = "/send/invite-email";
+        return $this->client->post($url, $data);
+    }
+
     public function sendOTP($data) {
         $url = "/send/otp-email";
         return $this->client->post($url, $data);
