@@ -26,4 +26,14 @@ class MessagingService extends ShekelBaseService {
         $url = "/send/otp-email";
         return $this->client->post($url, $data);
     }
+
+    public function sendLoanOfferEmail($data) {
+        $url = "/send/loan-offer-email";
+        return $this->client->post($url, $data);
+    }
+
+    public function sendLoanRequestEmail($data) {
+        $url = "/send/loan-request-email";
+        return $this->client->post($url, $data);
+    }
 }
