@@ -18,10 +18,10 @@ class TransactionService extends ShekelBaseService {
         ]);
     }
 
-    public function createProvidusAccount($name, $bvn) {
+    public function createProvidusAccount($email, $bvn) {
         $url = "/wallet/link/bank";
         return $this->client->post($url, [
-            'name' => $name,
+            'email' => $email,
             'bvn' => $bvn
         ]);
     }
