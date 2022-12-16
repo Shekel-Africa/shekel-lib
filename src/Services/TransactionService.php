@@ -36,4 +36,12 @@ class TransactionService extends ShekelBaseService {
             'currency' => $currency
         ]);
     }
+
+    public function verifyAccount($bank, $account) {
+        $url ="/bank/verify";
+        return $this->client->post($url, [
+            'bank_name' => $bank,
+            'account' => $account
+        ]);
+    }
 }
