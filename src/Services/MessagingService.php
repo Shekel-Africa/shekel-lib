@@ -36,4 +36,9 @@ class MessagingService extends ShekelBaseService {
         $url = "/send/loan-request-email";
         return $this->client->post($url, $data);
     }
+
+    public function sendAdminVerificationMail($data) {
+        $url = "/send/kyc-verified-email";
+        return $this->client->post($url, $data);
+    }
 }
