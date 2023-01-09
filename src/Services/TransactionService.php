@@ -18,7 +18,7 @@ class TransactionService extends ShekelBaseService {
         ]);
     }
 
-    public function createProvidusAccount($email, $bvn, $user_id=null) {
+    public function createProvidusAccount($email, $bvn, $user_id=null, $details=[]) {
         $url = "/wallet/link/bank";
         $data = [   
             'email' => $email,
@@ -26,6 +26,9 @@ class TransactionService extends ShekelBaseService {
         ];
         if (isset($user_id)) {
             $data['user_id'] = $user_id;
+        }
+        if(!empty($details)) {
+            $data['details'] = $details;
         }
         return $this->client->post($url, $data);
     }
