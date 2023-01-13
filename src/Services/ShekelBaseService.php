@@ -27,7 +27,7 @@ class ShekelBaseService {
     }
 
     protected function handleRequest($request) {
-        if (!$request->success()) {
+        if (!$request->successful()) {
             abort(400, $request->json('message'));
         }
         return $request;
