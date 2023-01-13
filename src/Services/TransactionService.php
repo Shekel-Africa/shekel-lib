@@ -13,9 +13,9 @@ class TransactionService extends ShekelBaseService {
 
     public function createWallet($currency='NGN') {
         $url ="/wallet";
-        return $this->client->post($url, [
+        return $this->handleRequest($this->client->post($url, [
             'currency' => $currency
-        ]);
+        ]));
     }
 
     public function createProvidusAccount($email, $bvn, $user_id=null, $details=[]) {
@@ -30,21 +30,21 @@ class TransactionService extends ShekelBaseService {
         if(!empty($details)) {
             $data['details'] = $details;
         }
-        return $this->client->post($url, $data);
+        return $this->handleRequest($this->client->post($url, $data));
     }
 
     public function updateWalletType($currency='NGN'){
         $url ="/wallet/convert";
-        return $this->client->post($url,[
+        return $this->handleRequest($this->client->post($url,[
             'currency' => $currency
-        ]);
+        ]));
     }
 
     public function verifyAccount($bank, $account) {
         $url ="/bank/verify";
-        return $this->client->post($url, [
+        return $this->handleRequest($this->client->post($url, [
             'bank_name' => $bank,
             'account' => $account
-        ]);
+        ]));
     }
 }

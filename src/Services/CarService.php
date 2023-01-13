@@ -17,12 +17,11 @@ class CarService extends ShekelBaseService {
      * @return Response
      */
     public function getCar(string $car_id) {
-        $url = "/$car_id";
-        return $this->client->get($url);
+        return $this->getItem($car_id);
     }
 
     public function getCarsList(array $ids) {
         $url = "/list";
-        return $this->client->post($url, ['ids' => $ids]);
+        return $this->handleRequest($this->client->post($url, ['ids' => $ids]));
     }
 }

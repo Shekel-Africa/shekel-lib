@@ -14,11 +14,11 @@ class UploadService extends ShekelBaseService {
 
     public function storeFiles($data) {
         $url = '/';
-        return $this->client->post($url, $data);
+        return $this->handleRequest($this->client->post($url, $data));
     }
 
     public function listUploads($data) {
         $url = "/";
-        return $this->client->get($url, $data);
+        return $this->handleRequest($this->client->get($url, $data));
     }
 }

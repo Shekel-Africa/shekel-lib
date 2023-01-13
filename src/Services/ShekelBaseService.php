@@ -18,11 +18,19 @@ class ShekelBaseService {
 
     public function getItem(string $id){
         $url = "/$id";
-        return $this->client->get($url);
+        return $this->handleRequest($this->client->get($url));
     }
 
     public function editItem(string $id, array $data) {
         $url ="/$id";
-        return $this->client->post($url, $data);
+        return $this->handleRequest($this->client->post($url, $data));
     }
+
+    protected function handleRequest($request) {
+        if (!$request->success()) {
+            abort(400, $request->json('message'));
+        }
+        return $request;
+    }
+
 }

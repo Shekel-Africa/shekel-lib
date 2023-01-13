@@ -18,10 +18,10 @@ class AuthService extends ShekelBaseService {
      */
     public function verifyAuthentication($scopes = ['*'])
     {
-        return $this->client->post('/token/verify', ['scope' => json_encode($scopes)]);
+        return $this->handleRequest($this->client->post('/token/verify', ['scope' => json_encode($scopes)]));
     }
 
     public function getSuperAdmin() {
-        return $this->client->get('/admin/super');
+        return $this->handleRequest($this->client->get('/admin/super'));
     }
 }
