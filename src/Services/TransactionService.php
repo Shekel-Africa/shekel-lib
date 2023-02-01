@@ -47,4 +47,9 @@ class TransactionService extends ShekelBaseService {
             'account' => $account
         ]));
     }
+
+    public function listWallets() {
+        $url = '/wallet';
+        return $this->handleRequest($this->client->get($url));
+    }
 }
