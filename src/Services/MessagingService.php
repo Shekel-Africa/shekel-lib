@@ -41,4 +41,9 @@ class MessagingService extends ShekelBaseService {
         $url = "/send/kyc-verified-email";
         return $this->handleRequest($this->client->post($url, $data));
     }
+
+    public function sendForgotPasswordMail($data) {
+        $url = "/send/forgot-password";
+        return $this->handleRequest($this->client->post($url, $data));
+    }
 }
