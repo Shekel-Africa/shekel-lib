@@ -2,10 +2,9 @@
 
 namespace Shekel\ShekelLib\Utils;
 
-use Barryvdh\DomPDF\PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PdfDownloader extends Downloader {
-    use PDF;
     public function generateReport($title)
     {
         $heading = array_keys($this->collection[0]);
@@ -14,7 +13,7 @@ class PdfDownloader extends Downloader {
             'body' => $this->collection
         ];
         $pdfFile = realpath(__DIR__.'/../../resources/views/pdf_view.blade.php');
-        $pdf = PDF::loadView($pdfFile, $data);
+        $pdf = Pdf::loadView($pdfFile, $data);
         return $pdf->download("$title.pdf");
     }
 }
