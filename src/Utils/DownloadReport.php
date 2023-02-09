@@ -4,7 +4,7 @@ namespace Shekel\ShekelLib\Utils;
 
 class DownloadReport {
 
-    public function download(array $collection, $title, $type) {
+    public static function download(array $collection, $title, $type) {
         switch ($type) {
             case 'csv':
                 $downloader = new CsvDownloader($collection);
