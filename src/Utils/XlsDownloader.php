@@ -14,7 +14,7 @@ class XlsDownloader extends Downloader {
             fputcsv($out, $line, "\t");
         }
         fclose($out);
-        $newFileName = $title.date('d-m-Y').'.xls';
+        $newFileName = $this->generateFileName($title);
         $headers = [
             'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0',   
             'Content-type'        => 'application/vnd.ms-excel',

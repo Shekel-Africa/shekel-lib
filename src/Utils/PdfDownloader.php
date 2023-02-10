@@ -12,8 +12,22 @@ class PdfDownloader extends Downloader {
             'heading' => $heading,
             'body' => $this->collection
         ];
-        $pdfFile = realpath(__DIR__.'/../../resources/views/pdf_view.blade.php');
-        $pdf = Pdf::loadView($pdfFile, $data);
-        return $pdf->download("$title.pdf");
+        $pdf = Pdf::loadView('vendor.shekel-lib.pdf_view', $data);
+        return $pdf->download($this->generateFileName($title))->setPaper($this->getSize(), 'landscape');
+    }
+
+    private function getSize() {
+        $length = count($this->collection);
+        switch ($length) {
+            case $length < 7:
+                return 'a4';
+                break;
+            case $length < 13 :
+                return 'a3';
+                break;
+            default:
+                return 'a2';
+                break;
+        }
     }
 }

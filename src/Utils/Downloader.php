@@ -3,11 +3,16 @@
 namespace Shekel\ShekelLib\Utils;
 
 abstract class Downloader {
-    public $collection;
-    public function __construct(array $collection)
+    public $collection, $extension;
+    public function __construct(array $collection, $extension)
     {
         $this->collection = $collection;
+        $this->extension = $extension;
     }
 
     abstract public function generateReport($title);
+
+    public function generateFileName($title) {
+        return $title."_".date('d-m-Y').'.'.$this->extension;
+    }
 }

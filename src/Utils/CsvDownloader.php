@@ -15,7 +15,7 @@ class CsvDownloader extends Downloader {
             fputcsv($out, $line);
         }
         fclose($out);
-        $newFileName = $title.date('d-m-Y').'.csv';
+        $newFileName = $this->generateFileName($title);
         $headers = [
             'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0',   
             'Content-type'        => 'text/csv',
