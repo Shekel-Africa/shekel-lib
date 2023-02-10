@@ -12,8 +12,8 @@ class PdfDownloader extends Downloader {
             'heading' => $heading,
             'body' => $this->collection
         ];
-        $pdf = Pdf::loadView('vendor.shekel-lib.pdf_view', $data);
-        return $pdf->download($this->generateFileName($title))->setPaper($this->getSize(), 'landscape');
+        $pdf = Pdf::loadView('vendor.shekel-lib.pdf_view', $data)->setPaper($this->getSize(), 'landscape');
+        return $pdf->download($this->generateFileName($title));
     }
 
     private function getSize() {
