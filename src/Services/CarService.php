@@ -1,14 +1,14 @@
-<?php 
+<?php
 
 namespace Shekel\ShekelLib\Services;
 
 use Shekel\ShekelLib\Services\ShekelBaseService;
 
 class CarService extends ShekelBaseService {
-    
-    public function __construct($token)
+
+    public function __construct()
     {
-        parent::__construct($token, 'car');
+        parent::__construct('car');
     }
 
     /**

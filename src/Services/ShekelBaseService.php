@@ -7,13 +7,13 @@ use Illuminate\Support\Facades\Config;
 
 class ShekelBaseService {
     protected $client;
+    protected $token;
+    protected $baseUrl;
 
-    public function __construct($token, $serviceName)
+    public function __construct($serviceName)
     {
-        $this->client = Http::WithToken($token)->withHeaders([
-            'Accept' => 'application/json',
-            'Content-Type' => 'application/json',
-        ])->baseUrl(Config::get("shekel.$serviceName"));
+        $this->baseUrl = Config::get("shekel.$serviceName");
+        $this->setRequestOption();
     }
 
     public function getItem(string $id){
@@ -24,6 +24,18 @@ class ShekelBaseService {
     public function editItem(string $id, array $data) {
         $url ="/$id";
         return $this->handleRequest($this->client->post($url, $data));
+    }
+
+    public function setToken($token) {
+        $this->token = $token;
+        $this->setRequestOption();
+    }
+
+    public function setRequestOption() {
+        $this->client = Http::WithToken($this->token)->withHeaders([
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+        ])->baseUrl($this->baseUrl);
     }
 
     protected function handleRequest($request) {

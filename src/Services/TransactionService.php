@@ -1,14 +1,14 @@
-<?php 
+<?php
 
 namespace Shekel\ShekelLib\Services;
 
 use Shekel\ShekelLib\Services\ShekelBaseService;
 
 class TransactionService extends ShekelBaseService {
-    
-    public function __construct($token)
+
+    public function __construct()
     {
-        parent::__construct($token, 'transaction');
+        parent::__construct('transaction');
     }
 
     public function createWallet($currency='NGN') {
@@ -20,7 +20,7 @@ class TransactionService extends ShekelBaseService {
 
     public function createProvidusAccount($email, $bvn, $user_id=null, $details=[]) {
         $url = "/wallet/link/bank";
-        $data = [   
+        $data = [
             'email' => $email,
             'bvn' => $bvn
         ];

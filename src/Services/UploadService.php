@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Shekel\ShekelLib\Services;
 
@@ -6,10 +6,10 @@ use Illuminate\Support\Arr;
 use Shekel\ShekelLib\Services\ShekelBaseService;
 
 class UploadService extends ShekelBaseService {
-    
-    public function __construct($token)
+
+    public function __construct()
     {
-        parent::__construct($token, 'upload');
+        parent::__construct('upload');
     }
 
     public function storeFiles($data) {

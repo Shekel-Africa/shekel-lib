@@ -1,14 +1,14 @@
-<?php 
+<?php
 
 namespace Shekel\ShekelLib\Services;
 
 use Shekel\ShekelLib\Services\ShekelBaseService;
 
 class LoanService extends ShekelBaseService {
-    
-    public function __construct($token)
+
+    public function __construct()
     {
-        parent::__construct($token, 'loan');
+        parent::__construct('loan');
     }
 
     public function getApprovedLoanOffer($loan_id) {
