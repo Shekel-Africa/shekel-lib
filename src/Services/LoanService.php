@@ -33,4 +33,11 @@ class LoanService extends ShekelBaseService {
         $url = "/repayment/$id";
         return $this->handleRequest($this->client->get($url));
     }
+
+    public function getUsersActiveLoan(array $userIds) {
+        $url = "/list/active";
+        return $this->handleRequest($this->client->post($url, [
+            'user_ids' => $userIds
+        ]));
+    }
 }
