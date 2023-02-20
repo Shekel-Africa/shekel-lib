@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Auth;
 
 class ServiceAuthentication
 {
+
+    private $authService;
+
+    public function __construct(AuthService $authService) {
+        $this->authService = $authService;
+    }
+
     /**
      * Handle an incoming request.
      *
@@ -19,8 +26,8 @@ class ServiceAuthentication
      */
     public function handle(Request $request, Closure $next, ...$scopes)
     {
-        $authClient = new AuthService($request->bearerToken());
-        $userCheck = $authClient->verifyAuthentication($scopes);
+        $this->authService->setToken($request->bearerToken());
+        $userCheck = $this->authService->verifyAuthentication($scopes);
         if (!$userCheck->successful()) {
             return response()->json($userCheck->json(), $userCheck->status());
         }
