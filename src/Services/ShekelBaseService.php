@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Config;
 
 class ShekelBaseService {
+    /**
+     * @var Http $client
+     */
     protected $client;
     protected $token;
     protected $baseUrl;
@@ -16,9 +19,9 @@ class ShekelBaseService {
         $this->setRequestOption();
     }
 
-    public function getItem(string $id){
+    public function getItem(string $id, $extra=null){
         $url = "/$id";
-        return $this->handleRequest($this->client->get($url));
+        return $this->handleRequest($this->client->get($url, $extra));
     }
 
     public function editItem(string $id, array $data) {

@@ -9,35 +9,49 @@ use Shekel\ShekelLib\Services\TransactionService;
 use Shekel\ShekelLib\Services\UploadService;
 
 class ShekelFactory {
-    private $token; 
+    private $token;
 
-    public function __construct($token)
+    public function __construct(
+        private AuthService $authService,
+        private CarService $carService,
+        private LoanService $loanService,
+        private UploadService $uploadService,
+        private TransactionService $transactionService
+    )
     {
+    }
+
+    public function setToken($token) {
         $this->token = $token;
     }
 
     public function getService($name) {
         switch ($name) {
             case 'auth':
-                return new AuthService($this->token);
+                $this->authService->setToken($this->token);
+                return $this->authService;
                 break;
 
             case 'cars':
-                return new CarService($this->token);
+                $this->carService->setToken($this->token);
+                return $this->carService;
                 break;
 
             case 'loans':
-                return new LoanService($this->token);
+                $this->loanService->setToken($this->token);
+                return $this->loanService;
                 break;
 
             case 'uploads':
-                return new UploadService($this->token);
+                $this->uploadService->setToken($this->token);
+                return $this->uploadService;
                 break;
 
             case 'transactions':
-                return new TransactionService($this->token);
+                $this->transactionService->setToken($this->token);
+                return $this->transactionService;
                 break;
-            
+
             default:
                 # code...
                 break;
