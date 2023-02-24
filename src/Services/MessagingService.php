@@ -46,4 +46,10 @@ class MessagingService extends ShekelBaseService {
         $url = "/send/forgot-password";
         return $this->handleRequest($this->client->post($url, $data));
     }
+
+    public function onNewLoanComment($data) {
+        $url = "/send/on-new-loan-comment";
+        return $this->handleRequest($this->client->post($url, $data));
+    }
 }
+
