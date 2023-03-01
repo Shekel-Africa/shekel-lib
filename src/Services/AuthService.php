@@ -28,13 +28,13 @@ class AuthService extends ShekelBaseService {
     /**
      * Handles Background Processes that needs s2stoken
      * Returns auth Token for user |super admin if user Id is not provided
-     * @param $token
-     * @param $userId
-     * @return
+     * @param $hashedToken
+     * @param null $userId
+     * @return mixed
      */
-    public function s2sLogin($token, $userId=null) {
+    public function s2sLogin($hashedToken, $userId=null) {
         $data = [
-            'token' => $token,
+            'token' => $hashedToken,
             'userId' => $userId
         ];
         return $this->handleRequest($this->client->post('login/s2s', $data));
