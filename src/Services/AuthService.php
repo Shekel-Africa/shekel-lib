@@ -37,6 +37,6 @@ class AuthService extends ShekelBaseService {
             'token' => $hashedToken,
             'userId' => $userId
         ];
-        return $this->handleRequest($this->client->post('login/s2s', $data));
+        return $this->handleRequest($this->client->post('login/service', $data));
     }
 }
