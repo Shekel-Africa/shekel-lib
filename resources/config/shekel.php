@@ -9,4 +9,5 @@ return [
     'upload' => getenv('UPLOAD_SERVICE'),
     'transaction' => getenv('TRANSACTION_SERVICE'),
     'service_name' => getenv('SERVICE_NAME'),
+    'slack_webhook' => getenv('SLACK_WEBHOOK'),
 ];
