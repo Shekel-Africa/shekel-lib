@@ -4,6 +4,7 @@ namespace Shekel\ShekelLib\Services;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Config;
+use Shekel\ShekelLib\Utils\SlackNotify;
 
 class ShekelBaseService {
     /**
@@ -43,6 +44,14 @@ class ShekelBaseService {
 
     protected function handleRequest($request) {
         if (!$request->successful()) {
+            $message = [
+                'service' => $this->baseUrl,
+                'message' => $request->json('message')
+            ];
+            try {
+                SlackNotify::sendMessage(json_encode($message));
+            } catch (\Throwable $th) {
+            }
             abort($request->status(), $request->json('message'));
         }
         return $request;
