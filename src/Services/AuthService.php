@@ -47,4 +47,8 @@ class AuthService extends ShekelBaseService {
     public function getUserDetailsWithSecrets(string $userId) {
         return $this->handleRequest($this->client->get("/user/$userId/secrets"));
     }
+
+    public function getBusinessName(string $userId) {
+        return $this->handleRequest($this->client->get("/user/$userId/business"));
+    }
 }
