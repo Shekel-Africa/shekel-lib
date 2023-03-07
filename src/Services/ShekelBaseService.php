@@ -49,7 +49,7 @@ class ShekelBaseService {
                 'message' => $request->json('message')
             ];
             try {
-                SlackNotify::sendMessage(json_encode($message));
+                SlackNotify::sendMessage($message);
             } catch (\Throwable $th) {
             }
             abort($request->status(), $request->json('message'));
