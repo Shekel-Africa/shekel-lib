@@ -2,6 +2,7 @@
 
 namespace Shekel\ShekelLib\Services;
 
+use Carbon\Carbon;
 use Shekel\ShekelLib\Services\ShekelBaseService;
 
 class AuthService extends ShekelBaseService {
@@ -23,6 +24,43 @@ class AuthService extends ShekelBaseService {
 
     public function getSuperAdmin() {
         return $this->handleRequest($this->client->get('/admin/super'));
+    }
+
+    /**
+     * Get Authenticated User Object
+     * @return mixed
+     */
+    public function getAuthenticated()
+    {
+        return $this->handleRequest($this->client->get('/authenticated'));
+    }
+
+    /**
+     * Validate Token and permissions
+     * @param array $scopes
+     * @return bool
+     */
+    public function verifyToken(array $scopes = []): bool
+    {
+        if (empty($this->token)) {
+            abort(401, "unauthenticated");
+        }
+        $token_parts = explode('.', $this->token);
+        $token_header_json = base64_decode($token_parts[1]);
+        $token_header_array = json_decode($token_header_json, true);
+        $user_id = $token_header_array['sub'];
+        $allowedScopes = collect($token_header_array['scopes']);
+        $expiry = Carbon::createFromTimestamp($token_header_array['exp']);
+        if (now()->gt($expiry)) {
+            abort(401, "token expired");
+        }
+        if (!empty($scopes)) {
+            $scopes = collect($scopes);
+            if (($scopes->diff($allowedScopes))->count() > 0) {
+                abort(400, "User does not have required permission");
+            }
+        }
+        return true;
     }
 
     /**

@@ -26,12 +26,17 @@ class ServiceAuthentication
      */
     public function handle(Request $request, Closure $next, ...$scopes)
     {
-        $this->authService->setToken($request->bearerToken());
-        $userCheck = $this->authService->verifyAuthentication($scopes);
-        if (!$userCheck->successful()) {
-            return response()->json($userCheck->json(), $userCheck->status());
+        try {
+            $this->authService->setToken($request->bearerToken());
+            $this->authService->verifyToken($scopes);
+            $userCheck = $this->authService->getAuthenticated();
+            if (!$userCheck->successful()) {
+                return response()->json($userCheck->json(), $userCheck->status());
+            }
+            Auth::guard()->setUser(new GenericUser($userCheck->json('data')));
+            return $next($request);
+        } catch(\Throwable $th) {
+            return response()->json(['message' => $th->getMessage()], $th->getCode());
         }
-        Auth::guard()->setUser(new GenericUser($userCheck->json('data')));
-        return $next($request);
     }
 }

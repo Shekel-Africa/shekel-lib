@@ -43,9 +43,11 @@ class ShekelBaseService {
     }
 
     protected function handleRequest($request) {
-        if (!$request->successful()) {
+        if (!$request->successful() && !$request->unauthorized()) {
             $message = [
-                'service' => $this->baseUrl,
+                'environment' => getenv('APP_ENV'),
+                'service' => get_class($this),
+                'url' => $request->effectiveUri(),
                 'message' => $request->json('message')
             ];
             try {
