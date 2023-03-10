@@ -51,5 +51,10 @@ class MessagingService extends ShekelBaseService {
         $url = "/send/on-new-loan-comment";
         return $this->handleRequest($this->client->post($url, $data));
     }
+
+    public function sendDisbursementEmail($data) {
+        $url = "/send/disbursement-email";
+        return $this->handleRequest($this->client->post($url, $data));
+    }
 }
 
