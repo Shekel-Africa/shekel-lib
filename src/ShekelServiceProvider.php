@@ -11,15 +11,17 @@ class ShekelServiceProvider extends ServiceProvider {
         $this->publishes([
             $config => config_path('shekel.php')
         ], 'laravel-assets');
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'shekel-lib');
- 
+
         $this->publishes([
             __DIR__.'/../resources/views' => resource_path('views/vendor/shekel-lib'),
         ]);
     }
 
     public function register() {
-        
+
     }
 }
