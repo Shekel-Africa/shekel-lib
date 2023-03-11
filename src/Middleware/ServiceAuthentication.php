@@ -36,7 +36,7 @@ class ServiceAuthentication
             Auth::guard()->setUser(new GenericUser($userCheck->json('data')));
             return $next($request);
         } catch(\Throwable $th) {
-            return response()->json(['message' => $th->getMessage()], $th->getCode());
+            return response()->json(['message' => $th->getMessage()], $th->getStatusCode());
         }
     }
 }
