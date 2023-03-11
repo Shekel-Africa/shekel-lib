@@ -19,6 +19,9 @@ class ShekelServiceProvider extends ServiceProvider {
         $this->publishes([
             __DIR__.'/../resources/views' => resource_path('views/vendor/shekel-lib'),
         ]);
+        $this->commands([
+            \Shekel\ShekelLib\Commands\LogsPrune::class
+        ]);
     }
 
     public function register() {
