@@ -38,7 +38,7 @@ class ActivityLogMiddleware
             'status' => $response->status(),
             'initiator_id' => PassportToken::getUserFromToken($request->bearerToken())['user_id'],
         ];
-        if (!empty($request->header('x-token'))) {
+        if ($request->hasHeader('x-token')) {
             $data['actor_id'] = PassportToken::getUserFromToken($request->header('x-token'))['user_id'];
         }
         $this->activityLog->create($data);
