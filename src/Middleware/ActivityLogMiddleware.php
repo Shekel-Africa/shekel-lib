@@ -5,6 +5,7 @@ namespace Shekel\ShekelLib\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Shekel\ShekelLib\Models\ActivityLog;
+use Shekel\ShekelLib\Utils\PassportToken;
 
 class ActivityLogMiddleware
 {
@@ -28,10 +29,18 @@ class ActivityLogMiddleware
 
     public function terminate($request, $response)
     {
-        logger('Token', [$request->bearerToken()]);
-        logger("Request", [json_encode($request)]);
-        logger("Request IP", [json_encode($request->ip())]);
-        logger("Headers", [json_encode($response->headers->all())]);
-        logger("Response", [json_encode($response)]);
+        $data = [
+            'url' => $request->fullUrl(),
+            'headers' => json_encode($response->headers->all()),
+            'ip' => $request->ip(),
+            'properties' => json_encode($request->all()),
+            'response_data' => json_encode($response),
+            'status' => $response->status(),
+            'initiator_id' => PassportToken::getUserFromToken($request->bearerToken())['user_id'],
+        ];
+        if (!empty($request->header('x-token'))) {
+            $data['actor_id'] = PassportToken::getUserFromToken($request->header('x-token'))['user_id'];
+        }
+        $this->activityLog->create($data);
     }
 }

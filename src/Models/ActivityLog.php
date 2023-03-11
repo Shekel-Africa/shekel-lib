@@ -3,9 +3,11 @@
 namespace Shekel\ShekelLib\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Shekel\ShekelLib\Traits\UsesUuid;
 
 class ActivityLog extends Model
 {
+    use UsesUuid;
     /**
      * The database table used by the model.
      *
