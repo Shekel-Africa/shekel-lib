@@ -3,6 +3,7 @@
 namespace Shekel\ShekelLib\Services;
 
 use Carbon\Carbon;
+use Shekel\ShekelLib\Models\AccessToken;
 use Shekel\ShekelLib\Services\ShekelBaseService;
 use Shekel\ShekelLib\Utils\PassportToken;
 
@@ -49,6 +50,9 @@ class AuthService extends ShekelBaseService {
         $user = PassportToken::getUserFromToken($this->token);
         if (now()->gt($user['expiry'])) {
             abort(401, "token expired");
+        }
+        if (!AccessToken::isValid($user['id'])) {
+            abort(401, "Token Revoked");
         }
         if (!empty($scopes)) {
             $scopes = collect($scopes);

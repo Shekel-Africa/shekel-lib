@@ -33,7 +33,12 @@ class ServiceAuthentication
             if (!$userCheck->successful()) {
                 return response()->json($userCheck->json(), $userCheck->status());
             }
-            Auth::guard()->setUser(new GenericUser($userCheck->json('data')));
+            $user = $userCheck->json('data');
+            //kyc not completed
+            if (!empty($scopes) && !$user['kyc_complete']) {
+                return response()->json(['message' => 'Kyc not completed'], 403);
+            }
+            Auth::guard()->setUser(new GenericUser($user));
             return $next($request);
         } catch(\Throwable $th) {
             return response()->json(['message' => $th->getMessage()], $th->getStatusCode());

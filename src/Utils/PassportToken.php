@@ -13,11 +13,24 @@ class PassportToken
             $token_header_json = base64_decode($token_parts[1]);
             $token_header_array = json_decode($token_header_json, true);
             return [
+                'token_id' => $token_header_array['jti'],
+                'client_id' => $token_header_array['aud'],
                 'user_id' => $token_header_array['sub'],
                 'scopes' => $token_header_array['scopes'],
                 'expiry' => Carbon::createFromTimestamp($token_header_array['exp'])
             ];
         });
+    }
 
+    public static function getClientDetailFromRequest($request) {
+        if (!$request->hasHeader('x-auth')) {
+            abort(400, "Client Secrets Missing");
+        }
+        $token = $request->header('x-auth');
+        $arr = explode(':', base64_decode($token));
+        return [
+            'client_id' => $arr[0],
+            'client_secret' => $arr[1]
+        ];
     }
 }
