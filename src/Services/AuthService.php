@@ -51,7 +51,7 @@ class AuthService extends ShekelBaseService {
         if (now()->gt($user['expiry'])) {
             abort(401, "token expired");
         }
-        if (!AccessToken::isValid($user['id'])) {
+        if (!AccessToken::isValid($user['token_id'])) {
             abort(401, "Token Revoked");
         }
         if (!empty($scopes)) {
