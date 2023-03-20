@@ -6,13 +6,14 @@ use Closure;
 use Illuminate\Http\Request;
 use Shekel\ShekelLib\Models\ActivityLog;
 use Shekel\ShekelLib\Utils\PassportToken;
-use Jenssegers\Agent\Facades\Agent;
+use Jenssegers\Agent\Agent;
 
 class ActivityLogMiddleware
 {
     private $activityLog;
     public function __construct(ActivityLog $activityLog) {
         $this->activityLog = $activityLog;
+        $this->agent = new Agent();
     }
 
 
@@ -30,7 +31,7 @@ class ActivityLogMiddleware
 
     public function terminate($request, $response)
     {
-
+        $user_agent = $request->header('User-Agent');
         $data = [
             'url' => $request->fullUrl(),
             'headers' => json_encode($response->headers->all()),
@@ -39,11 +40,11 @@ class ActivityLogMiddleware
             'response_data' => json_encode($response),
             'status' => $response->status(),
             'initiator_id' => PassportToken::getUserFromToken($request->bearerToken())['user_id'],
-            'user_agent' => $request->header('User-Agent'),
+            'user_agent' => $user_agent,
             'device' => json_encode([
-                'browser' => Agent::browser(),
-                'device' => Agent::device(),
-                'platform' => Agent::platform()
+                'browser' => $this->agent->browser($user_agent),
+                'device' => $this->agent->device($user_agent),
+                'platform' => $this->agent->platform($user_agent)
             ])
         ];
 
