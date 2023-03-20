@@ -31,6 +31,9 @@ class ActivityLogMiddleware
 
     public function terminate($request, $response)
     {
+        if (empty($request->bearerToken())) {
+            return;
+        }
         $user_agent = $request->header('User-Agent');
         $data = [
             'url' => $request->fullUrl(),
