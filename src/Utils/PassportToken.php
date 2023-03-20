@@ -28,6 +28,9 @@ class PassportToken
         }
         $token = $request->header('x-auth');
         $arr = explode(':', base64_decode($token));
+		if (count($arr) !== 2) {
+			abort(400, "Invalid client secrets");
+		}
         return [
             'client_id' => $arr[0],
             'client_secret' => $arr[1]
