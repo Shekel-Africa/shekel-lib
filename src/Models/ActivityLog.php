@@ -22,6 +22,6 @@ class ActivityLog extends Model
      */
     protected $fillable = [
         'url', 'description', 'log', 'headers', 'properties', 'response_data', 'initiator_id',
-        'actor_id', 'status', 'ip'
+        'actor_id', 'status', 'ip', 'user_agent', 'device', 'ip_geo_location', 'client_id'
     ];
 }

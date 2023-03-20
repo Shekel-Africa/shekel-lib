@@ -5,7 +5,8 @@
     "require": {
         "php": "^8.0",
         "barryvdh/laravel-dompdf": "2.0.x-dev",
-        "guzzlehttp/guzzle": "^7.4"
+        "guzzlehttp/guzzle": "^7.4",
+        "jenssegers/agent": "3.0.x-dev"
     },
     "autoload": {
         "psr-4": {

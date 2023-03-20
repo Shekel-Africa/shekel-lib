@@ -16,6 +16,8 @@ return new class extends Migration {
         Schema::table('activity_logs', function (Blueprint $table) {
             $table->dropRememberToken();
             $table->string('user_agent')->nullable();
+            $table->string('client_id')->nullable();
+            $table->json('device')->nullable();
             $table->json('ip_geo_location')->nullable();
         });
     }
@@ -30,6 +32,8 @@ return new class extends Migration {
         Schema::table('activity_logs', function (Blueprint $table) {
             $table->rememberToken();
             $table->dropColumn('user_agent');
+            $table->dropColumn('client_id');
+            $table->dropColumn('device');
             $table->dropColumn('ip_geo_location');
         });
     }
