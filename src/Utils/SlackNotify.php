@@ -2,6 +2,7 @@
 
 namespace Shekel\ShekelLib\Utils;
 
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
@@ -9,8 +10,11 @@ use Illuminate\Support\Facades\Http;
 class SlackNotify
 {
     const TYPE = ['success' => "#4BB543", 'error' => "#D00000"];
-    public static function sendMessage(array $message, $type="error", $channel='#error-alerts'): \Illuminate\Http\Client\Response
+    public static function sendMessage(array $message, $type="error", $channel='#error-alerts'): ?Response
     {
+        if (in_array(Config::get("app.env"), ['testing', 'local'])) {
+            return null;
+        }
         $message = Arr::dot($message);
         $hookUrl = Config::get("shekel.slack_webhook");
         $payload = [
