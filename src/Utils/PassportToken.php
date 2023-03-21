@@ -27,7 +27,7 @@ class PassportToken
             abort(400, "Client Secrets Missing");
         }
         $token = $request->header('x-auth');
-        return Cahce::remember($token, '144404', function () use($token) {
+        return Cache::remember($token, '144404', function () use($token) {
             $arr = explode(':', base64_decode($token));
             if (count($arr) !== 2) {
                 abort(400, "Invalid client secrets");
