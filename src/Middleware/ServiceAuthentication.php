@@ -29,7 +29,7 @@ class ServiceAuthentication
         try {
             $this->authService->setToken($request->bearerToken());
             $this->authService->verifyToken($scopes);
-            $userCheck = $this->authService->getAuthenticated();
+            $userCheck = $this->authService->getAuthenticated(['excludeImage'=>true]);
             if (!$userCheck->successful()) {
                 return response()->json($userCheck->json(), $userCheck->status());
             }
