@@ -45,14 +45,14 @@ class AuthService extends ShekelBaseService {
     public function verifyToken(array $scopes = []): bool
     {
         if (empty($this->token)) {
-            abort(401, "unauthenticated");
+            abort(401, "Unauthenticated");
         }
         $user = PassportToken::getUserFromToken($this->token);
         if (now()->gt($user['expiry'])) {
-            abort(401, "token expired");
+            abort(401, "Session Expired");
         }
         if (!AccessToken::isValid($user['token_id'])) {
-            abort(401, "Token Revoked");
+            abort(401, "Session Token Revoked");
         }
         if (!empty($scopes)) {
             $scopes = collect($scopes);

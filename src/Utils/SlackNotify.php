@@ -34,7 +34,11 @@ class SlackNotify
                 ]
             ]
         ];
-        return Http::post($hookUrl, $payload);
+        try {
+            return Http::post($hookUrl, $payload);
+        } catch(\Throwable $th) {
+            logger("Slack Notify Error", $payload);
+        }
     }
 
     private static function arr_to_string(array $message): string
