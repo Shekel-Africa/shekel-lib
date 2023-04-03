@@ -49,10 +49,10 @@ class AuthService extends ShekelBaseService {
         }
         $user = PassportToken::getUserFromToken($this->token);
         if (now()->gt($user['expiry'])) {
-            abort(401, "Session Expired");
+            abort(401, "Login Session Expired");
         }
         if (!AccessToken::isValid($user['token_id'])) {
-            abort(401, "Session Token Revoked");
+            abort(401, "Login Session Token Revoked");
         }
         if (!empty($scopes)) {
             $scopes = collect($scopes);
