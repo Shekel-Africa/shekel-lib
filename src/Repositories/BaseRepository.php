@@ -19,20 +19,16 @@ class BaseRepository {
     /**
      *
      *
-     * @param string $id
+     * @param $id
      * @return Collection
      */
-    public function get(string $id) {
-        if (!Str::isUuid($id)) {
-            abort(400, "Invalid Id");
-        }
+    public function get($id) {
+        $this->validateId($id);
         return $this->model->findOrFail($id);
     }
 
-    public function edit(string $id, array $data) {
-        if (!Str::isUuid($id)) {
-            abort(400, "Invalid Id");
-        }
+    public function edit($id, array $data) {
+        $this->validateId($id);
         return $this->model->find($id)
             ->update(Arr::only($data, $this->model->getFillable()));
     }
@@ -40,5 +36,13 @@ class BaseRepository {
     public function delete(string $id) {
         $entity = $this->get($id);
         return $entity->delete();
+    }
+
+    private function validateId($id): bool
+    {
+        if (is_string($id) && !Str::isUuid($id)) {
+            abort(400, "Invalid Id");
+        }
+        return true;
     }
 }
