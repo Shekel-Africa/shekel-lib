@@ -38,4 +38,11 @@ class PassportToken
             ];
         });
     }
+
+    public static function validateUserRoleForAction(object $user, string $requiredRole) {
+        if(!isset($user->user_type) || $user->user_type !== $requiredRole) {
+            abort("User does not have required permission");
+        }
+        return true;
+    }
 }

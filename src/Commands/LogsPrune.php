@@ -35,7 +35,7 @@ class LogsPrune extends Command
             $lastModified = File::lastModified($file);
             $daysOld = floor((time() - $lastModified) / (60 * 60 * 24));
 
-            if ($daysOld > 7) {
+            if ($daysOld >= 7) {
                 File::delete($file);
             }
         }
