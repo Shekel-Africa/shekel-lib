@@ -26,7 +26,8 @@ class PdfDownloader extends Downloader {
                 return 'a3';
                 break;
             case $length < 13:
-                return 'a2'
+                return 'a2';
+                break;
             default:
                 return 'a1';
                 break;
