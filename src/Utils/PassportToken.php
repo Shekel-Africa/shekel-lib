@@ -39,8 +39,12 @@ class PassportToken
         });
     }
 
-    public static function validateUserRoleForAction(object $user, string $requiredRole) {
-        if(!isset($user->user_type) || $user->user_type !== $requiredRole) {
+    public static function validateUserRoleForAction(object $user, $requiredRole): bool
+    {
+        if (!is_array($requiredRole)) {
+            $requiredRole = [$requiredRole];
+        }
+        if(!isset($user->user_type) || !in_array($user->user_type, $requiredRole)) {
             abort(403, "User does not have required permission");
         }
         return true;
