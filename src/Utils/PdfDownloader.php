@@ -12,12 +12,12 @@ class PdfDownloader extends Downloader {
             'heading' => $heading,
             'body' => $this->collection
         ];
-        $pdf = Pdf::loadView('vendor.shekel-lib.pdf_view', $data)->setPaper($this->getSize(), 'landscape');
+        $pdf = Pdf::loadView('vendor.shekel-lib.pdf_view', $data)->setPaper($this->getSize($heading), 'landscape');
         return $pdf->download($this->generateFileName($title));
     }
 
-    private function getSize() {
-        $length = count($this->collection);
+    private function getSize($heading) {
+        $length = count($heading);
         switch ($length) {
             case $length < 7:
                 return 'a4';
