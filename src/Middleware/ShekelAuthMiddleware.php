@@ -8,7 +8,7 @@ use Illuminate\Auth\GenericUser;
 use Shekel\ShekelLib\Services\AuthService;
 use Illuminate\Support\Facades\Auth;
 
-class ServiceAuthentication
+class ShekelAuthMiddleware
 {
 
     private $authService;
@@ -24,16 +24,16 @@ class ServiceAuthentication
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next, ...$scopes)
+    public function handle(Request $request, Closure $next)
     {
         try {
             $this->authService->setToken($request->bearerToken());
-            $this->authService->verifyToken($scopes);
-            $user = auth()->user();
-            //kyc not completed
-            if (!empty($scopes) && !$user->kyc_complete) {
-                return response()->json(['message' => 'Kyc not completed'], 403);
+            $userCheck = $this->authService->getAuthenticated(['excludeImage'=>true]);
+            if (!$userCheck->successful()) {
+                return response()->json($userCheck->json(), $userCheck->status());
             }
+            $user = $userCheck->json('data');
+            Auth::guard()->setUser(new GenericUser($user));
             return $next($request);
         } catch(\Throwable $th) {
             return response()->json(['message' => $th->getMessage()], $th->getStatusCode());
