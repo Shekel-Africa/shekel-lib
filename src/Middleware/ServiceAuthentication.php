@@ -30,6 +30,9 @@ class ServiceAuthentication
             $this->authService->setToken($request->bearerToken());
             $this->authService->verifyToken($scopes);
             $user = auth()->user();
+            if (empty($user)) {
+                return response()->json(['message' => 'User not set'], 400);
+            }
             //kyc not completed
             if (!empty($scopes) && !$user->kyc_complete) {
                 return response()->json(['message' => 'Kyc not completed'], 403);
