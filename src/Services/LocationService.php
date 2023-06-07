@@ -19,4 +19,9 @@ class LocationService extends ShekelBaseService
         $url = "/location";
         return $this->handleRequest($this->client->post($url, $data));
     }
+
+    public function listItems(array $ids=[]) {
+        $url = "/location/list";
+        return $this->handleRequest($this->client->post($url, ['ids' => $ids]));
+    }
 }
