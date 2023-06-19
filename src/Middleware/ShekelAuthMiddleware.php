@@ -36,7 +36,11 @@ class ShekelAuthMiddleware
             Auth::guard()->setUser(new GenericUser($user));
             return $next($request);
         } catch(\Throwable $th) {
-            return response()->json(['message' => $th->getMessage()], $th->getStatusCode());
+            if ($th instanceof  \Symfony\Component\HttpKernel\Exception\HttpExceptionInterface) {
+                return response()->json(['message' => $th->getMessage()], $th->getStatusCode());
+            }
+            return response()->json(['message' => $th->getMessage()], 400);
+
         }
     }
 }
