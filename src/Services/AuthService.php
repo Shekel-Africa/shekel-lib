@@ -95,4 +95,8 @@ class AuthService extends ShekelBaseService {
             'ids' => $ids
         ]));
     }
+
+    public function getUserId(string $id) {
+        return $this->handleRequest($this->client->get("/kyc/$id/id"));
+    }
 }
