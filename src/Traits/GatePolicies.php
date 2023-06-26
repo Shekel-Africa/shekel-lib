@@ -14,5 +14,13 @@ trait GatePolicies
             }
             return $user->id == $post->$reference;
         });
+
+        Gate::define('admin-only', function ($user){
+            return strtolower($user->user_type) == 'admin';
+        });
+
+        Gate::define('owner-only', function ($user, $post, $reference="user_id") {
+            return $user->id == $post->$reference;
+        });
     }
 }
