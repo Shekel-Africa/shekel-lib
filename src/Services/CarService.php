@@ -34,4 +34,14 @@ class CarService extends ShekelBaseService {
         $url= "/insurance/$car_id";
         return $this->handleRequest($this->client->delete($url));
     }
+
+    public function editOffer($offer_id, $data) {
+        $url = "/trade/offer/$offer_id";
+        return $this->handleRequest($this->client->post($url, $data));
+    }
+
+    public function getOfferDetail($offer_id) {
+        $url = "/trade/offer/$offer_id";
+        return $this->handleRequest($this->client->get($url));
+    }
 }
