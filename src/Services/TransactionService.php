@@ -57,4 +57,9 @@ class TransactionService extends ShekelBaseService {
         $url = "/requires-consent/$id";
         return $this->handleRequest($this->client->get($url));
     }
+
+    public function getActiveSubscription() {
+        $url = "/trade/subscription/active";
+        return $this->handleRequest($this->client->get($url));
+    }
 }
