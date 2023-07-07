@@ -52,6 +52,19 @@ class MessagingService extends ShekelBaseService {
         return $this->handleRequest($this->client->post($url, $data));
     }
 
+    public function moneyInEscrow($data) {
+        $url = "/send/money-in-escrow";
+        return $this->handleRequest($this->client->post($url, $data));
+    }
+    public function buyerConsent($data) {
+        $url = "/send/buyer-consent";
+        return $this->handleRequest($this->client->post($url, $data));
+    }
+    public function tradeComplete($data) {
+        $url = "/send/trade-complete";
+        return $this->handleRequest($this->client->post($url, $data));
+    }
+
     public function sendDisbursementEmail($data) {
         $url = "/send/disbursement-email";
         return $this->handleRequest($this->client->post($url, $data));
