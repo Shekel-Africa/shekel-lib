@@ -38,7 +38,7 @@ class ActivityLogMiddleware
         $data = [
             'url' => $request->fullUrl(),
             'headers' => json_encode($response->headers->all()),
-            'ip' => $request->ip(),
+            'ip' => $request->ip() ?? $request->header('X-Forwarded-For'),
             'properties' => json_encode($request->all()),
             'response_data' => json_encode($response),
             'status' => $response->status(),
