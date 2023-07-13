@@ -47,6 +47,11 @@ class CarService extends ShekelBaseService {
         ]));
     }
 
+    public function markAsCancelled($offer_id) {
+        $url = "/trade/offer/$offer_id/cancelled";
+        return $this->handleRequest($this->client->post($url));
+    }
+
     public function getOfferDetail($offer_id) {
         $url = "/trade/offer/$offer_id";
         return $this->handleRequest($this->client->get($url));
