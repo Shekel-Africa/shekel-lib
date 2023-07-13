@@ -10,6 +10,12 @@ class MessagingService extends ShekelBaseService {
         parent::__construct("messaging");
     }
 
+    public function newChatMessage($data)
+    {
+        $url = "/chats/threads";
+        return $this->handleRequest($this->client->post($url, $data));
+    }
+
     public function sendEmailVerification($data)
     {
         $url = "/send/verification-email";
