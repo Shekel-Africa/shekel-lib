@@ -52,8 +52,8 @@ class CarService extends ShekelBaseService {
         return $this->handleRequest($this->client->post($url));
     }
 
-    public function getOfferDetail($offer_id) {
+    public function getOfferDetail($offer_id, $showUploads=true) {
         $url = "/trade/offer/$offer_id";
-        return $this->handleRequest($this->client->get($url));
+        return $this->handleRequest($this->client->get($url, ['showUploads' => $showUploads]));
     }
 }
