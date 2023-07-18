@@ -96,6 +96,12 @@ class AuthService extends ShekelBaseService {
         ]));
     }
 
+    public function listUsersDetailWithAvatar(array $ids) {
+        return $this->handleRequest($this->client->post("/user/list?withAvatar=true", [
+            'ids' => $ids
+        ]));
+    }
+
     public function getUserId(string $id) {
         return $this->handleRequest($this->client->get("/kyc/$id/id"));
     }
