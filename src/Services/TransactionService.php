@@ -63,6 +63,11 @@ class TransactionService extends ShekelBaseService {
         return $this->handleRequest($this->client->get($url));
     }
 
+    public function getTradeLimit() {
+        $url = "/trade/subscription/limit";
+        return $this->handleRequest($this->client->get($url));
+    }
+
     public function completeEscrow(string $offer_id) {
         $url = "/trade/dispute/$offer_id/complete";
         return $this->handleRequest($this->client->post($url));
