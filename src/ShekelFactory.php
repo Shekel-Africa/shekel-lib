@@ -5,6 +5,7 @@ namespace Shekel\ShekelLib;
 use Shekel\ShekelLib\Services\CarService;
 use Shekel\ShekelLib\Services\AuthService;
 use Shekel\ShekelLib\Services\LoanService;
+use Shekel\ShekelLib\Services\MessagingService;
 use Shekel\ShekelLib\Services\TransactionService;
 use Shekel\ShekelLib\Services\UploadService;
 
@@ -16,7 +17,8 @@ class ShekelFactory {
         private CarService $carService,
         private LoanService $loanService,
         private UploadService $uploadService,
-        private TransactionService $transactionService
+        private TransactionService $transactionService,
+        private MessagingService $messagingService
     )
     {
     }
@@ -50,6 +52,11 @@ class ShekelFactory {
             case 'transactions':
                 $this->transactionService->setToken($this->token);
                 return $this->transactionService;
+                break;
+
+            case 'messaging':
+                $this->messagingService->setToken($this->token);
+                return $this->messagingService;
                 break;
 
             default:
