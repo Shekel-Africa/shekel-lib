@@ -77,4 +77,9 @@ class TransactionService extends ShekelBaseService {
         $url = "/trade/dispute/$offer_id/cancel";
         return $this->handleRequest($this->client->post($url));
     }
+
+    public function createLendingPartner(array $data) {
+        $url = "/lending-partner/create";
+        return $this->handleRequest($this->client->post($url, $data));
+    }
 }
