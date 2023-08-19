@@ -82,4 +82,13 @@ class TransactionService extends ShekelBaseService {
         $url = "/lending-partner/create";
         return $this->handleRequest($this->client->post($url, $data));
     }
+
+    public function generateWalletForUser($id, $type, $currency='NGN') {
+        $url = "/wallet/create";
+        return $this->handleRequest($this->client->post($url, [
+            'owner_id' => $id,
+            'owner_type' => $type,
+            'currency' => $currency
+        ]));
+    }
 }
