@@ -83,12 +83,28 @@ class TransactionService extends ShekelBaseService {
         return $this->handleRequest($this->client->post($url, $data));
     }
 
-    public function generateWalletForUser($id, $type, $currency='NGN') {
+    public function generateWalletForUser($id, $type, $currency='NGN', $userType=null) {
         $url = "/wallet/create";
-        return $this->handleRequest($this->client->post($url, [
+        $data = [
             'owner_id' => $id,
             'owner_type' => $type,
             'currency' => $currency
+        ];
+        if (isset($userType)) {
+            $data['type'] = $userType;
+        }
+        return $this->handleRequest($this->client->post($url, $data));
+    }
+
+    public function addDefaultPayoutToWallet($id, $type, $user_id, $bank, $account_number, $account_name) {
+        $url = "/partner/bank/default";
+        return $this->handleRequest($this->client->post($url, [
+            'owner_id' => $id,
+            'owner_type' => $type,
+            'user_id' => $user_id,
+            'bank' => $bank,
+            'account_number' => $account_number,
+            'account_name' => $account_name
         ]));
     }
 }
