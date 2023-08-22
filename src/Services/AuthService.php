@@ -32,9 +32,13 @@ class AuthService extends ShekelBaseService {
      * Get Authenticated User Object
      * @return mixed
      */
-    public function getAuthenticated(array $query=[])
+    public function getAuthenticated(array $query=[], $type=null)
     {
-        return $this->handleRequest($this->client->get('/authenticated', $query));
+        $url = '/authenticated';
+        if (isset($type)) {
+            $url = "/$type/authenticated";
+        }
+        return $this->handleRequest($this->client->get($url, $query));
     }
 
     /**

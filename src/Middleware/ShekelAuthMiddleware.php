@@ -22,13 +22,14 @@ class ShekelAuthMiddleware
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
+     * @param string|null $guard
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, string $guard=null)
     {
         try {
             $this->authService->setToken($request->bearerToken());
-            $userCheck = $this->authService->getAuthenticated(['excludeImage'=>true]);
+            $userCheck = $this->authService->getAuthenticated(['excludeImage'=>true], $guard);
             if (!$userCheck->successful()) {
                 return response()->json($userCheck->json(), $userCheck->status());
             }
