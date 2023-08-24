@@ -53,8 +53,11 @@ class TransactionService extends ShekelBaseService {
         return $this->handleRequest($this->client->get($url));
     }
 
-    public function requiresConsent($id) {
+    public function requiresConsent($id, $type=null) {
         $url = "/requires-consent/$id";
+        if (isset($type)) {
+            $url = "$type/requires-consent/$id";
+        }
         return $this->handleRequest($this->client->get($url));
     }
 
