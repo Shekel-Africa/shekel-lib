@@ -109,4 +109,8 @@ class AuthService extends ShekelBaseService {
     public function getUserId(string $id) {
         return $this->handleRequest($this->client->get("/kyc/$id/id"));
     }
+
+    public function getPartnerSecrets(string $id) {
+        return $this->handleRequest($this->client->get("/partner/kyc/$id/details"));
+    }
 }
