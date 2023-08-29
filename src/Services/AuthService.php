@@ -100,6 +100,12 @@ class AuthService extends ShekelBaseService {
         ]));
     }
 
+    public function partnerListUsersDetail(array $ids) {
+        return $this->handleRequest($this->client->post("/partner/user/list", [
+            'ids' => $ids
+        ]));
+    }
+
     public function listUsersDetailWithAvatar(array $ids) {
         return $this->handleRequest($this->client->post("/user/list?withAvatar=true", [
             'ids' => $ids

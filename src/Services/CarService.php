@@ -20,6 +20,10 @@ class CarService extends ShekelBaseService {
         return $this->getItem($car_id);
     }
 
+    public function partnerGetCar(string $car_id) {
+        return $this->getCar("partner/$car_id");
+    }
+
     public function getCarsList(array $ids) {
         $url = "/list";
         return $this->handleRequest($this->client->post($url, ['ids' => $ids]));
