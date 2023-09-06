@@ -39,6 +39,8 @@ class ShekelBaseService {
         $this->client = Http::WithToken($this->token)->withHeaders([
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
+        ])->withOptions([
+            'allow_redirects' => ['strict' => true],
         ])->baseUrl($this->baseUrl);
     }
 
