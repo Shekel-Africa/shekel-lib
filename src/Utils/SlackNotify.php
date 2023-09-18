@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Http;
 class SlackNotify
 {
     const TYPE = ['success' => "#4BB543", 'error' => "#D00000"];
-    public static function sendMessage(array $message, $type="error", $channel='#error-alerts'): ?Response
+    public static function sendMessage(array $message, $type="error", $channel='#error-alerts')
     {
         if (in_array(Config::get("app.env"), ['testing', 'local'])) {
             return null;
@@ -43,9 +43,13 @@ class SlackNotify
 
     private static function arr_to_string(array $message): string
     {
+        $message = Arr::dot($message);
         $text = "";
         foreach($message as $key => $val) {
-            $text .= "$key: $val\n";
+            try {
+                $text .= "$key: $val\n";
+            } catch(\Throwable $th) {
+            }
         }
         return $text;
     }
