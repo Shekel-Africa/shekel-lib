@@ -13,7 +13,7 @@ class Utils
      * @param string $separator
      * @return string
      */
-    public function generateReference(string $prefix, int $length=12, string $separator='-'): string
+    public static function generateReference(string $prefix, int $length=12, string $separator='-'): string
     {
         return $prefix.$separator.Str::random($length);
     }
@@ -23,7 +23,7 @@ class Utils
      * @param int $amount
      * @return float
      */
-    public function convertToNaira(int $amount):float {
+    public static function convertToNaira(int $amount):float {
         return round(floatVal($amount)/100, 2);
     }
 
@@ -32,7 +32,7 @@ class Utils
      * @param $amount
      * @return int
      */
-    public function convertToKobo($amount):int {
+    public static function convertToKobo($amount):int {
         return intVal($amount * 100);
     }
 }
