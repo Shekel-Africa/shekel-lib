@@ -114,4 +114,12 @@ class TransactionService extends ShekelBaseService {
             'account_name' => $account_name
         ]));
     }
+
+    public function creditWalletBonus($user_id, int $amount) {
+        $url = "/wallet/bonus/credit";
+        return $this->handleRequest($this->client->post($url, [
+            'user_id' => $user_id,
+            'amount' => $amount
+        ]));
+    }
 }
