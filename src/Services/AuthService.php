@@ -129,4 +129,10 @@ class AuthService extends ShekelBaseService {
             'ids' => $ids
         ]));
     }
+
+    public function activateReferral(string $id) {
+        return $this->handleRequest($this->client->post("/referral/activate", [
+            'user_id' => $id
+        ]));
+    }
 }
