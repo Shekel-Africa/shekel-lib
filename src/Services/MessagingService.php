@@ -18,6 +18,12 @@ class MessagingService extends ShekelBaseService {
         } catch (\Throwable $th) {}
     }
 
+    public function closeThread($data)
+    {
+        $url = "/chats/close-ch-thread";
+        return $this->handleRequest($this->client->post($url, $data));
+    }
+
     public function newChatMessage($data)
     {
         $url = "/chats/threads";
