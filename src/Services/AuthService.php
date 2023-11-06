@@ -135,4 +135,10 @@ class AuthService extends ShekelBaseService {
             'user_id' => $id
         ]));
     }
+
+    public function deactivateLending(string $lendingId, bool $status) {
+        return $this->handleRequest($this->client->post("/partner/lending/$lendingId/deactivate", [
+            'deactivate' => $status
+        ]));
+    }
 }
