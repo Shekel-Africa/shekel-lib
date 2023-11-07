@@ -130,6 +130,10 @@ class AuthService extends ShekelBaseService {
         ]));
     }
 
+    public function getCompanyDetailsWithSecrets(string $companyId) {
+        return $this->handleRequest($this->client->get("/company/$companyId/secrets"));
+    }
+    
     public function activateReferral(string $id) {
         return $this->handleRequest($this->client->post("/referral/activate", [
             'user_id' => $id
