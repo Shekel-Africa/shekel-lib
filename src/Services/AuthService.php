@@ -95,7 +95,7 @@ class AuthService extends ShekelBaseService {
     }
 
     public function listUsersDetail(array $ids) {
-        return $this->handleRequest($this->client->post("/user/list", [
+        return $this->handleRequest($this->client->post("/user/list?showDeleted=true", [
             'ids' => $ids
         ]));
     }
@@ -107,7 +107,7 @@ class AuthService extends ShekelBaseService {
     }
 
     public function listUsersDetailWithAvatar(array $ids) {
-        return $this->handleRequest($this->client->post("/user/list?withAvatar=true", [
+        return $this->handleRequest($this->client->post("/user/list?withAvatar=true&showDeleted=true", [
             'ids' => $ids
         ]));
     }
@@ -125,7 +125,7 @@ class AuthService extends ShekelBaseService {
     }
 
     public function userListPartnerDetail(array $ids) {
-        return $this->handleRequest($this->client->post("/partner/user/partner/list", [
+        return $this->handleRequest($this->client->post("/partner/user/partner/list?showDeleted=true", [
             'ids' => $ids
         ]));
     }
