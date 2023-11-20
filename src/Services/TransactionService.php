@@ -122,4 +122,9 @@ class TransactionService extends ShekelBaseService {
             'amount' => $amount
         ]));
     }
+
+    public function listPartnerSlugs() {
+        $url = "/lending-partner/slugs";
+        return $this->handleRequest($this->client->get($url));
+    }
 }
