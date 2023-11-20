@@ -127,4 +127,11 @@ class TransactionService extends ShekelBaseService {
         $url = "/lending-partner/slugs";
         return $this->handleRequest($this->client->get($url));
     }
+
+    public function initiateVfdAccountCreation($userId) {
+        $url = '/lending-partner/vfd/account/initiate';
+        return $this->handleRequest($this->client->post($url, [
+            'user_id' => $userId
+        ]));
+    }
 }
