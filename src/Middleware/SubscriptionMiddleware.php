@@ -25,16 +25,16 @@ class SubscriptionMiddleware
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\JsonResponse
      */
-    public function handle(Request $request, Closure $next, string $permission=null)
+    public function handle(Request $request, Closure $next, ...$permissions)
     {
         try {
             $token = $request->bearerToken();
             $this->transactionService->setToken($token);
             $user = auth()->user();
             
-            if($user->user_type == 'admin' && $permission){
+            if($user->user_type == 'admin'){
                 $this->authService->setToken($token);
-                $this->authService->verifyToken([$permission]);
+                $this->authService->verifyToken($permissions);
                 return $next($request);
             }
 
