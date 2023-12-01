@@ -3,14 +3,18 @@
 namespace Shekel\ShekelLib;
 
 use Carbon\Laravel\ServiceProvider;
+use Opcodes\LogViewer\LogViewerServiceProvider;
+use Spatie\Health\HealthServiceProvider;
 
 class ShekelServiceProvider extends ServiceProvider {
 
     public function boot() {
         $config = realpath(__DIR__.'/../resources/config/shekel.php');
         $this->publishes([
-            $config => config_path('shekel.php')
+            $config => config_path('shekel.php'),
         ], 'laravel-assets');
+        $this->publishes(self::pathsToPublish(LogViewerServiceProvider::class));
+        $this->publishes(self::pathsToPublish(HealthServiceProvider::class));
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
 
 

@@ -5,8 +5,11 @@
     "require": {
         "php": "^8.0",
         "barryvdh/laravel-dompdf": "2.0.x-dev",
+        "doctrine/dbal": "3.8.x-dev",
         "guzzlehttp/guzzle": "^7.4",
-        "jenssegers/agent": "3.0.x-dev"
+        "jenssegers/agent": "3.0.x-dev",
+        "opcodesio/log-viewer": "dev-main",
+        "spatie/laravel-health": "dev-main"
     },
     "autoload": {
         "psr-4": {
