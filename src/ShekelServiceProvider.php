@@ -14,7 +14,6 @@ class ShekelServiceProvider extends ServiceProvider {
             $config => config_path('shekel.php'),
         ], 'laravel-assets');
         $this->publishes(self::pathsToPublish(LogViewerServiceProvider::class), 'shekel-deps');
-        $this->publishes(self::pathsToPublish(HealthServiceProvider::class), 'shekel-deps');
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
 
 

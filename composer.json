@@ -8,8 +8,7 @@
         "doctrine/dbal": "^3.4",
         "guzzlehttp/guzzle": "^7.4",
         "jenssegers/agent": "3.0.x-dev",
-        "opcodesio/log-viewer": "dev-main",
-        "spatie/laravel-health": "dev-main"
+        "opcodesio/log-viewer": "dev-main"
     },
     "autoload": {
         "psr-4": {
