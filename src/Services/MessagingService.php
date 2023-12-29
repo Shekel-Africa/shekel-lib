@@ -105,4 +105,8 @@ class MessagingService extends ShekelBaseService {
         return $this->handleRequest($this->client->post($url, $data));
     }
 
+    public function sendBirthdayNotifications($data) {
+        $url = "/send/birthday-notifications";
+        return $this->handleRequest($this->client->post($url, $data));
+    }
 }
