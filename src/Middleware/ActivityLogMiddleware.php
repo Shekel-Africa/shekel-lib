@@ -35,13 +35,18 @@ class ActivityLogMiddleware
             return;
         }
         $user_agent = $request->header('User-Agent');
+        $respStatus = 0;
+        try {
+            $respStatus = $response->status();
+        } catch (\Throwable $th) {
+        }
         $data = [
             'url' => $request->fullUrl(),
             'headers' => json_encode($response->headers->all()),
-            'ip' => $request->ip() ?? $request->header('X-Forwarded-For'),
+            'ip' => $request->header('X-Forwarded-For') ?? $request->ip(),
             'properties' => json_encode($request->all()),
             'response_data' => json_encode($response),
-            'status' => $response->status(),
+            'status' => $respStatus,
             'initiator_id' => PassportToken::getUserFromToken($request->bearerToken())['user_id'],
             'user_agent' => $user_agent,
             'device' => json_encode([
