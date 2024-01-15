@@ -21,7 +21,7 @@ class ShekelServiceProvider extends ServiceProvider {
 
         $this->publishes([
             __DIR__.'/../resources/views' => resource_path('views/vendor/shekel-lib'),
-        ]);
+        ], 'laravel-assets');
         $this->commands([
             \Shekel\ShekelLib\Commands\LogsPrune::class
         ]);
