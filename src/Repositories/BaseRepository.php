@@ -38,6 +38,11 @@ class BaseRepository {
         return $entity->delete();
     }
 
+    public function lockForUpdate(string $id) {
+        $this->validateId($id);
+        return $this->model->lockForUpdate()->findOrFail($id);
+    }
+
     private function validateId($id): bool
     {
         if (is_string($id) && !Str::isUuid($id)) {
