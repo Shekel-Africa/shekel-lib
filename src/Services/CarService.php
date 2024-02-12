@@ -60,4 +60,11 @@ class CarService extends ShekelBaseService {
         $url = "/trade/offer/$offer_id";
         return $this->handleRequest($this->client->get($url, ['showUploads' => $showUploads]));
     }
+
+    public function changeCarOwnership(array $carIds) {
+        $url = '/ownership/change';
+        return $this->handleRequest($this->client->post($url, [
+            'cars' => $carIds
+        ]));
+    }
 }
