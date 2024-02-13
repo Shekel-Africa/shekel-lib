@@ -40,4 +40,10 @@ class LoanService extends ShekelBaseService {
             'user_ids' => $userIds
         ]));
     }
+
+    public function editLimit($user_id, array $data) {
+        $url = '/limit';
+        $data['user_id'] = $user_id;
+        return $this->handleRequest($this->client->post($url, $data));
+    }
 }
