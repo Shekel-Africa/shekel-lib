@@ -46,4 +46,9 @@ class LoanService extends ShekelBaseService {
         $data['user_id'] = $user_id;
         return $this->handleRequest($this->client->post($url, $data));
     }
+
+    public function getCreditLimit($user_id) {
+        $url ="/limit/$user_id";
+        return $this->handleRequest($this->client->get($url));
+    }
 }
