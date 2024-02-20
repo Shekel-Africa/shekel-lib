@@ -28,6 +28,10 @@ class AuthService extends ShekelBaseService {
         return $this->handleRequest($this->client->get('/admin/super'));
     }
 
+    public function getAdminIds() {
+        return $this->handleRequest($this->client->get('/admin/getIds'));
+    }
+
     /**
      * Get Authenticated User Object
      * @return mixed
@@ -144,5 +148,9 @@ class AuthService extends ShekelBaseService {
         return $this->handleRequest($this->client->post("/partner/lending/$lendingId/deactivate", [
             'deactivate' => $status
         ]));
+    }
+
+    public function getSubdealerIds($id) {
+        return $this->handleRequest($this->client->get("/admin/superdealer/$id/ids"));
     }
 }
