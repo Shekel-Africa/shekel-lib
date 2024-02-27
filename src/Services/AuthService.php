@@ -98,9 +98,10 @@ class AuthService extends ShekelBaseService {
         return $this->handleRequest($this->client->get("/user/$userId/business"));
     }
 
-    public function listUsersDetail(array $ids) {
+    public function listUsersDetail(array $ids, array $fields = []) {
         return $this->handleRequest($this->client->post("/user/list?showDeleted=true", [
-            'ids' => $ids
+            'ids' => $ids,
+            'fields' => $fields
         ]));
     }
 
@@ -152,5 +153,11 @@ class AuthService extends ShekelBaseService {
 
     public function getSubdealerIds($id) {
         return $this->handleRequest($this->client->get("/admin/superdealer/$id/ids"));
+    }
+
+    public function userSearch($search, array $fields=[]) {
+        return $this->handleRequest($this->client->post("/user/search?search=$search", [
+            'fields' => $fields
+        ]));
     }
 }
