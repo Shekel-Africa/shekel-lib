@@ -160,4 +160,8 @@ class AuthService extends ShekelBaseService {
             'fields' => $fields
         ]));
     }
+
+    public function editUser($id, array $data) {
+        return $this->handleRequest($this->client->post("/user/$id", $data));
+    }
 }
