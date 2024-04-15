@@ -109,4 +109,11 @@ class MessagingService extends ShekelBaseService {
         $url = "/send/birthday-notifications";
         return $this->handleRequest($this->client->post($url, $data));
     }
+
+    public function sendComment($object_id, $object_type, $data) {
+        $url = "/comment";
+        $data['object_id'] = $object_id;
+        $data['object_type'] = $object_type;
+        return $this->handleRequest($this->client->post($url, $data));
+    }
 }
