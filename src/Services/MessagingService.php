@@ -120,4 +120,9 @@ class MessagingService extends ShekelBaseService {
         $data['object_type'] = $object_type;
         return $this->handleRequest($this->client->post($url, $data));
     }
+
+    public function getFirstComment($object_id, $object_type) {
+        $url = "/comment/$object_type/$object_id/first";
+        return $this->handleRequest($this->client->get($url));
+    }
 }
