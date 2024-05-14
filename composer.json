@@ -7,6 +7,7 @@
         "barryvdh/laravel-dompdf": "2.0.x-dev",
         "doctrine/dbal": "^3.4",
         "guzzlehttp/guzzle": "^7.4",
+        "illuminate/database": "9.x-dev",
         "jenssegers/agent": "3.0.x-dev",
         "opcodesio/log-viewer": "dev-main"
     },

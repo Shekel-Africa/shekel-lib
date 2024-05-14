@@ -2,12 +2,24 @@
 
 namespace Shekel\ShekelLib\Repositories;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Shekel\ShekelLib\Exceptions\ShekelInvalidArgumentException;
 
+/**
+ * @phpstan-param
+ * @template M of Model
+ * @phpstan-template M of Model&Builder
+ */
 class BaseRepository {
-    private $model;
-    public function __construct($model)
+    /**
+     * @var M
+     */
+    protected $model;
+    public function __construct(Model|Builder $model)
     {
         $this->model = $model;
     }
@@ -17,10 +29,8 @@ class BaseRepository {
     }
 
     /**
-     *
-     *
      * @param $id
-     * @return Collection
+     * @return M
      */
     public function get($id) {
         $this->validateId($id);
@@ -38,15 +48,25 @@ class BaseRepository {
         return $entity->delete();
     }
 
+    /**
+     * @param string $id
+     * @return M
+     * @throws ModelNotFoundException|\Exception
+     */
     public function lockForUpdate(string $id) {
         $this->validateId($id);
         return $this->model->lockForUpdate()->findOrFail($id);
     }
 
+    /**
+     * @param $id
+     * @return bool
+     * @throws \Exception
+     */
     private function validateId($id): bool
     {
         if (is_string($id) && !Str::isUuid($id)) {
-            abort(400, "Invalid Id");
+            throw new ShekelInvalidArgumentException('Invalid Id', 400);
         }
         return true;
     }
