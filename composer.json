@@ -4,7 +4,7 @@
     "type": "project",
     "require": {
         "php": "^8.0",
-        "barryvdh/laravel-dompdf": "2.0.x-dev",
+        "barryvdh/laravel-dompdf": "^2.0.x-dev",
         "doctrine/dbal": "^3.4",
         "guzzlehttp/guzzle": "^7.4",
         "illuminate/database": "9.x-dev",
