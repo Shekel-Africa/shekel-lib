@@ -11,12 +11,17 @@ class ShekelBaseService {
      * @var Http $client
      */
     protected $client;
+
+    private string $clientSecret;
+    private string $serviceName;
     protected $token;
     protected $baseUrl;
 
     public function __construct($serviceName)
     {
+        $this->serviceName = $serviceName;
         $this->baseUrl = Config::get("shekel.$serviceName");
+        $this->clientSecret = Config::get("shekel.$serviceName-secret");
         $this->setRequestOption();
     }
 
@@ -39,6 +44,8 @@ class ShekelBaseService {
         $this->client = Http::WithToken($this->token)->withHeaders([
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
+            's2s' => $this->clientSecret,
+            's2sName' => $this->serviceName
         ])->withOptions([
             'allow_redirects' => ['strict' => true],
         ])->baseUrl($this->baseUrl);
