@@ -12,8 +12,8 @@ class ShekelBaseService {
      */
     protected $client;
 
-    private string $clientSecret;
-    private string $serviceName;
+    private string|null $clientSecret;
+    private string|null $serviceName;
     protected $token;
     protected $baseUrl;
 
