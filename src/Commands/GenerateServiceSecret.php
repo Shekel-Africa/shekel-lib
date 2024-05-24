@@ -3,8 +3,8 @@
 namespace Shekel\ShekelLib\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+
 
 class GenerateServiceSecret extends Command
 {
@@ -26,12 +26,12 @@ class GenerateServiceSecret extends Command
 
     public function handle()
     {
-        $this->putPermanentEnv('AUTH_SERVICE_SECRET', Hash::make(str_random(8)));
-        $this->putPermanentEnv('CAR_SERVICE_SECRET', Hash::make(str_random(8)));
-        $this->putPermanentEnv('MESSAGING_SERVICE_SECRET', Hash::make(str_random(8)));
-        $this->putPermanentEnv('UPLOAD_SERVICE_SECRET', Hash::make(str_random(8)));
-        $this->putPermanentEnv('TRANSACTION_SERVICE_SECRET', Hash::make(str_random(8)));
-        $this->putPermanentEnv('LOAN_SERVICE_SECRET', Hash::make(str_random(8)));
+        $this->putPermanentEnv('AUTH_SERVICE_SECRET', base64_encode(Str::random(32)));
+        $this->putPermanentEnv('CAR_SERVICE_SECRET', base64_encode(Str::random(32)));
+        $this->putPermanentEnv('MESSAGING_SERVICE_SECRET', base64_encode(Str::random(32)));
+        $this->putPermanentEnv('UPLOAD_SERVICE_SECRET', base64_encode(Str::random(32)));
+        $this->putPermanentEnv('TRANSACTION_SERVICE_SECRET', base64_encode(Str::random(32)));
+        $this->putPermanentEnv('LOAN_SERVICE_SECRET', base64_encode(Str::random(32)));
     }
 
     public function putPermanentEnv($key, $value)
