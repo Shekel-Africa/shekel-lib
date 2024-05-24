@@ -2,6 +2,8 @@
 
 namespace Shekel\ShekelLib\Middleware;
 
+use Closure;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Shekel\ShekelLib\Utils\PassportToken;
 
@@ -21,7 +23,7 @@ class ShekelServiceRoleProtectionMiddleware
         if (isset($serviceSecret)) {
             $serviceName = $request->header('s2sName');
             if($serviceSecret ===  Config::get("shekel.$serviceName-secret")) {
-                return next($request);
+                return $next($request);
             }
         }
         PassportToken::validateUserRoleForAction(auth()->user(), $roles);
