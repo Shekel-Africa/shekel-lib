@@ -16,11 +16,12 @@ class LoanService extends ShekelBaseService {
         return $this->handleRequest($this->client->get($url));
     }
 
-    public function makeRepayment($loan_id, $amount) {
+    public function makeRepayment($loan_id, $amount, $isPartial=false) {
         $url = "/repayment";
         return $this->handleRequest($this->client->post($url, [
             'loan_id' => $loan_id,
-            'amount' => $amount
+            'amount' => $amount,
+            'is_partial' => $isPartial
         ]));
     }
 
