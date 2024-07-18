@@ -120,6 +120,68 @@ class MessagingService extends ShekelBaseService {
         $data['object_type'] = $object_type;
         return $this->handleRequest($this->client->post($url, $data));
     }
+    
+    /**
+     * @param array{request_id: string} $data
+     */
+    public function sendKycSubmissionReminder(string $toEmail, string $toName, array $data)
+    {
+        $url = "/send/kyc-submission-reminder";
+        $parameters = [
+            'email' => $toEmail,
+            'name' => $toName,
+            'data' => $data
+        ];
+        return $this->handleRequest($this->client->post($url, $parameters));
+    }
+
+    /**
+     * @param array{loan_id: string} $data
+     */
+    public function sendRestructureSuggestionNotification(string $toEmail, string $toName, array $data) {
+        $url = '/send/restructure-suggestion';
+        $parameters = [
+            'email' => $toEmail,
+            'name' => $toName,
+            'data' => $data
+        ];
+        return $this->handleRequest($this->client->post($url, $parameters));
+    }
+    
+    /**
+     * @param array{loan_id: string, brand: string, model: string} $data
+     */
+    public function sendSellSuggestionNotification(string $toEmail, string $toName, array $data) {
+        $url = '/send/restructure-suggestion';
+        $parameters = [
+            'email' => $toEmail,
+            'name' => $toName,
+            'data' => $data
+        ];
+        return $this->handleRequest($this->client->post($url, $parameters));
+    }
+
+    public function sendFoundersWelcome(string $toEmail, string $toName) {
+        $url = '/send/founders-welcome';
+        $parameters = [
+            'email' => $toEmail,
+            'name' => $toName
+        ];
+        return $this->handleRequest($this->client->post($url, $parameters));
+    }
+
+    /**
+     * @param array{loan_id: string, amount: string, brand: string, model: string, currency?: string} $data
+     */
+    public function sendLoanRequestConfirmation(string $toEmail, string $toName, array $data) {
+        $url = '/send/loan-request-confirmation';
+        $parameters = [
+            'email' => $toEmail,
+            'name' => $toName,
+            'data' => $data
+        ];
+        return $this->handleRequest($this->client->post($url, $parameters));
+    }
 
     public function getFirstComment($object_id, $object_type) {
         $url = "/comment/$object_type/$object_id/first";
