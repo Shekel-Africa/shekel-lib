@@ -1,2 +1,10 @@
 # Changelog
-All Notable changes to Shekel lib will be documented in this file
+
+## 1.96.0
+
+* Added new Methods to MessagingService class:
+  * sendLoanRequestConfirmation
+  * sendKycSubmissionReminder
+  * sendFoundersWelcome
+  * sendSellSuggestionNotification
+  * sendRestructureSuggestionNotification
