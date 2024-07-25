@@ -24,9 +24,9 @@ class CarService extends ShekelBaseService {
         return $this->getCar("partner/$car_id");
     }
 
-    public function getCarsList(array $ids) {
+    public function getCarsList(array $ids, array $headers=[]) {
         $url = "/list";
-        return $this->handleRequest($this->client->post($url, ['ids' => $ids]));
+        return $this->handleRequest($this->client->withHeaders($headers)->post($url, ['ids' => $ids]));
     }
 
     public function generateCarInsurance($car_id) {
