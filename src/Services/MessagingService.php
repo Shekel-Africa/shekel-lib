@@ -152,7 +152,7 @@ class MessagingService extends ShekelBaseService {
      * @param array{loan_id: string, brand: string, model: string} $data
      */
     public function sendSellSuggestionNotification(string $toEmail, string $toName, array $data) {
-        $url = '/send/restructure-suggestion';
+        $url = '/send/sell-suggestion';
         $parameters = [
             'email' => $toEmail,
             'name' => $toName,
