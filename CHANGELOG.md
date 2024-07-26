@@ -10,7 +10,6 @@
 * Updated CarService class getCarsList method:
   * Request Headers can now be sent with the request
 
-
 ## 1.96.0
 
 * Added new Methods to MessagingService class:
