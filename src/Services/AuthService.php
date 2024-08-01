@@ -164,4 +164,10 @@ class AuthService extends ShekelBaseService {
     public function editUser($id, array $data) {
         return $this->handleRequest($this->client->post("/user/$id", $data));
     }
+
+    public function getUserFeaturesFlag(string $userId, string $flag) {
+        return $this->handleRequest($this->client->post("/features/$userId", [
+            'flag' => $flag
+        ]));
+    }
 }
