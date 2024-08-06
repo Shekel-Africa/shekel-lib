@@ -47,6 +47,14 @@ class MessagingService extends ShekelBaseService {
         return $this->handleRequest($this->client->post($url, $data));
     }
 
+    public function sendOtpPhone($phone, $otp) {
+        $url = "/send/otp/phone";
+        return $this->handleRequest($this->client->post($url, [
+            'phone' => $phone,
+            'otp_code' => $otp
+        ]));
+    }
+
     public function sendLoanOfferEmail($data) {
         $url = "/send/loan-offer-email";
         return $this->handleRequest($this->client->post($url, $data));
