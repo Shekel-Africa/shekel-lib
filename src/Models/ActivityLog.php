@@ -3,11 +3,12 @@
 namespace Shekel\ShekelLib\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Shekel\ShekelLib\Traits\HasClient;
 use Shekel\ShekelLib\Traits\UsesUuid;
 
 class ActivityLog extends Model
 {
-    use UsesUuid;
+    use UsesUuid, HasClient;
     /**
      * The database table used by the model.
      *
@@ -22,6 +23,6 @@ class ActivityLog extends Model
      */
     protected $fillable = [
         'url', 'description', 'log', 'headers', 'properties', 'response_data', 'initiator_id',
-        'actor_id', 'status', 'ip', 'user_agent', 'device', 'ip_geo_location', 'client_id'
+        'actor_id', 'status', 'ip', 'user_agent', 'device', 'ip_geo_location', 'app_client_id'
     ];
 }

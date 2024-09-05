@@ -3,16 +3,17 @@
 namespace Shekel\ShekelLib\Middleware;
 
 use Closure;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Shekel\ShekelLib\Models\ActivityLog;
 use Shekel\ShekelLib\Utils\PassportToken;
 use Jenssegers\Agent\Agent;
 
 class ActivityLogMiddleware
 {
-    private $activityLog;
-    public function __construct(ActivityLog $activityLog) {
-        $this->activityLog = $activityLog;
+    private Agent $agent;
+    public function __construct(private ActivityLog $activityLog) {
         $this->agent = new Agent();
     }
 
@@ -20,16 +21,16 @@ class ActivityLogMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
+     * @param Request $request
+     * @param Closure(Request): (Response|RedirectResponse) $next
+     * @return Response|RedirectResponse
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): Response|RedirectResponse
     {
         return $next($request);
     }
 
-    public function terminate($request, $response)
+    public function terminate($request, $response): void
     {
         if (empty($request->bearerToken())) {
             return;
@@ -62,7 +63,7 @@ class ActivityLogMiddleware
 
         try {
             $client = PassportToken::getClientDetailFromRequest($request);
-            $data['client_id'] = $client['client_id'];
+            $data['app_client_id'] = $client['client_id'];
         } catch (\Throwable $th) {
 
         }
