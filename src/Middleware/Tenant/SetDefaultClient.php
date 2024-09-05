@@ -18,7 +18,7 @@ class SetDefaultClient
      * @param Closure $next
      * @return Response|RedirectResponse
      */
-    public function handle(Request $request, Closure $next): Response|RedirectResponse
+    public function handle(Request $request, Closure $next)
     {
         TenantClient::flushClient();
         /** Set the default client id */

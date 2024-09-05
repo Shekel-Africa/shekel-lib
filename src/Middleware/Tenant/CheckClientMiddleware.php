@@ -18,7 +18,7 @@ class CheckClientMiddleware
      * @param Closure $next
      * @return Response|RedirectResponse | JsonResponse
      */
-    public function handle(Request $request, Closure $next): Response|JsonResponse|RedirectResponse
+    public function handle(Request $request, Closure $next)
     {
         if (!$request->hasHeader('x-client-id')) {
             return response()->json(['message' => 'Client Id is required'], 400);

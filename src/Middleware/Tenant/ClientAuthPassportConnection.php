@@ -25,7 +25,7 @@ class ClientAuthPassportConnection
      * @param string|null $connection
      * @return Response|RedirectResponse
      */
-    public function handle(Request $request, Closure $next, string $connection = null): Response|RedirectResponse
+    public function handle(Request $request, Closure $next, string $connection = null)
     {
         if (!isset($connection)) {
             $clientId = $request->header('x-client-id');
