@@ -37,10 +37,10 @@ class ShekelServiceProvider extends ServiceProvider {
             \Shekel\ShekelLib\Commands\Tenant\Passport\PassportInstallTenantCommand::class,
         ]);
 
-        Yaml::loadToConfig(config_path('connection.yml'), 'tenant-connection');
     }
 
     public function register() {
+        (new \PragmaRX\Yaml\Package\Yaml)->loadToConfig(base_path('connection.yml'), 'database.connections');
         $this->mergeConfigFrom(
             realpath(__DIR__.'/../resources/config/tenant-connection.php'),
             'database.connections'
