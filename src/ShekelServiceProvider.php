@@ -15,14 +15,6 @@ class ShekelServiceProvider extends ServiceProvider {
             $config2 => config_path('tenant.php'),
         ], 'laravel-assets');
         $this->publishes(self::pathsToPublish(LogViewerServiceProvider::class), 'shekel-deps');
-        $this->mergeConfigFrom(
-            realpath(__DIR__.'/../resources/config/tenant-connection.php'),
-            'database.connections'
-        );
-        $this->mergeConfigFrom(
-            realpath(__DIR__.'/../resources/config/tenant-redis.php'),
-            'cache.stores'
-        );
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'shekel-lib');
@@ -46,6 +38,13 @@ class ShekelServiceProvider extends ServiceProvider {
     }
 
     public function register() {
-
+        $this->mergeConfigFrom(
+            realpath(__DIR__.'/../resources/config/tenant-connection.php'),
+            'database.connections'
+        );
+        $this->mergeConfigFrom(
+            realpath(__DIR__.'/../resources/config/tenant-redis.php'),
+            'cache.stores'
+        );
     }
 }
