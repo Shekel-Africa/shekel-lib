@@ -11,7 +11,8 @@
         "illuminate/database": "9.x-dev",
         "illuminate/http": "9.x-dev",
         "jenssegers/agent": "3.0.x-dev",
-        "opcodesio/log-viewer": "dev-main"
+        "opcodesio/log-viewer": "dev-main",
+        "pragmarx/yaml": "dev-master"
     },
     "autoload": {
         "psr-4": {

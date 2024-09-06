@@ -4,6 +4,7 @@ namespace Shekel\ShekelLib;
 
 use Carbon\Laravel\ServiceProvider;
 use Opcodes\LogViewer\LogViewerServiceProvider;
+use PragmaRX\Yaml\Package\Yaml;
 
 class ShekelServiceProvider extends ServiceProvider {
 
@@ -35,6 +36,8 @@ class ShekelServiceProvider extends ServiceProvider {
             \Shekel\ShekelLib\Commands\Tenant\Passport\PassportClientTenantCommand::class,
             \Shekel\ShekelLib\Commands\Tenant\Passport\PassportInstallTenantCommand::class,
         ]);
+
+        Yaml::loadToConfig(config_path('connection.yml'), 'tenant-connection');
     }
 
     public function register() {

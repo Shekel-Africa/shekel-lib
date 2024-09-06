@@ -16,7 +16,7 @@ class CheckClientMiddleware
      *
      * @param Request $request
      * @param Closure $next
-     * @return Response|RedirectResponse | JsonResponse
+     * @return Response|RedirectResponse|JsonResponse
      */
     public function handle(Request $request, Closure $next)
     {
