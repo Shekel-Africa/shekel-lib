@@ -4,7 +4,6 @@ namespace Shekel\ShekelLib;
 
 use Carbon\Laravel\ServiceProvider;
 use Opcodes\LogViewer\LogViewerServiceProvider;
-use Spatie\Health\HealthServiceProvider;
 
 class ShekelServiceProvider extends ServiceProvider {
 
@@ -16,14 +15,22 @@ class ShekelServiceProvider extends ServiceProvider {
             $config2 => config_path('tenant.php'),
         ], 'laravel-assets');
         $this->publishes(self::pathsToPublish(LogViewerServiceProvider::class), 'shekel-deps');
+        $this->mergeConfigFrom(
+            realpath(__DIR__.'/../resources/config/tenant-connection.php'),
+            'database.connections'
+        );
+        $this->mergeConfigFrom(
+            realpath(__DIR__.'/../resources/config/tenant-redis.php'),
+            'cache.stores'
+        );
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
-
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'shekel-lib');
 
         $this->publishes([
             __DIR__.'/../resources/views' => resource_path('views/vendor/shekel-lib'),
         ], 'laravel-assets');
+
         $this->commands([
             \Shekel\ShekelLib\Commands\LogsPrune::class,
             \Shekel\ShekelLib\Commands\GenerateServiceSecret::class,
