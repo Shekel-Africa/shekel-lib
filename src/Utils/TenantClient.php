@@ -3,6 +3,7 @@
 namespace Shekel\ShekelLib\Utils;
 
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class TenantClient
@@ -57,5 +58,12 @@ class TenantClient
         $connection = getenv('DB_CONNECTION');
         Config::set('database.default', $connection);
         Config::set('database.connections.tenant', []);
+        DB::purge('tenant');
+    }
+
+    public static function switchTenantConnection($connection=null): void
+    {
+        TenantClient::flushClientConnection();
+        TenantClient::setClientConnection($connection);
     }
 }

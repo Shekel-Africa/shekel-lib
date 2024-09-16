@@ -41,7 +41,7 @@ trait HasClient
      *
      * @return Builder
      */
-    public static function withClients(): Builder
+    public static function allClients(): Builder
     {
         return with(new static)->newQueryWithoutScope(new ClientScope());
     }
