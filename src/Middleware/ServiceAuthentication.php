@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Auth\GenericUser;
 use Shekel\ShekelLib\Services\AuthService;
 use Illuminate\Support\Facades\Auth;
+use Shekel\ShekelLib\Utils\ShekelAuth;
 
 class ServiceAuthentication
 {
@@ -27,6 +28,7 @@ class ServiceAuthentication
     public function handle(Request $request, Closure $next, ...$scopes)
     {
         try {
+            ShekelAuth::verifyToken($request->bearerToken(), $scopes);
             $this->authService->setToken($request->bearerToken());
             $this->authService->verifyToken($scopes);
             $user = auth()->user();
