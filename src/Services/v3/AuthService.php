@@ -3,9 +3,6 @@
 namespace Shekel\ShekelLib\Services\v3;
 
 
-use Shekel\ShekelLib\Models\AccessToken;
-use Shekel\ShekelLib\Utils\PassportToken;
-
 class AuthService extends ShekelBaseService {
 
     public function __construct()
@@ -33,32 +30,6 @@ class AuthService extends ShekelBaseService {
             $url = "/$type/authenticated";
         }
         return $this->handleRequest($this->client->get($url, $query));
-    }
-
-    /**
-     * Validate Token and permissions
-     * @param array $scopes
-     * @return bool
-     */
-    public function verifyToken(array $scopes = []): bool
-    {
-        if (empty($this->token)) {
-            abort(401, "Unauthenticated");
-        }
-        $user = PassportToken::getUserFromToken($this->token);
-        if (now()->gt($user['expiry'])) {
-            abort(401, "Login Session Expired");
-        }
-        if (!AccessToken::isValid($user['token_id'])) {
-            abort(401, "Login Session Token Revoked");
-        }
-        if (!empty($scopes)) {
-            $scopes = collect($scopes);
-            if (($scopes->diff($user['scopes']))->count() > 0) {
-                abort(403, "User does not have required permission");
-            }
-        }
-        return true;
     }
 
     /**

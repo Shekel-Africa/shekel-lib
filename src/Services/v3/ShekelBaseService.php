@@ -5,6 +5,7 @@ namespace Shekel\ShekelLib\Services\v3;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Config;
+use Shekel\ShekelLib\Exceptions\ShekelInvalidArgumentException;
 use Shekel\ShekelLib\Utils\ShekelAuth;
 use Shekel\ShekelLib\Utils\SlackNotify;
 use Shekel\ShekelLib\Utils\TenantClient;
@@ -69,7 +70,7 @@ class ShekelBaseService {
                 SlackNotify::sendMessage($message);
             } catch (\Throwable $th) {
             }
-            abort($request->status(), $request->json('message'));
+            throw new ShekelInvalidArgumentException($request->json('message'), $request->status());
         }
         return $request;
     }

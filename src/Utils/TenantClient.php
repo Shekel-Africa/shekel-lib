@@ -10,14 +10,6 @@ class TenantClient
 {
     const clientKey = 'tenantClientId';
 
-    /**
-     * @return array|null
-     */
-    public static function getClient(): array|null
-    {
-        return Config::get(self::getClientId());
-    }
-
     public static function getDefaultClientId(): string|null
     {
         return Config::get('tenant.default_client_id');

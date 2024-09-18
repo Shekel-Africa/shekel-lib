@@ -31,15 +31,22 @@ class BaseRepository {
     /**
      * @param $id
      * @return M
+     * @throws \Exception
      */
     public function get($id) {
         $this->validateId($id);
         return $this->model->findOrFail($id);
     }
 
+    /**
+     * @param $id
+     * @param array $data
+     * @return bool|int
+     * @throws \Exception
+     */
     public function edit($id, array $data) {
         $this->validateId($id);
-        return $this->model->find($id)
+        return $this->model->findOrFail($id)
             ->update(Arr::only($data, $this->model->getFillable()));
     }
 

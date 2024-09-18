@@ -11,7 +11,11 @@ class LoanService extends ShekelBaseService {
     }
 
     public function getApprovedLoanOffer($loan_id) {
-        $url = "/$loan_id/offer";
+        $url = "/loans/$loan_id/offer";
+        return $this->handleRequest($this->client->get($url));
+    }
+    public function getItem($id, $extra=[]) {
+        $url = "/loans/$id";
         return $this->handleRequest($this->client->get($url));
     }
 
@@ -34,8 +38,8 @@ class LoanService extends ShekelBaseService {
         return $this->handleRequest($this->client->get($url));
     }
 
-    public function editLoan($id, $data) {
-        $url = "/$id";
+    public function editItem($id, $data) {
+        $url = "/loans/$id";
         return $this->handleRequest($this->client->post($url, $data));
     }
 

@@ -10,21 +10,24 @@ class CarService extends ShekelBaseService {
         parent::__construct('car');
     }
 
-    /**
-     * Undocumented function
-     *
-     * @return Response
-     */
-    public function getCar(string $car_id) {
-        return $this->getItem($car_id);
+    public function getItem(string $id, $extra=[]) {
+        $url = "/cars/$id";
+        return $this->handleRequest($this->client->get($url));
+    }
+
+    public function editItem(string $id, array $data)
+    {
+        $url = "/cars/$id";
+        return $this->handleRequest($this->client->post($url, $data));
     }
 
     public function partnerGetCar(string $car_id) {
-        return $this->getCar("partner/$car_id");
+        $url ="/partner/$car_id";
+        return $this->handleRequest($this->client->get($url));
     }
 
     public function getCarsList(array $ids, array $headers=[]) {
-        $url = "/list";
+        $url = "/cars/list";
         return $this->handleRequest($this->client->withHeaders($headers)->post($url, ['ids' => $ids]));
     }
 
@@ -61,7 +64,7 @@ class CarService extends ShekelBaseService {
     }
 
     public function changeCarOwnership(array $carIds) {
-        $url = '/ownership/change';
+        $url = 'cars/ownership/change';
         return $this->handleRequest($this->client->post($url, [
             'cars' => $carIds
         ]));

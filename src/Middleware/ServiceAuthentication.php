@@ -3,8 +3,10 @@
 namespace Shekel\ShekelLib\Middleware;
 
 use Closure;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Auth\GenericUser;
+use Illuminate\Http\Response;
 use Shekel\ShekelLib\Services\AuthService;
 use Illuminate\Support\Facades\Auth;
 use Shekel\ShekelLib\Utils\ShekelAuth;
@@ -12,25 +14,19 @@ use Shekel\ShekelLib\Utils\ShekelAuth;
 class ServiceAuthentication
 {
 
-    private $authService;
-
-    public function __construct(AuthService $authService) {
-        $this->authService = $authService;
-    }
 
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
+     * @param Request $request
+     * @param Closure(Request): (Response|RedirectResponse) $next
+     * @param mixed ...$scopes
+     * @return Response|RedirectResponse
      */
     public function handle(Request $request, Closure $next, ...$scopes)
     {
         try {
             ShekelAuth::verifyToken($request->bearerToken(), $scopes);
-            $this->authService->setToken($request->bearerToken());
-            $this->authService->verifyToken($scopes);
             $user = auth()->user();
             if (empty($user)) {
                 return response()->json(['message' => 'User not set'], 400);

@@ -28,13 +28,13 @@ class ClientRepository extends BaseRepository
     public function getClientSettings(string $id)
     {
         return Cache::driver('client_redis')->remember($id . "settings", 14440, function () use ($id) {
-            return $this->clientSetting->withClients()->clientId($id)->all();
+            return $this->clientSetting->allClients()->clientId($id)->all();
         });
     }
     public function getClientWorkflows(string $id)
     {
         return Cache::driver('client_redis')->remember($id . "workflows", 14440, function () use ($id) {
-            return $this->clientWorkflow->withClients()->clientId($id)->all();
+            return $this->clientWorkflow->allClients()->clientId($id)->all();
         });
     }
 }

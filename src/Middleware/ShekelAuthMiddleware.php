@@ -3,32 +3,36 @@
 namespace Shekel\ShekelLib\Middleware;
 
 use Closure;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Auth\GenericUser;
+use Illuminate\Http\Response;
 use Shekel\ShekelLib\Services\AuthService;
 use Illuminate\Support\Facades\Auth;
+use Shekel\ShekelLib\Utils\ShekelAuth;
 
 class ShekelAuthMiddleware
 {
 
-    private $authService;
-
-    public function __construct(AuthService $authService) {
-        $this->authService = $authService;
+    public function __construct(
+        private AuthService $authService
+    ) {
     }
 
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
+     * @param Request $request
+     * @param Closure(Request): (Response|RedirectResponse) $next
      * @param string|null $guard
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
+     * @return Response|RedirectResponse
      */
     public function handle(Request $request, Closure $next, string $guard=null)
     {
         try {
             $this->authService->setToken($request->bearerToken());
+            ShekelAuth::setAuthToken($request->bearerToken());
+            ShekelAuth::setXToken($request->header('x-token'));
             $userCheck = $this->authService->getAuthenticated(['excludeImage'=>true], $guard);
             if (!$userCheck->successful()) {
                 return response()->json($userCheck->json(), $userCheck->status());

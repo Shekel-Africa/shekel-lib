@@ -58,9 +58,9 @@ class ShekelAuth
         if (Carbon::now()->gt($user['expiry'])) {
             throw new ShekelInvalidArgumentException('Login Session Expired', 401);
         }
-        if (!AccessToken::isValid($user['token_id'])) {
-            throw new ShekelInvalidArgumentException('Login Session Token Revoked', 401);
-        }
+//        if (!AccessToken::isValid($user['token_id'])) {
+//            throw new ShekelInvalidArgumentException('Login Session Token Revoked', 401);
+//        }
         if (!empty($scopes)) {
             $scopes = collect($scopes);
             if (($scopes->diff($user['scopes']))->count() > 0) {
