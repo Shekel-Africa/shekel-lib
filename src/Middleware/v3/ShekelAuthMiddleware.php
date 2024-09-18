@@ -29,7 +29,7 @@ class ShekelAuthMiddleware
         try {
             $this->authService->setToken($request->bearerToken());
             ShekelAuth::setAuthToken($request->bearerToken());
-            ShekelAuth::setXToken($request->header('x-token'));
+            ShekelAuth::setAuthXToken($request->header('x-token'));
             $userCheck = $this->authService->getAuthenticated(['excludeImage'=>true], $guard);
             if (!$userCheck->successful()) {
                 return response()->json($userCheck->json(), $userCheck->status());

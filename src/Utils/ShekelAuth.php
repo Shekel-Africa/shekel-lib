@@ -12,6 +12,16 @@ class ShekelAuth
     const authKey = 'ShekelAuthToken';
     const xTokenKey = 'ShekelXToken';
 
+    private string|null $token;
+    private string|null $clientId;
+
+    private string|null $xToken;
+
+    public function __construct() {
+        $this->token = self::getAuthToken();
+        $this->clientId = TenantClient::getClientId();
+        $this->xToken = self::getAuthXToken();
+    }
     /**
      * @return string|null
      */
@@ -30,7 +40,7 @@ class ShekelAuth
     /**
      * @return string|null
      */
-    public static function getXToken(): string|null
+    public static function getAuthXToken(): string|null
     {
         return Session::get(self::xTokenKey);
     }
@@ -38,7 +48,7 @@ class ShekelAuth
     /**
      * @param string|null $token
      */
-    public static function setXToken(string|null $token): void
+    public static function setAuthXToken(string|null $token): void
     {
         Session::put(self::xTokenKey, $token);
     }
@@ -68,6 +78,48 @@ class ShekelAuth
             }
         }
         return true;
+    }
+
+    /**
+     * @return ShekelAuth
+     */
+    public static function getAuthObject(): ShekelAuth
+    {
+        return new ShekelAuth();
+    }
+
+    /**
+     * Set session from auth object
+     * @return void
+     */
+    public function fromAuthObject():void {
+        TenantClient::setClientId($this->clientId);
+        ShekelAuth::setAuthXToken($this->xToken);
+        ShekelAuth::setAuthToken($this->token);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getToken(): string|null
+    {
+        return $this->token;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getClientId(): string|null
+    {
+        return $this->clientId;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getXToken(): string|null
+    {
+        return $this->xToken;
     }
 
 

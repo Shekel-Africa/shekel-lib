@@ -52,7 +52,7 @@ class ShekelBaseService {
             's2s' => $this->clientSecret,
             's2sName' => $this->serviceName,
             'x-client-id' => TenantClient::getClientId(),
-            'x-token' => ShekelAuth::getXToken()
+            'x-token' => ShekelAuth::getAuthXToken()
         ])->withOptions([
             'allow_redirects' => ['strict' => true],
         ])->baseUrl($this->baseUrl);

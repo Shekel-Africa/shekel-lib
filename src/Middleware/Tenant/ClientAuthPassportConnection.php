@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Shekel\ShekelLib\Repositories\ClientRepository;
+use Shekel\ShekelLib\Utils\ShekelAuth;
 use Shekel\ShekelLib\Utils\TenantClient;
 
 class ClientAuthPassportConnection
@@ -36,6 +37,8 @@ class ClientAuthPassportConnection
             }
         }
         TenantClient::setClientConnection($connection);
+        ShekelAuth::setAuthToken($request->bearerToken());
+        ShekelAuth::setAuthXToken($request->header('x-token'));
         return $next($request);
     }
 }
