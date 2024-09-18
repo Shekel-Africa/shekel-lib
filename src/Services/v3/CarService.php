@@ -15,6 +15,9 @@ class CarService extends ShekelBaseService {
         return $this->handleRequest($this->client->get($url));
     }
 
+    public function getCar(string $id, $extra=[]) {
+        return $this->getItem($id, $extra);
+    }
     public function editItem(string $id, array $data)
     {
         $url = "/cars/$id";
