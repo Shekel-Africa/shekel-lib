@@ -46,14 +46,17 @@ class ShekelBaseService {
 
     public function setRequestOption(): void
     {
-        $this->client = Http::WithToken($this->token)->withHeaders([
+        $headers = [
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
             's2s' => $this->clientSecret,
             's2sName' => $this->serviceName,
             'x-client-id' => TenantClient::getClientId(),
-            'x-token' => ShekelAuth::getAuthXToken()
-        ])->withOptions([
+        ];
+        if (ShekelAuth::getAuthXToken() !== null) {
+            $headers['x-token'] = ShekelAuth::getAuthXToken();
+        }
+        $this->client = Http::WithToken($this->token)->withHeaders($headers)->withOptions([
             'allow_redirects' => ['strict' => true],
         ])->baseUrl($this->baseUrl);
     }
