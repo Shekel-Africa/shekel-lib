@@ -2,6 +2,7 @@
 
 namespace Shekel\ShekelLib\Utils;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
 use Shekel\ShekelLib\Exceptions\ShekelInvalidArgumentException;
@@ -14,13 +15,14 @@ class ShekelAuth
 
     private string|null $token;
     private string|null $clientId;
-
+    private string|null $clientConnection;
     private string|null $xToken;
 
     public function __construct() {
         $this->token = self::getAuthToken();
         $this->clientId = TenantClient::getClientId();
         $this->xToken = self::getAuthXToken();
+        $this->clientConnection = Config::get('database.connection.tenant');
     }
     /**
      * @return string|null
@@ -31,9 +33,9 @@ class ShekelAuth
     }
 
     /**
-     * @param string $token
+     * @param string|null $token
      */
-    public static function setAuthToken(string $token): void
+    public static function setAuthToken(string|null $token): void
     {
         Session::put(self::authKey, $token);
     }
@@ -120,6 +122,13 @@ class ShekelAuth
     public function getXToken(): string|null
     {
         return $this->xToken;
+    }
+    /**
+     * @return string|null
+     */
+    public function getClientConnection(): string|null
+    {
+        return $this->clientConnection;
     }
 
 
