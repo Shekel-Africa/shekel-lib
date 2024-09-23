@@ -37,4 +37,10 @@ class ClientRepository extends BaseRepository
             return $this->clientWorkflow->allClients()->clientId($id)->get();
         });
     }
+
+    public function getClientSettingsByGroup(string $id, string $group): \Illuminate\Support\Collection
+    {
+        $settings = collect($this->getClientSettings($id));
+        return $settings->where('group', $group);
+    }
 }
