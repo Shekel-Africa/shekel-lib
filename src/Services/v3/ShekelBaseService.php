@@ -62,6 +62,9 @@ class ShekelBaseService {
     }
 
     protected function handleRequest($request) {
+        if ($request->unauthorized()) {
+            throw new ShekelInvalidArgumentException($request->json('message'), $request->status());
+        }
         if (!$request->successful() && !$request->unauthorized()) {
             $message = [
                 'environment' => getenv('APP_ENV'),

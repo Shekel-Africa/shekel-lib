@@ -5,10 +5,12 @@ namespace Shekel\ShekelLib\Utils;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Shekel\ShekelLib\Models\Client;
 
 class TenantClient
 {
     const clientKey = 'tenantClientId';
+    const clientObjectKey = 'tenantClientObj';
 
     public static function getDefaultClientId(): string|null
     {
@@ -29,6 +31,15 @@ class TenantClient
     public static function setClientId(string $clientId): void
     {
         Session::put(self::clientKey, $clientId);
+    }
+
+    public static function setClientObject(Client $client): void
+    {
+        Session::put(self::clientObjectKey, $client);
+    }
+    public static function getClientObject(): Client|null
+    {
+        return Session::get(self::clientObjectKey);
     }
 
     public static function flushClient(): void

@@ -33,6 +33,7 @@ class ClientAuthPassportConnection
             /** get client connection */
             if ($clientId) {
                 $client = $this->clientRepository->getClient($clientId);
+                TenantClient::setClientObject($client);
                 $connection = $client->connection;
             }
         }

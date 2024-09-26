@@ -28,9 +28,11 @@ class ClientTenantSwitch
      */
     public function handle(Request $request, Closure $next)
     {
+        $client = $this->shekelClient->getClient(TenantClient::getClientId());
         TenantClient::switchTenantConnection(
-            $this->shekelClient->getClient(TenantClient::getClientId())?->connection
+            $client?->connection
         );
+        TenantClient::setClientObject($client);
         return $next($request);
     }
 }

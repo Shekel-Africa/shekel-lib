@@ -5,6 +5,7 @@ namespace Shekel\ShekelLib;
 use Carbon\Laravel\ServiceProvider;
 use Opcodes\LogViewer\LogViewerServiceProvider;
 use PragmaRX\Yaml\Package\Yaml;
+use Shekel\ShekelLib\Repositories\ClientRepository;
 
 class ShekelServiceProvider extends ServiceProvider {
 
@@ -23,6 +24,8 @@ class ShekelServiceProvider extends ServiceProvider {
         $this->publishes([
             __DIR__.'/../resources/views' => resource_path('views/vendor/shekel-lib'),
         ], 'laravel-assets');
+
+        $this->app->singleton(ClientRepository::class);
 
         $this->commands([
             \Shekel\ShekelLib\Commands\LogsPrune::class,
