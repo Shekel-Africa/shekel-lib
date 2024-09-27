@@ -113,7 +113,7 @@ class AuthService extends ShekelBaseService {
     }
 
     public function getSubdealerIds($id) {
-        return $this->handleRequest($this->client->get("/admin/superdealer/$id/ids"));
+        return $this->handleRequest($this->client->get("/superdealer/$id/ids"));
     }
 
     public function userSearch($search, array $fields=[]) {
