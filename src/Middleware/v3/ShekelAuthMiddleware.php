@@ -39,7 +39,7 @@ class ShekelAuthMiddleware
             return $next($request);
         } catch(\Throwable $th) {
             if ($th instanceof  \Symfony\Component\HttpKernel\Exception\HttpExceptionInterface) {
-                return response()->json(['message' => $th->getMessage()], $th->getStatusCode());
+                return response()->json(['message' => $th->getMessage()], $th->getCode() ?? $th->getStatusCode());
             }
             return response()->json(['message' => $th->getMessage()], 400);
 
