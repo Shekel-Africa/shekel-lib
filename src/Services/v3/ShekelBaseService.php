@@ -3,6 +3,7 @@
 namespace Shekel\ShekelLib\Services\v3;
 
 use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Config;
 use Shekel\ShekelLib\Exceptions\ShekelInvalidArgumentException;
@@ -61,7 +62,7 @@ class ShekelBaseService {
         ])->baseUrl($this->baseUrl);
     }
 
-    protected function handleRequest($request) {
+    protected function handleRequest(?Response $request) {
         if ($request->unauthorized()) {
             throw new ShekelInvalidArgumentException($request->json('message'), $request->status());
         }
