@@ -57,7 +57,7 @@ class TenantClient
     }
 
     public static function getTenantConnection(): ?string {
-        return Config::get('database.connections.tenant');
+        return Config::get('database.default');
     }
 
     public static function flushClientConnection(): void
