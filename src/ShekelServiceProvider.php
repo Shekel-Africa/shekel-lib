@@ -4,7 +4,7 @@ namespace Shekel\ShekelLib;
 
 use Carbon\Laravel\ServiceProvider;
 use Illuminate\Queue\Events\JobProcessing;
-use Illuminate\Queue\QueueManager;
+use Illuminate\Support\Facades\Queue;
 use Opcodes\LogViewer\LogViewerServiceProvider;
 use PragmaRX\Yaml\Package\Yaml;
 use Shekel\ShekelLib\Repositories\ClientRepository;
@@ -43,21 +43,18 @@ class ShekelServiceProvider extends ServiceProvider {
             \Shekel\ShekelLib\Commands\Tenant\Passport\PassportInstallTenantCommand::class,
         ]);
 
-        $this->app->extend('queue', function (QueueManager $queue) {
-            // Store tenant key and identifier on job payload when a tenant is identified.
-            $queue->createPayloadUsing(function () {
-                return ['client_id' => TenantClient::getClientId(), 'client_connection' => TenantClient::getTenantConnection()];
-            });
 
-            // Resolve any tenant related meta data on job and allow resolving of tenant.
-            $queue->before(function (JobProcessing $jobProcessing) {
-                $tenantId = $jobProcessing->job->payload()['client_id'];
-                $clientConnection = $jobProcessing->job->payload()['client_connection'];
-                TenantClient::setClientId($tenantId);
-                TenantClient::setClientConnection($clientConnection);
-            });
-
-            return $queue;
+        Queue::createPayloadUsing(function () {
+            return [
+                'client_id' => TenantClient::getClientId(),
+                'client_connection' => TenantClient::getTenantConnection()
+            ];
+        });
+        Queue::before(function (JobProcessing $jobProcessing) {
+            $tenantId = $jobProcessing->job->payload()['client_id'];
+            $clientConnection = $jobProcessing->job->payload()['client_connection'];
+            TenantClient::setClientId($tenantId);
+            TenantClient::setClientConnection($clientConnection);
         });
 
     }
