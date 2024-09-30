@@ -56,6 +56,10 @@ class TenantClient
         Config::set('database.connections.tenant', Config::get("database.connections.$connection"));
     }
 
+    public static function getTenantConnection(): ?string {
+        return Config::get('database.connections.tenant');
+    }
+
     public static function flushClientConnection(): void
     {
         $connection = getenv('DB_CONNECTION');

@@ -22,7 +22,7 @@ class ShekelAuth
         $this->token = self::getAuthToken();
         $this->clientId = TenantClient::getClientId();
         $this->xToken = self::getAuthXToken();
-        $this->clientConnection = Config::get('database.connection.tenant');
+        $this->clientConnection = TenantClient::getTenantConnection();
     }
     /**
      * @return string|null
