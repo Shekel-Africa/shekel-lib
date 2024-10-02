@@ -26,7 +26,9 @@ class ShekelServiceRoleProtectionMiddleware
                 return $next($request);
             }
         }
-        PassportToken::validateUserRoleForAction(auth()->user(), $roles);
+        if (!empty($roles)) {
+            PassportToken::validateUserRoleForAction(auth()->user(), $roles);
+        }
         return $next($request);
     }
 }
