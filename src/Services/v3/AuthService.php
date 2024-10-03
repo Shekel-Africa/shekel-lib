@@ -131,4 +131,16 @@ class AuthService extends ShekelBaseService {
             'flag' => $flag
         ]));
     }
+
+    public function getClient(string $id) {
+        return $this->handleRequest($this->client->get("/admin/client/$id"));
+    }
+
+    public function getClientSetting(string $id) {
+        return $this->handleRequest($this->client->get("/admin/client/$id/settings"));
+    }
+
+    public function getClientWorkflow(string $id) {
+        return $this->handleRequest($this->client->get("/admin/client/$id/workflow"));
+    }
 }

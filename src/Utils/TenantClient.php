@@ -33,11 +33,11 @@ class TenantClient
         Session::put(self::clientKey, $clientId);
     }
 
-    public static function setClientObject(Client $client): void
+    public static function setClientObject(object $client): void
     {
         Session::put(self::clientObjectKey, $client);
     }
-    public static function getClientObject(): Client|null
+    public static function getClientObject(): object|null
     {
         return Session::get(self::clientObjectKey);
     }

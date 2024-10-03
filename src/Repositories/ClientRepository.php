@@ -3,38 +3,32 @@
 namespace Shekel\ShekelLib\Repositories;
 
 use Illuminate\Support\Facades\Cache;
-use Shekel\ShekelLib\Models\Client;
-use Shekel\ShekelLib\Models\ClientSetting;
-use Shekel\ShekelLib\Models\ClientWorkflow;
+use Shekel\ShekelLib\Services\v3\AuthService;
 
-class ClientRepository extends BaseRepository
+class ClientRepository
 {
     public function __construct(
-        Client                $model,
-        private ClientSetting $clientSetting,
-        private ClientWorkflow $clientWorkflow
+        private AuthService   $authService,
     )
     {
-        parent::__construct($model);
     }
 
-    public function getClient(string $id)
-    {
-        return Cache::driver('client_redis')->remember($id, 14440, function () use ($id) {
-            return $this->get($id);
+    public function getClient(string $id) {
+        return Cache::store('client_redis')->remember($id, 14440, function () use ($id) {
+            return $this->authService->getClient($id)->object()?->data;
         });
     }
 
     public function getClientSettings(string $id)
     {
-        return Cache::driver('client_redis')->remember($id . "settings", 14440, function () use ($id) {
-            return $this->clientSetting->allClients()->clientId($id)->get();
+        return Cache::store('client_redis')->remember($id . "-settings", 14440, function () use ($id) {
+            return $this->authService->getClientSetting($id)->object()?->data;
         });
     }
     public function getClientWorkflows(string $id)
     {
-        return Cache::driver('client_redis')->remember($id . "workflows", 14440, function () use ($id) {
-            return $this->clientWorkflow->allClients()->clientId($id)->get();
+        return Cache::store('client_redis')->remember($id . "-workflows", 14440, function () use ($id) {
+            return $this->authService->getClientWorkflow($id)->object()?->data;
         });
     }
 

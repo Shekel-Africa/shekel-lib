@@ -20,7 +20,7 @@ class ShekelServiceProvider extends ServiceProvider {
             $config2 => config_path('tenant.php'),
         ], 'laravel-assets');
         $this->publishes(self::pathsToPublish(LogViewerServiceProvider::class), 'shekel-deps');
-        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'shekel-lib');
 
