@@ -18,7 +18,7 @@ abstract class TenantAwareCommands extends Command
         $clients = $this->clientRepository->getAllClientConnection();
         foreach ($clients as $client) {
             TenantClient::setClientId($client->id);
-            TenantClient::setClientConnection($client->connection);
+            TenantClient::switchTenantConnection($client->connection);
             $this->handleCommand();
         }
     }

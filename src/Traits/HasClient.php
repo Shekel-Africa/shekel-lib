@@ -13,6 +13,7 @@ use Shekel\ShekelLib\Utils\TenantClient;
  */
 trait HasClient
 {
+    use ClientQueryScope;
     protected static function bootHasClient(): void
     {
         static::creating(function ($model) {
@@ -31,10 +32,6 @@ trait HasClient
         return $this->belongsTo(Client::class, 'client_id');
     }
 
-    public function scopeClientId($q, $clientId)
-    {
-        return $q->where('client_id', $clientId);
-    }
 
     /**
      * Get the query builder without the scope applied.
