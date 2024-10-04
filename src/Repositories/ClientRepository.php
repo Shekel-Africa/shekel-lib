@@ -39,6 +39,12 @@ class ClientRepository
         });
     }
 
+    public function getClientByReference(string $ref) {
+        return Cache::store(self::CACHE_STORE)->remember("ref-$ref", 14440, function () use ($ref) {
+            return $this->authService->getClientByReference($ref)->object()?->data;
+        });
+    }
+
     public function getClientSettingsByGroup(string $id, string $group): \Illuminate\Support\Collection
     {
         $settings = collect($this->getClientSettings($id));

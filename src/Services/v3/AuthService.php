@@ -147,4 +147,8 @@ class AuthService extends ShekelBaseService {
     public function getAllClientConnection() {
         return $this->handleRequest($this->client->get("/admin/client/list"));
     }
+
+    public function getClientByReference(string $reference) {
+        return $this->handleRequest($this->client->get("/admin/client/reference/$reference"));
+    }
 }
