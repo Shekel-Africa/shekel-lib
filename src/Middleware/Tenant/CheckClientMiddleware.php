@@ -21,6 +21,9 @@ class CheckClientMiddleware
     public function handle(Request $request, Closure $next)
     {
         if (!$request->hasHeader('x-client-id')) {
+            if (empty($request->bearerToken())) {
+                return response()->json(['message' => 'Unauthenticated'], 401);
+            }
             return response()->json(['message' => 'Client Id is required'], 400);
         }
         TenantClient::flushClient();
