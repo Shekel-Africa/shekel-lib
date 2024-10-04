@@ -143,4 +143,8 @@ class AuthService extends ShekelBaseService {
     public function getClientWorkflow(string $id) {
         return $this->handleRequest($this->client->get("/admin/client/$id/workflow"));
     }
+
+    public function getAllClientConnection() {
+        return $this->handleRequest($this->client->get("/admin/client/list"));
+    }
 }

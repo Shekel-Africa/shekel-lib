@@ -7,6 +7,7 @@ use Shekel\ShekelLib\Services\v3\AuthService;
 
 class ClientRepository
 {
+    const CACHE_STORE= 'client_redis';
     public function __construct(
         private AuthService   $authService,
     )
@@ -14,21 +15,27 @@ class ClientRepository
     }
 
     public function getClient(string $id) {
-        return Cache::store('client_redis')->remember($id, 14440, function () use ($id) {
+        return Cache::store(self::CACHE_STORE)->remember($id, 14440, function () use ($id) {
             return $this->authService->getClient($id)->object()?->data;
         });
     }
 
     public function getClientSettings(string $id)
     {
-        return Cache::store('client_redis')->remember($id . "-settings", 14440, function () use ($id) {
+        return Cache::store(self::CACHE_STORE)->remember($id . "-settings", 14440, function () use ($id) {
             return $this->authService->getClientSetting($id)->object()?->data;
         });
     }
     public function getClientWorkflows(string $id)
     {
-        return Cache::store('client_redis')->remember($id . "-workflows", 14440, function () use ($id) {
+        return Cache::store(self::CACHE_STORE)->remember($id . "-workflows", 14440, function () use ($id) {
             return $this->authService->getClientWorkflow($id)->object()?->data;
+        });
+    }
+
+    public function getAllClientConnection() {
+        return Cache::store(self::CACHE_STORE)->remember( "client-connections", 600, function () {
+            return $this->authService->getAllClientConnection()->object()?->data;
         });
     }
 
