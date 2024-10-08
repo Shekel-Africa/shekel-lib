@@ -65,6 +65,12 @@ class AuthService extends ShekelBaseService {
             'fields' => $fields
         ]));
     }
+    public function listAdminsDetail(array $ids, array $fields = []) {
+        return $this->handleRequest($this->client->post("/admin/list?showDeleted=true", [
+            'ids' => $ids,
+            'fields' => $fields
+        ]));
+    }
 
     public function partnerListUsersDetail(array $ids) {
         return $this->handleRequest($this->client->post("/partner/user/list", [
