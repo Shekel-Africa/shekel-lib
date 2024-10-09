@@ -22,22 +22,30 @@ class ShekelAuthMiddleware
      *
      * @param Request $request
      * @param Closure(Request): (Response|RedirectResponse) $next
-     * @param string|null $guard
+     * @param mixed ...$guards
      * @return Response|RedirectResponse
      */
-    public function handle(Request $request, Closure $next, string $guard=null)
+    public function handle(Request $request, Closure $next, ...$guards)
     {
+        if (empty($guards)) {
+            $guards = [null];
+        }
         try {
             $this->authService->setToken($request->bearerToken());
             ShekelAuth::setAuthToken($request->bearerToken());
             ShekelAuth::setAuthXToken($request->header('x-token'));
-            $userCheck = $this->authService->getAuthenticated(['excludeImage'=>true], $guard);
-            if (!$userCheck->successful()) {
-                return response()->json($userCheck->json(), $userCheck->status());
+
+            $userCheck = null;
+            foreach ($guards as $guard) {
+                $userCheck = $this->authService->getAuthenticated(['excludeImage'=>true], $guard);
+                if ($userCheck->successful()) {
+                    $user = $userCheck->json('data');
+                    Auth::guard()->setUser(new GenericUser($user));
+                    return $next($request);
+                }
             }
-            $user = $userCheck->json('data');
-            Auth::guard()->setUser(new GenericUser($user));
-            return $next($request);
+
+            return response()->json($userCheck->json(), $userCheck->status());
         } catch(\Throwable $th) {
             if ($th instanceof ShekelInvalidArgumentException) {
                 return response()->json(['message' => $th->getMessage()], $th->getCode());
