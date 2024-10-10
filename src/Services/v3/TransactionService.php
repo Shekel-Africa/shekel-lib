@@ -80,11 +80,11 @@ class TransactionService extends ShekelBaseService {
     }
 
     public function createLendingPartner(array $data) {
-        $url = "/lending-partner/create";
+        $url = "/admin/lending-partner/create";
         return $this->handleRequest($this->client->post($url, $data));
     }
     public function editLendingPartner(string $id, array $data) {
-        $url = "/lending-partner/$id/edit";
+        $url = "/admin/lending-partner/$id/edit";
         return $this->handleRequest($this->client->post($url, $data));
     }
 
@@ -122,12 +122,12 @@ class TransactionService extends ShekelBaseService {
     }
 
     public function listPartnerSlugs() {
-        $url = "/lending-partner/slugs";
+        $url = "/admin/lending-partner/slugs";
         return $this->handleRequest($this->client->get($url));
     }
 
     public function initiateVfdAccountCreation($userId) {
-        $url = '/lending-partner/vfd/account/initiate';
+        $url = '/admin/lending-partner/vfd/account/initiate';
         return $this->handleRequest($this->client->post($url, [
             'user_id' => $userId
         ]));
