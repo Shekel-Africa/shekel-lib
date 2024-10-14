@@ -65,12 +65,13 @@ class ShekelServiceProvider extends ServiceProvider {
             'database.connections'
         );
         $this->mergeConfigFrom(
-            realpath(__DIR__.'/../resources/config/tenant-redis.php'),
-            'cache.stores'
+            realpath(__DIR__.'/../resources/config/shekel_redis.php'),
+            'database.redis'
         );
         $this->mergeConfigFrom(
             realpath(__DIR__.'/../resources/config/tenant-redis.php'),
-            'database.redis'
+            'cache.stores'
         );
+
     }
 }
