@@ -14,6 +14,10 @@ class CarService extends ShekelBaseService {
         $url = "/cars/$id";
         return $this->handleRequest($this->client->get($url));
     }
+    public function getRepair(string $id, $extra=[]) {
+        $url = "/repairs/$id";
+        return $this->handleRequest($this->client->get($url));
+    }
 
     public function getCar(string $id, $extra=[]) {
         return $this->getItem($id, $extra);
@@ -21,6 +25,11 @@ class CarService extends ShekelBaseService {
     public function editItem(string $id, array $data)
     {
         $url = "/cars/$id";
+        return $this->handleRequest($this->client->post($url, $data));
+    }
+    public function editRepair(string $id, array $data)
+    {
+        $url = "/repairs/$id";
         return $this->handleRequest($this->client->post($url, $data));
     }
 
@@ -31,6 +40,10 @@ class CarService extends ShekelBaseService {
 
     public function getCarsList(array $ids, array $headers=[]) {
         $url = "/cars/list";
+        return $this->handleRequest($this->client->withHeaders($headers)->post($url, ['ids' => $ids]));
+    }
+    public function getRepairsList(array $ids, array $headers=[]) {
+        $url = "/repairs/list";
         return $this->handleRequest($this->client->withHeaders($headers)->post($url, ['ids' => $ids]));
     }
 
