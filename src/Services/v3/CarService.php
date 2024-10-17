@@ -38,13 +38,15 @@ class CarService extends ShekelBaseService {
         return $this->handleRequest($this->client->get($url));
     }
 
-    public function getCarsList(array $ids, array $headers=[]) {
+    public function getCarsList(array $ids, array $headers=[], array $query=[]) {
         $url = "/cars/list";
-        return $this->handleRequest($this->client->withHeaders($headers)->post($url, ['ids' => $ids]));
+        return $this->handleRequest($this->client->withHeaders($headers)
+            ->withOptions(['query' => $query])->post($url, ['ids' => $ids]));
     }
-    public function getRepairsList(array $ids, array $headers=[]) {
+    public function getRepairsList(array $ids, array $headers=[], array $query=[]) {
         $url = "/repairs/list";
-        return $this->handleRequest($this->client->withHeaders($headers)->post($url, ['ids' => $ids]));
+        return $this->handleRequest($this->client->withHeaders($headers)
+            ->withOptions(['query' => $query])->post($url, ['ids' => $ids]));
     }
 
     public function generateCarInsurance($car_id) {
