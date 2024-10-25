@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Auth\GenericUser;
 use Illuminate\Http\Response;
+use Shekel\ShekelLib\Exceptions\ShekelInvalidArgumentException;
 use Shekel\ShekelLib\Services\AuthService;
 use Illuminate\Support\Facades\Auth;
 use Shekel\ShekelLib\Utils\ShekelAuth;
@@ -37,7 +38,13 @@ class ServiceAuthentication
             }
             return $next($request);
         } catch(\Throwable $th) {
-            return response()->json(['message' => $th->getMessage()], $th->getStatusCode());
+            if ($th instanceof ShekelInvalidArgumentException) {
+                return response()->json(['message' => $th->getMessage()], $th->getCode());
+            }
+            if ($th instanceof  \Symfony\Component\HttpKernel\Exception\HttpExceptionInterface) {
+                return response()->json(['message' => $th->getMessage()], $th->getCode() ?? $th->getStatusCode());
+            }
+            return response()->json(['message' => $th->getMessage()], 400);
         }
     }
 }
