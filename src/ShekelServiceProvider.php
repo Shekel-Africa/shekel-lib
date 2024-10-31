@@ -30,18 +30,20 @@ class ShekelServiceProvider extends ServiceProvider {
 
         $this->app->singleton(ClientRepository::class);
 
-        Queue::createPayloadUsing(function () {
-            return [
-                'client_id' => TenantClient::getClientId(),
-                'client_connection' => TenantClient::getTenantConnection()
-            ];
-        });
-        Queue::before(function (JobProcessing $jobProcessing) {
-            $tenantId = $jobProcessing->job->payload()['client_id'];
-            $clientConnection = $jobProcessing->job->payload()['client_connection'];
-            TenantClient::setClientId($tenantId);
-            TenantClient::setClientConnection($clientConnection);
-        });
+        if (TenantClient::getDefaultClientId() !== null) {
+            Queue::createPayloadUsing(function () {
+                return [
+                    'client_id' => TenantClient::getClientId(),
+                    'client_connection' => TenantClient::getTenantConnection()
+                ];
+            });
+            Queue::before(function (JobProcessing $jobProcessing) {
+                $tenantId = $jobProcessing->job->payload()['client_id'];
+                $clientConnection = $jobProcessing->job->payload()['client_connection'];
+                TenantClient::setClientId($tenantId);
+                TenantClient::setClientConnection($clientConnection);
+            });
+        }
 
     }
 
