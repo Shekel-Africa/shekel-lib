@@ -1,12 +1,11 @@
 <?php
 
-namespace Shekel\ShekelLib\Middleware;
+namespace Shekel\ShekelLib\Middleware\v3;
 
 use Closure;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Log;
 use Jenssegers\Agent\Agent;
 use Shekel\ShekelLib\Models\ActivityLog;
 use Shekel\ShekelLib\Utils\PassportToken;
@@ -64,14 +63,10 @@ class ActivityLogMiddleware
 
         try {
             $client = PassportToken::getClientDetailFromRequest($request);
-            $data['client_id'] = $client['client_id'];
+            $data['app_client_id'] = $client['client_id'];
         } catch (\Throwable $th) {
 
         }
-        try {
-            $this->activityLog->create($data);
-        }catch (\Throwable $th) {
-            Log::error($th->getMessage());
-        }
+        $this->activityLog->create($data);
     }
 }
