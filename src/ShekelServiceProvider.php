@@ -40,7 +40,7 @@ class ShekelServiceProvider extends ServiceProvider {
             Queue::before(function (JobProcessing $jobProcessing) {
                 $tenantId = $jobProcessing->job->payload()['client_id'];
                 $clientConnection = $jobProcessing->job->payload()['client_connection'];
-                TenantClient::setClientId($tenantId);
+                TenantClient::setClientId($tenantId ?? '');
                 TenantClient::setClientConnection($clientConnection);
             });
         }
