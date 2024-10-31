@@ -6,7 +6,7 @@ class XlsDownloader extends Downloader {
 
     public function generateReport($title)
     {
-        $filename = "download.xls";
+        $filename = "$title.xls";
         $out = fopen($filename, 'w');
         fputcsv($out, array_keys($this->collection[0]));
         foreach($this->collection as $line)

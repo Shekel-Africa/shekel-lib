@@ -7,7 +7,7 @@ use Shekel\ShekelLib\Utils\Downloader;
 class CsvDownloader extends Downloader { 
 
     public function generateReport($title) {
-        $filename = "download.csv";
+        $filename = "$title.csv";
         $out = fopen($filename, 'w');
         fputcsv($out, array_keys($this->collection[0]));
         foreach($this->collection as $line)
