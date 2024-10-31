@@ -1,6 +1,6 @@
 <?php
 
-namespace Shekel\ShekelLib\Models;
+namespace Shekel\ShekelLib\Models\v3;
 
 use Illuminate\Database\Eloquent\Model;
 use Shekel\ShekelLib\Traits\HasClient;
@@ -23,6 +23,6 @@ class ActivityLog extends Model
      */
     protected $fillable = [
         'url', 'description', 'log', 'headers', 'properties', 'response_data', 'initiator_id',
-        'actor_id', 'status', 'ip', 'user_agent', 'device', 'ip_geo_location'
+        'actor_id', 'status', 'ip', 'user_agent', 'device', 'ip_geo_location', 'app_client_id'
     ];
 }

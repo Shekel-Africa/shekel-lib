@@ -7,7 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Jenssegers\Agent\Agent;
-use Shekel\ShekelLib\Models\ActivityLog;
+use Shekel\ShekelLib\Models\v3\ActivityLog;
 use Shekel\ShekelLib\Utils\PassportToken;
 
 class ActivityLogMiddleware
