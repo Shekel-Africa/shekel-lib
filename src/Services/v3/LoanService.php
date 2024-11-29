@@ -19,13 +19,17 @@ class LoanService extends ShekelBaseService {
         return $this->handleRequest($this->client->get($url));
     }
 
-    public function makeRepayment($loan_id, $amount, $isPartial=false) {
+    public function makeRepayment($loan_id, $amount, $isPartial=false, $adminFee=null) {
         $url = "/repayment";
-        return $this->handleRequest($this->client->post($url, [
+        $data = [
             'loan_id' => $loan_id,
             'amount' => $amount,
             'is_partial' => $isPartial
-        ]));
+        ];
+        if (isset($adminFee)) {
+            $data['adminFee'] = $adminFee;
+        }
+        return $this->handleRequest($this->client->post($url, $data));
     }
 
     public function updateRepayment($id, $data) {
