@@ -27,7 +27,7 @@ class LoanService extends ShekelBaseService {
             'is_partial' => $isPartial
         ];
         if (isset($adminFee)) {
-            $data['adminFee'] = $adminFee;
+            $data['admin_fee'] = $adminFee;
         }
         return $this->handleRequest($this->client->post($url, $data));
     }
