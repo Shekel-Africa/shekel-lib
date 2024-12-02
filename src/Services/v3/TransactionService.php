@@ -51,6 +51,11 @@ class TransactionService extends ShekelBaseService {
         return $this->handleRequest($this->client->get($url));
     }
 
+    public function listAdminWallets() {
+        $url = '/admin/wallet';
+        return $this->handleRequest($this->client->get($url));
+    }
+
     public function requiresConsent($id, $type=null) {
         $url = "/requires-consent/$id";
         if (isset($type)) {
