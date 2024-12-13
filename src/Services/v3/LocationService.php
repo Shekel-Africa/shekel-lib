@@ -24,4 +24,15 @@ class LocationService extends ShekelBaseService
         $url = "/location/list";
         return $this->handleRequest($this->client->post($url, ['ids' => $ids]));
     }
+    public function searchAndlistIds($country, $state, $city=null) {
+        $url = "/location/search/ids";
+        $data = [
+            'country' => $country,
+            'state' => $state,
+        ];
+        if (isset($city)) {
+           $data['city'] = $city;
+        }
+        return $this->handleRequest($this->client->get($url, $data));
+    }
 }
