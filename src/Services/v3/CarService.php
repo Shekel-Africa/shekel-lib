@@ -95,7 +95,7 @@ class CarService extends ShekelBaseService {
     }
 
     public function viewRental(string $rentalId) {
-        $url = "/rental/$rentalId/paid";
+        $url = "/rental/$rentalId";
         return $this->handleRequest($this->client->get($url));
     }
     public function markRentalAsPaid(string $rentalId, $amountPaid) {
