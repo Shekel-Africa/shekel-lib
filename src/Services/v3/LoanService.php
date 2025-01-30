@@ -19,6 +19,11 @@ class LoanService extends ShekelBaseService {
         return $this->handleRequest($this->client->get($url));
     }
 
+    public function getSubLoan($id, $extra=[]) {
+        $url = "/loans/sub/$id";
+        return $this->handleRequest($this->client->get($url));
+    }
+
     public function makeRepayment($loan_id, $amount, $isPartial=false, $adminFee=null) {
         $url = "/repayment";
         $data = [
@@ -44,6 +49,10 @@ class LoanService extends ShekelBaseService {
 
     public function editItem($id, $data) {
         $url = "/loans/$id";
+        return $this->handleRequest($this->client->post($url, $data));
+    }
+    public function editSubLoan($id, $data) {
+        $url = "/loans/sub/$id";
         return $this->handleRequest($this->client->post($url, $data));
     }
 
