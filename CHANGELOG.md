@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.96.65
+
+* Added new method ::filesExist to UploadService:
+
 ## 1.96.2
 
 * Fixed wrong endpoint used:
