@@ -21,9 +21,4 @@ class UploadService extends ShekelBaseService {
         $url = "/";
         return $this->handleRequest($this->client->get($url, $data));
     }
-
-    public function filesExist($data) {
-        $url = "/files/exists";
-        return $this->handleRequest($this->client->post($url, $data));
-    }
 }
