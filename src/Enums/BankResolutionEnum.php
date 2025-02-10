@@ -54,4 +54,17 @@ class BankResolutionEnum
             'bank_type' => 'sometimes|string'
         ]);
     }
+
+    public static function preparation($request, array &$data, string $component, ?string $request_type=null): void
+    {
+        $type = $request_type ?? $component;
+        $prepared = match ($type) {
+            self::BankResolutionZelle => [
+                'bank_name' => 'Zelle',
+                'account_number' => $request->email,
+            ],
+            default => []
+        };
+        $data = array_merge($data, $prepared);
+    }
 }
