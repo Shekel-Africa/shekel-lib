@@ -19,9 +19,10 @@ class BankResolutionEnum
     /**
      * @throws Exception
      */
-    public static function getProperties(string $component): array
+    public static function getProperties(string $component, ?string $request_type=null): array
     {
-        $properties = match ($component) {
+        $type = $request_type ?? $component;
+        $properties = match ($type) {
             self::BankResolution1 => [
             ],
             self::BankResolution2 => [
