@@ -21,7 +21,7 @@ class BankResolutionEnum
      */
     public static function getProperties(string $component): array
     {
-        return match ($component) {
+        $properties = match ($component) {
             self::BankResolution1 => [
             ],
             self::BankResolution2 => [
@@ -42,10 +42,15 @@ class BankResolutionEnum
                 'swift_code' => 'required|string',
             ],
             self::BankResolutionZelle => [
+                'account_name' => 'required|string',
                 'email' => 'required|email',
-                'name' => 'required|string'
+                'bank_name' => 'string',
+                'account_number' => 'string',
             ],
             default => throw new Exception("Workflow not currently handled")
         };
+        return array_merge($properties, [
+            'bank_type' => 'sometimes|string'
+        ]);
     }
 }
