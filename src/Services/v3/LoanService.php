@@ -24,12 +24,13 @@ class LoanService extends ShekelBaseService {
         return $this->handleRequest($this->client->get($url));
     }
 
-    public function makeRepayment($loan_id, $amount, $isPartial=false, $adminFee=null) {
+    public function makeRepayment($loan_id, $amount, $isPartial=false, $adminFee=null, $isSale=false) {
         $url = "/repayment";
         $data = [
             'loan_id' => $loan_id,
             'amount' => $amount,
-            'is_partial' => $isPartial
+            'is_partial' => $isPartial,
+            'is_sale' => $isSale
         ];
         if (isset($adminFee)) {
             $data['admin_fee'] = $adminFee;
@@ -53,6 +54,16 @@ class LoanService extends ShekelBaseService {
     }
     public function editSubLoan($id, $data) {
         $url = "/loans/sub/$id";
+        return $this->handleRequest($this->client->post($url, $data));
+    }
+
+
+    /**
+     * @param $id
+     * @param array{amount_sold: numeric, sold_on: string} $data
+     */
+    public function setSaleAmount($id, array $data) {
+        $url = "/loans/$id/sale";
         return $this->handleRequest($this->client->post($url, $data));
     }
 
