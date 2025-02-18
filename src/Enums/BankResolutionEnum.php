@@ -21,27 +21,32 @@ class BankResolutionEnum
      */
     public static function getProperties(string $component, ?string $request_type=null): array
     {
+        $data = [
+            'bank_name' => 'required|string',
+            'account_name' => 'required|string',
+            'account_number' => 'required',
+        ];
         $type = $request_type ?? $component;
         $properties = match ($type) {
-            self::BankResolution1 => [
-            ],
-            self::BankResolution2 => [
+            self::BankResolution1 => array_merge($data, [
+            ]),
+            self::BankResolution2 => array_merge($data, [
                 'branch_code' => 'required|string',
                 'swift_code' => 'required|string',
-            ],
-            self::BankResolution3 => [
+            ]),
+            self::BankResolution3 => array_merge($data, [
                 'transit_number' => 'required|string',
                 'institution_number' => 'required|string',
                 'swift_code' => 'required|string',
-            ],
-            self::BankResolution4 => [
+            ]),
+            self::BankResolution4 => array_merge($data,[
                 'sort_code' => 'required|string',
                 'iban' => 'required|string',
-            ],
-            self::BankResolution5 => [
+            ]),
+            self::BankResolution5 => array_merge($data, [
                 'routing_number' => 'required|string',
                 'swift_code' => 'required|string',
-            ],
+            ]),
             self::BankResolutionZelle => [
                 'account_name' => 'required|string',
                 'email' => 'required|email',
