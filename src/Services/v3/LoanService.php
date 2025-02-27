@@ -84,4 +84,17 @@ class LoanService extends ShekelBaseService {
         $url ="/limit/$user_id";
         return $this->handleRequest($this->client->get($url));
     }
+
+    public function blacklistUserLoans(string $userId, bool $blacklist=true) {
+        $url = "/loans/blacklist/$userId";
+        return $this->handleRequest($this->client->post($url, [
+            'blacklist' => $blacklist
+        ]));
+    }
+    public function getOverDueCount(array $userIds) {
+        $url = "/loans/overdue/stats";
+        return $this->handleRequest($this->client->post($url, [
+            'userIds' => $userIds
+        ]));
+    }
 }
