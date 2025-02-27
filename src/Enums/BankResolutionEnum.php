@@ -32,7 +32,7 @@ class BankResolutionEnum
             ]),
             self::BankResolution2 => array_merge($data, [
                 'branch_code' => 'required|string',
-                'swift_code' => 'required|string',
+                'swift_code' => 'sometimes|string',
             ]),
             self::BankResolution3 => array_merge($data, [
                 'transit_number' => 'required|string',
@@ -45,11 +45,12 @@ class BankResolutionEnum
             ]),
             self::BankResolution5 => array_merge($data, [
                 'routing_number' => 'required|string',
-                'swift_code' => 'required|string',
+                'swift_code' => 'sometimes|string',
             ]),
             self::BankResolutionZelle => [
                 'account_name' => 'required|string',
-                'email' => 'required|email',
+                'email' => 'required_without:phone|email',
+                'phone' => 'required_without:email|string',
                 'bank_name' => 'string',
                 'account_number' => 'string',
             ],
@@ -66,7 +67,7 @@ class BankResolutionEnum
         $prepared = match ($type) {
             self::BankResolutionZelle => [
                 'bank_name' => 'Zelle',
-                'account_number' => $request->email,
+                'account_number' => $request->email ?? $request->phone,
             ],
             default => []
         };
