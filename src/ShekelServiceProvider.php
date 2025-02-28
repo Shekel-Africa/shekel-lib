@@ -15,9 +15,11 @@ class ShekelServiceProvider extends ServiceProvider {
     public function boot() {
         $config = realpath(__DIR__.'/../resources/config/shekel.php');
         $config2 = realpath(__DIR__.'/../resources/config/tenant.php');
+        $config3 = realpath(__DIR__.'/../resources/config/amplitude.php');
         $this->publishes([
             $config => config_path('shekel.php'),
             $config2 => config_path('tenant.php'),
+            $config3 => config_path('amplitude.php'),
         ], 'laravel-assets');
         $this->publishes(self::pathsToPublish(LogViewerServiceProvider::class), 'shekel-deps');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
