@@ -19,22 +19,15 @@ class AmplitudeTracker
      */
     public static function sendEvent(array $event): PromiseInterface|Response
     {
-        $client = self::createClient();
+        $headers = [
+            'Accept' => '*/*',
+            'Content-Type' => 'application/json',
+        ];
         $event['client_id'] = TenantClient::getClientId();
         $payload = [
             "api_key" => Config::get("amplitude.apiKey"),
             "events" => [$event]
         ];
-        return $client->post('/', $payload);
-    }
-
-    public static function createClient(): PendingRequest
-    {
-        $headers = [
-            'Accept' => '*/*',
-            'Content-Type' => 'application/json',
-        ];
-        return Http::withHeaders($headers)
-            ->baseUrl('https://api2.amplitude.com/2/httpapi');
+        return Http::withHeaders($headers)->post('https://api2.amplitude.com/2/httpapi', $payload);
     }
 }
