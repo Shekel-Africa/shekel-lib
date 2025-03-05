@@ -54,12 +54,35 @@ class MessagingService extends ShekelBaseService {
         ]));
     }
 
-    public function sendLoanOfferEmail($data) {
+    /**
+     * @param array{
+     *     loan_id: string,
+     *     email_address: string,
+     *     requester_id: string,
+     *     name: string,
+     *     car_name: string,
+     *     amount: numeric-string,
+     *     currency: string,
+     *     tag: string
+     * } $data
+     */
+    public function sendLoanOfferEmail(array $data) {
         $url = "/send/loan-offer-email";
         return $this->handleRequest($this->client->post($url, $data));
     }
 
-    public function sendLoanRequestEmail($data) {
+    /**
+     * @param array{
+     *     loan_id: string,
+     *     email_address: string,
+     *     user_id: string,
+     *     name: string,
+     *     car_name: string,
+     *     amount: numeric-string,
+     *     currency: string
+     * } $data
+     */
+    public function sendLoanRequestEmail(array $data) {
         $url = "/send/loan-request-email";
         return $this->handleRequest($this->client->post($url, $data));
     }
