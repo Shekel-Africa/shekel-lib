@@ -14,6 +14,7 @@ class BankResolutionEnum
     public const BankResolution4 = 'BankResolutionFormVariant4';
     public const BankResolution5 = 'BankResolutionFormVariant5';
     public const BankResolutionZelle = 'BankResolutionFormVariantZelle';
+    public const BankResolutionMoMo = 'BankResolutionFormVariantMoMo';
 
 
     /**
@@ -47,7 +48,7 @@ class BankResolutionEnum
                 'routing_number' => 'required|string',
                 'swift_code' => 'sometimes|string',
             ]),
-            self::BankResolutionZelle => [
+            self::BankResolutionZelle, self::BankResolutionMoMo => [
                 'account_name' => 'required|string',
                 'email' => 'required_without:phone|email',
                 'phone' => 'required_without:email|string',
@@ -68,6 +69,10 @@ class BankResolutionEnum
             self::BankResolutionZelle => [
                 'bank_name' => 'Zelle',
                 'account_number' => $request->email ?? $request->phone,
+            ],
+            self::BankResolutionMoMo => [
+                'bank_name' => 'MobileMoney',
+                'account_number' => $request->phone ?? $request->email,
             ],
             default => []
         };
