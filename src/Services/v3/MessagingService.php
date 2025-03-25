@@ -3,6 +3,8 @@
 namespace Shekel\ShekelLib\Services\v3;
 
 
+use Illuminate\Http\Client\ConnectionException;
+
 class MessagingService extends ShekelBaseService {
 
     public function __construct(){
@@ -85,6 +87,19 @@ class MessagingService extends ShekelBaseService {
     public function sendLoanRequestEmail(array $data) {
         $url = "/send/loan-request-email";
         return $this->handleRequest($this->client->post($url, $data));
+    }
+
+    /**
+     * @param array{
+     *     email: string,
+     *     name: string
+     * } $data
+     */
+    public function sendReportEmail(array $data, $file) {
+        $url = "/send/report";
+        return $this->handleRequest(
+            $this->client->attach('file', $file)->post($url, $data)
+        );
     }
     public function sendLoanRejectionEmail($data) {
         $url = "/send/loan-rejection-email";
