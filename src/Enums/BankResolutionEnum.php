@@ -48,12 +48,20 @@ class BankResolutionEnum
                 'routing_number' => 'required|string',
                 'swift_code' => 'sometimes|string',
             ]),
-            self::BankResolutionZelle, self::BankResolutionMoMo => [
+            self::BankResolutionZelle => [
                 'account_name' => 'required|string',
                 'email' => 'required_without:phone|email',
                 'phone' => 'required_without:email|string',
                 'bank_name' => 'string',
                 'account_number' => 'string',
+            ],
+            self::BankResolutionMoMo => [
+                'account_name' => 'required|string',
+                'email' => 'sometimes|email',
+                'phone' => 'required|string',
+                'bank_name' => 'string',
+                'account_number' => 'string',
+                'momo_type' => 'required|string'
             ],
             default => throw new Exception("Workflow not currently handled")
         };
@@ -71,7 +79,7 @@ class BankResolutionEnum
                 'account_number' => $request->email ?? $request->phone,
             ],
             self::BankResolutionMoMo => [
-                'bank_name' => 'MobileMoney',
+                'bank_name' => $request->momo_type,
                 'account_number' => $request->phone ?? $request->email,
             ],
             default => []
