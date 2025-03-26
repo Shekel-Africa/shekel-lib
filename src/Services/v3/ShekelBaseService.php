@@ -49,7 +49,6 @@ class ShekelBaseService {
     {
         $headers = [
             'Accept' => 'application/json',
-            'Content-Type' => 'application/json',
             's2s' => $this->clientSecret,
             's2sName' => $this->serviceName,
             'x-client-id' => TenantClient::getClientId(),
