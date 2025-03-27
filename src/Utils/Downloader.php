@@ -10,7 +10,7 @@ abstract class Downloader {
         $this->extension = $extension;
     }
 
-    abstract public function generateReport($title);
+    abstract public function generateReport($title, $save=false);
 
     public function generateFileName($title) {
         return $title."_".date('d-m-Y').'.'.$this->extension;

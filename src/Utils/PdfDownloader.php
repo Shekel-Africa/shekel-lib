@@ -5,7 +5,7 @@ namespace Shekel\ShekelLib\Utils;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class PdfDownloader extends Downloader {
-    public function generateReport($title)
+    public function generateReport($title, $save=false)
     {
         $heading = array_keys($this->collection[0]);
         $data = [
@@ -13,6 +13,9 @@ class PdfDownloader extends Downloader {
             'body' => $this->collection
         ];
         $pdf = Pdf::loadView('vendor.shekel-lib.pdf_view', $data)->setPaper($this->getSize($heading), 'landscape');
+        if ($save) {
+            return $pdf->save($this->generateFileName($title));
+        }
         return $pdf->download($this->generateFileName($title));
     }
 

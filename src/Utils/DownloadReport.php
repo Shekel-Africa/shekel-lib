@@ -4,7 +4,7 @@ namespace Shekel\ShekelLib\Utils;
 
 class DownloadReport {
 
-    public static function download(array $collection, $title, $type) {
+    public static function download(array $collection, $title, $type, $save=false) {
         $extension = strtolower($type);
         switch ($extension) {
             case 'csv':
@@ -21,7 +21,7 @@ class DownloadReport {
                 break;
         }
 
-        return $downloader->generateReport($title);
+        return $downloader->generateReport($title, $save);
     }
 
 }
