@@ -14,7 +14,9 @@ class PdfDownloader extends Downloader {
         ];
         $pdf = Pdf::loadView('vendor.shekel-lib.pdf_view', $data)->setPaper($this->getSize($heading), 'landscape');
         if ($save) {
-            return $pdf->save($this->generateFileName($title));
+            $fileName = $this->generateFileName($title);
+            $pdf->save('./public/'.$fileName);
+            return response()->download(public_path($fileName), $this->generateFileName($title));
         }
         return $pdf->download($this->generateFileName($title));
     }

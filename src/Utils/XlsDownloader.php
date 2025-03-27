@@ -4,7 +4,7 @@ namespace Shekel\ShekelLib\Utils;
 
 class XlsDownloader extends Downloader {
 
-    public function generateReport($title)
+    public function generateReport($title, $save=false)
     {
         $filename = "$title.xls";
         $out = fopen($filename, 'w');
