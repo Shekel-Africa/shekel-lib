@@ -18,7 +18,6 @@ class N8NWorkflowNotify
      * @param string $path
      * @param array $data
      * @return PromiseInterface|Response|null
-     * @throws ConnectionException
      */
     public static function sendEvent(string $path, array $data): PromiseInterface|Response|null
     {
@@ -39,6 +38,7 @@ class N8NWorkflowNotify
             return Http::withHeaders($headers)->post($url, $data);
         } catch (\Throwable $throwable) {
             Log::info('n8n could not trigger workflow', ['message' => $throwable->getMessage()]);
+            return null;
         }
     }
 }
