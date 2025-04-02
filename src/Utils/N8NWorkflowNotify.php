@@ -8,6 +8,7 @@ use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class N8NWorkflowNotify
 {
@@ -34,6 +35,10 @@ class N8NWorkflowNotify
             'Content-Type' => 'application/json',
         ];
         $data['client_id'] = TenantClient::getClientId();
-        return Http::withHeaders($headers)->post($url, $data);
+        try {
+            return Http::withHeaders($headers)->post($url, $data);
+        } catch (\Throwable $throwable) {
+            Log::info('n8n could not trigger workflow', ['message' => $throwable->getMessage()]);
+        }
     }
 }
