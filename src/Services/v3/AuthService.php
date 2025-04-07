@@ -157,4 +157,11 @@ class AuthService extends ShekelBaseService {
     public function getClientByReference(string $reference) {
         return $this->handleRequest($this->client->get("/admin/client/reference/$reference"));
     }
+
+    public function updateUserWorksheet(string $worksheet, array $data) {
+        return $this->handleRequest($this->client->post("/worksheets", [
+            'worksheet' => $worksheet,
+            'step' => $data
+        ]));
+    }
 }
