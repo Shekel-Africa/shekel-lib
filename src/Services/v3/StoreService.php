@@ -1,0 +1,27 @@
+<?php
+
+namespace Shekel\ShekelLib\Services\v3;
+
+class StoreService extends ShekelBaseService
+{
+    public function __construct()
+    {
+        parent::__construct('store');
+    }
+
+    public function getStore(string $id) {
+        return $this->handleRequest($this->client->get("/storefront/$id"));
+    }
+
+    /**
+     * @param string $id
+     * @param array{car: array, assessments?:array, features?: array}  $data
+     */
+    public function addCarToStore(string $id, array $data) {
+        return $this->handleRequest($this->client->post("/storefront/$id/cars/add", $data));
+    }
+
+    public function publish(string $id) {
+        return $this->handleRequest($this->client->post("/storefront/$id/publish"));
+    }
+}

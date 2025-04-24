@@ -33,6 +33,6 @@ class Utils
      * @return int
      */
     public static function convertToKobo($amount):int {
-        return intVal($amount * 100);
+        return round(($amount * 100), 0);
     }
 }
