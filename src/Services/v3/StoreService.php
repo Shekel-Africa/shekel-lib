@@ -15,7 +15,7 @@ class StoreService extends ShekelBaseService
 
     /**
      * @param string $id
-     * @param array{car: array, assessments?:array, features?: array}  $data
+     * @param array{car: array, assessments?:array, features?: array, uploads?: array, store_car?:array}  $data
      */
     public function addCarToStore(string $id, array $data) {
         return $this->handleRequest($this->client->post("/storefront/$id/cars/add", $data));

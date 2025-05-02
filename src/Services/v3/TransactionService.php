@@ -131,8 +131,8 @@ class TransactionService extends ShekelBaseService {
         ]));
     }
 
-    public function listPartnerSlugs() {
-        $url = "/admin/lending-partner/slugs";
+    public function listPartnerSlugs($currency=null) {
+        $url = "/admin/lending-partner/slugs/$currency";
         return $this->handleRequest($this->client->get($url));
     }
 
