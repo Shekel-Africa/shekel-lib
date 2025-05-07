@@ -10,7 +10,7 @@ class StoreService extends ShekelBaseService
     }
 
     public function getStore(string $id) {
-        return $this->handleRequest($this->client->get("/storefront/$id"));
+        return $this->handleRequest($this->client->get("/store/$id"));
     }
 
     /**
@@ -18,10 +18,10 @@ class StoreService extends ShekelBaseService
      * @param array{car: array, assessments?:array, features?: array, uploads?: array, store_car?:array}  $data
      */
     public function addCarToStore(string $id, array $data) {
-        return $this->handleRequest($this->client->post("/storefront/$id/cars/add", $data));
+        return $this->handleRequest($this->client->post("/store/$id/cars/add", $data));
     }
 
     public function publish(string $id) {
-        return $this->handleRequest($this->client->post("/storefront/$id/publish"));
+        return $this->handleRequest($this->client->post("/store/$id/publish"));
     }
 }
