@@ -92,6 +92,37 @@ class MessagingService extends ShekelBaseService {
     /**
      * @param array{
      *     email: string,
+     *     store: string,
+     *     carName: string,
+     *     customer_email: string,
+     *     phone: string,
+     *     date: string,
+     *     time: string
+     * } $data
+     */
+    public function sendBookingInspectionEmail(array $data) {
+        $url = "/send/book-inspection";
+        return $this->handleRequest($this->client->post($url, $data));
+    }
+    /**
+     * @param array{
+     *     email: string,
+     *     store: string,
+     *     name: string,
+     *     customer_email: string,
+     *     phone: string,
+     *     reason: string,
+     *     description: string
+     * } $data
+     */
+    public function sendContactDealerEmail(array $data) {
+        $url = "/send/contact-dealer";
+        return $this->handleRequest($this->client->post($url, $data));
+    }
+
+    /**
+     * @param array{
+     *     email: string,
      *     name: string
      * } $data
      */
