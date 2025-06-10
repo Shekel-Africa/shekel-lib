@@ -18,4 +18,5 @@ return [
     'transaction-secret' => getenv('TRANSACTION_SERVICE_SECRET'),
     'service_name' => getenv('SERVICE_NAME'),
     'slack_webhook' => getenv('SLACK_WEBHOOK'),
+    'external_api_key' => getenv('EXTERNAL_API_KEY'),
 ];
