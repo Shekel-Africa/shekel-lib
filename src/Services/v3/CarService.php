@@ -104,4 +104,11 @@ class CarService extends ShekelBaseService {
             'amountPaid' => $amountPaid
         ]));
     }
+
+    public function logStoreCreated(string $id) {
+        $url = "/storefront/$id";
+        return $this->handleRequest($this->client->patch($url, [
+            'is_created' => true
+        ]));
+    }
 }
