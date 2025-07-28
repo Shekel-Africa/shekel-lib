@@ -103,15 +103,22 @@ class TransactionService extends ShekelBaseService {
         return $this->handleRequest($this->client->post($url, $data));
     }
 
-    public function addDefaultPayoutToWallet($id, $type, $user_id, $bank, $account_number, $account_name) {
+    /**
+     * @param array{id:string,type:string,user_id:string,bank:string,account_number:string,account_name:string}$data
+     * @param array $additional_info
+     * @return mixed
+     */
+    public function addDefaultPayoutToWallet(array $data, array $additional_info = [], bool $isInternational=false) {
         $url = "/partner/bank/default";
         return $this->handleRequest($this->client->post($url, [
-            'owner_id' => $id,
-            'owner_type' => $type,
-            'user_id' => $user_id,
-            'bank' => $bank,
-            'account_number' => $account_number,
-            'account_name' => $account_name
+            'owner_id' => $data['id'],
+            'owner_type' => $data['type'],
+            'user_id' => $data['user_id'],
+            'bank' => $data['bank'],
+            'account_number' => $data['account_number'],
+            'account_name' => $data['account_name'],
+            'is_international' => $isInternational,
+            'additional_info' => $additional_info
         ]));
     }
 
