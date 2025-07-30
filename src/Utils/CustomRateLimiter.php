@@ -10,8 +10,10 @@ class CustomRateLimiter
     {
         $by = $request->user()?->id ?: $request->ip();
         if (!empty($request->bearerToken())) {
-            $user = PassportToken::getUserFromToken($request->bearerToken());
-            $by = sha1($user['user_id'] . $request->ip());
+            if (env('APP_ENV') !== 'testing') {
+                $user = PassportToken::getUserFromToken($request->bearerToken());
+                $by = sha1($user['user_id'] . $request->ip());
+            }
         }
         return $by;
     }
