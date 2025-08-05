@@ -61,6 +61,7 @@ class ShekelServiceProvider extends ServiceProvider {
             \Shekel\ShekelLib\Commands\Tenant\Migration\RollbackAdminMigrationCommand::class,
             \Shekel\ShekelLib\Commands\Tenant\Migration\RollbackTenantMigration::class,
             \Shekel\ShekelLib\Commands\Tenant\Migration\TenantMakeMigration::class,
+            \Shekel\ShekelLib\Commands\Tenant\Migration\TenantAwareMigration::class,
             \Shekel\ShekelLib\Commands\Tenant\Passport\PassportClientTenantCommand::class,
             \Shekel\ShekelLib\Commands\Tenant\Passport\PassportInstallTenantCommand::class,
         ]);
