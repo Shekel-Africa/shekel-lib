@@ -10,7 +10,10 @@ class UploadService extends ShekelBaseService {
         parent::__construct('upload');
     }
 
-    public function storeFiles($data) {
+    /**
+     * @param array{uploadable:array{id:string,type:string},files:array,category:array} $data
+     */
+    public function storeFiles(array $data) {
         $url = '/';
         return $this->handleRequest($this->client->post($url, $data));
     }
