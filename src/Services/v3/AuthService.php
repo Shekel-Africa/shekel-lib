@@ -3,6 +3,8 @@
 namespace Shekel\ShekelLib\Services\v3;
 
 
+use Shekel\ShekelLib\Utils\Utils;
+
 class AuthService extends ShekelBaseService {
 
     public function __construct()
@@ -139,14 +141,17 @@ class AuthService extends ShekelBaseService {
     }
 
     public function getClient(string $id) {
+        Utils::isValidId($id);
         return $this->handleRequest($this->client->get("/admin/client/$id"));
     }
 
     public function getClientSetting(string $id) {
+        Utils::isValidId($id);
         return $this->handleRequest($this->client->get("/admin/client/$id/settings"));
     }
 
     public function getClientWorkflow(string $id) {
+        Utils::isValidId($id);
         return $this->handleRequest($this->client->get("/admin/client/$id/workflow"));
     }
 

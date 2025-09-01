@@ -3,6 +3,7 @@
 namespace Shekel\ShekelLib\Utils;
 
 use Illuminate\Support\Str;
+use Shekel\ShekelLib\Exceptions\ShekelInvalidArgumentException;
 
 class Utils
 {
@@ -34,5 +35,12 @@ class Utils
      */
     public static function convertToKobo($amount):int {
         return round(($amount * 100), 0);
+    }
+
+    public static function isValidId($id): bool {
+        if (is_string($id) && !Str::isUuid($id)) {
+            throw new ShekelInvalidArgumentException('Invalid Id', 400);
+        }
+        return true;
     }
 }

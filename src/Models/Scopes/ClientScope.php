@@ -18,6 +18,6 @@ class ClientScope implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
-        $builder->where('client_id', TenantClient::getClientId());
+        $builder->where($model->getTable().'.client_id', TenantClient::getClientId());
     }
 }
