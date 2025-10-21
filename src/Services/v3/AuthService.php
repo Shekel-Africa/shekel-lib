@@ -169,4 +169,11 @@ class AuthService extends ShekelBaseService {
             'step' => $data
         ]));
     }
+
+    /**
+     * @param array{name:string,email:string,phone:string} $data
+     */
+    public function createCompanyCustomer(array $data) {
+        return $this->handleRequest($this->client->post("/company/customer", $data));
+    }
 }

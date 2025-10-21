@@ -70,12 +70,31 @@ class ShekelAuth
         if (Carbon::now()->gt($user['expiry'])) {
             throw new ShekelInvalidArgumentException('Login Session Expired', 401);
         }
-//        if (!AccessToken::isValid($user['token_id'])) {
-//            throw new ShekelInvalidArgumentException('Login Session Token Revoked', 401);
-//        }
+
         if (!empty($scopes)) {
             $scopes = collect($scopes);
             if (($scopes->diff($user['scopes']))->count() > 0) {
+                throw new ShekelInvalidArgumentException('User does not have required permission', 403);
+            }
+        }
+        return true;
+    }
+
+    public static function verifyAnyScope(string $token, array $scopes=[]):bool {
+        if (empty($token)) {
+            throw new ShekelInvalidArgumentException('Unauthenticated', 401);
+        }
+        $user = PassportToken::getUserFromToken($token);
+        if (Carbon::now()->gt($user['expiry'])) {
+            throw new ShekelInvalidArgumentException('Login Session Expired', 401);
+        }
+        if (!empty($scopes)) {
+            $scopes = collect($scopes);
+            $userScopes = $user['scopes'];
+            $hasAny = $scopes->contains(function ($value) use ($userScopes) {
+                return in_array($value, $userScopes);
+            });
+            if (!$hasAny) {
                 throw new ShekelInvalidArgumentException('User does not have required permission', 403);
             }
         }
