@@ -11,12 +11,34 @@ class Utils
      * Generate Reference Code
      * @param string $prefix
      * @param int $length
+     * @param bool $useClient
      * @param string $separator
+     * @param string $clientSeparator
      * @return string
      */
-    public static function generateReference(string $prefix, int $length=12, string $separator='-'): string
+    public static function generateReference(string $prefix, int $length = 12, bool $useClient = false, string $separator = '-',  string $clientSeparator = '^'): string
     {
-        return $prefix.$separator.Str::random($length);
+        if ($useClient && isset(TenantClient::getClientObject()?->tp_reference)) {
+            $prefix = TenantClient::getClientObject()?->tp_reference . $clientSeparator . $prefix;
+        }
+        return $prefix . $separator . Str::random($length);
+    }
+
+    /**
+     * @param $reference
+     * @return string|null
+     */
+    public static function getClientFromReference($reference): ?string
+    {
+        $separator = match (Str::contains($reference, '.')) {
+            true => '.',
+            default => '^',
+        };
+        $ref = explode($separator, $reference);
+        if (count($ref) == 1) {
+            return null;
+        }
+        return $ref[0];
     }
 
     /**
