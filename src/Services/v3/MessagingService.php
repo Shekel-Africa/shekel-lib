@@ -196,6 +196,14 @@ class MessagingService extends ShekelBaseService {
         $data['object_type'] = $object_type;
         return $this->handleRequest($this->client->post($url, $data));
     }
+
+    /**
+     * @param array{name:string,url:string,email:string,sender:string}$data
+     */
+    public function sendInvoiceLink(array $data) {
+        $url = "/send/invoice-link";
+        return $this->handleRequest($this->client->post($url, $data));
+    }
     
     /**
      * @param array{request_id: string} $data
