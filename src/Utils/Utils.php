@@ -67,7 +67,7 @@ class Utils
         return true;
     }
 
-    function money_format($amount, $currency_code): string
+    public static function money_format($amount, $currency_code): string
     {
         $currency = match ($currency_code) {
             'NGN' => '₦',
