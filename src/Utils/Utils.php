@@ -4,6 +4,7 @@ namespace Shekel\ShekelLib\Utils;
 
 use Illuminate\Support\Str;
 use Shekel\ShekelLib\Exceptions\ShekelInvalidArgumentException;
+use Symfony\Component\Intl\Currencies;
 
 class Utils
 {
@@ -64,5 +65,14 @@ class Utils
             throw new ShekelInvalidArgumentException('Invalid Id', 400);
         }
         return true;
+    }
+
+    function money_format($amount, $currency_code): string
+    {
+        $currency = match ($currency_code) {
+            'NGN' => '₦',
+            default => Currencies::getSymbol($currency_code),
+        };
+        return $currency . number_format($amount, 2);
     }
 }
