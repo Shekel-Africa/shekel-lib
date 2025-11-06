@@ -76,11 +76,11 @@ class BankResolutionEnum
         $prepared = match ($type) {
             self::BankResolutionZelle => [
                 'bank_name' => 'Zelle',
-                'account_number' => $request->email ?? $request->phone,
+                'account_number' => $request->email ?? $request->phone ?? null,
             ],
             self::BankResolutionMoMo => [
                 'bank_name' => $request->momo_type,
-                'account_number' => $request->phone ?? $request->email,
+                'account_number' => $request->phone ?? $request->email ?? null,
             ],
             default => []
         };
