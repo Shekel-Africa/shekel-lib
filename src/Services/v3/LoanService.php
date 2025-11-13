@@ -97,4 +97,9 @@ class LoanService extends ShekelBaseService {
             'userIds' => $userIds
         ]));
     }
+
+    public function getLoanResellUpdates($carId, array $query=[]) {
+        $url = "/loans/$carId/updates/resell";
+        return $this->handleRequest($this->client->get($url, $query));
+    }
 }
