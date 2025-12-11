@@ -111,4 +111,15 @@ class CarService extends ShekelBaseService {
             'is_created' => true
         ]));
     }
+
+    /**
+     * @param array{vin?:string,model?:string,brand?:string} $data
+     *
+     */
+    public function getCarIdsBySearch(array $data) {
+        $url = "/cars/search/ids";
+        return $this->handleRequest(
+            $this->client->withOptions(['query' => $data])
+        ->get($url));
+    }
 }
