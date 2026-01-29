@@ -20,10 +20,10 @@ class ShekelBaseService {
     protected string|null $token;
     protected string|null $baseUrl;
 
-    public function __construct($serviceName)
+    public function __construct($serviceName, $version='v3')
     {
         $this->serviceName = $serviceName;
-        $this->baseUrl = Config::get("shekel.$serviceName").'/v3';
+        $this->baseUrl = Config::get("shekel.$serviceName").'/'.$version;
         $this->clientSecret = Config::get("shekel.$serviceName-secret");
         $this->token = ShekelAuth::getAuthToken();
         $this->setRequestOption();

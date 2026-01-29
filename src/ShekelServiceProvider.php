@@ -3,11 +3,14 @@
 namespace Shekel\ShekelLib;
 
 use Carbon\Laravel\ServiceProvider;
+use Illuminate\Http\Request;
 use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\Facades\Queue;
 use Opcodes\LogViewer\LogViewerServiceProvider;
 use PragmaRX\Yaml\Package\Yaml;
+use Illuminate\Contracts\Foundation\Application;
 use Shekel\ShekelLib\Repositories\ClientRepository;
+use Shekel\ShekelLib\Services\v3\ShekelBaseService;
 use Shekel\ShekelLib\Utils\TenantClient;
 
 class ShekelServiceProvider extends ServiceProvider {
@@ -46,6 +49,21 @@ class ShekelServiceProvider extends ServiceProvider {
                 $clientConnection = $jobProcessing->job->payload()['client_connection'];
                 TenantClient::setClientId($tenantId ?? '');
                 TenantClient::setClientConnection($clientConnection);
+            });
+        }
+
+
+        $services = [
+            \Shekel\ShekelLib\Services\v4\StoreService::class,
+            \Shekel\ShekelLib\Services\v3\StoreService::class,
+            \Shekel\ShekelLib\Services\v3\MessagingService::class
+        ];
+        foreach ($services as $className) {
+            $this->app->singleton($className, function (Application $app) use ($className) {
+                /** @var ShekelBaseService $service */
+                $service = new $className();
+                $service->setToken($app[Request::class]->bearerToken());
+                return $service;
             });
         }
 
