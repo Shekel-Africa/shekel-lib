@@ -186,4 +186,10 @@ class AuthService extends ShekelBaseService {
     public function getCompanyCustomer($id) {
         return $this->handleRequest($this->client->get("/company/customer/$id"));
     }
+
+    public function getBrokerUserIds(string $brokerCode) {
+        return $this->handleRequest($this->client->post("/admin/brokers/users", [
+            'code' => $brokerCode
+        ]));
+    }
 }
