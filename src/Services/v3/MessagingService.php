@@ -271,4 +271,72 @@ class MessagingService extends ShekelBaseService {
         $url = "/comment/$object_type/$object_id/first";
         return $this->handleRequest($this->client->get($url));
     }
+
+    /**
+     * @param array{
+     *     email: string,
+     *     name: string,
+     *     car_name: string,
+     *     vin: string,
+     *     repayment_amount: numeric,
+     *     estimated_arrival: string,
+     *     user_id: string,
+     *     currency: string
+     * } $data
+     */
+    public function sendTwoWeeksShippingNotification($data) {
+        $url = "/send/shipping/two-week";
+        return $this->handleRequest($this->client->post($url, $data));
+    }
+
+    /**
+     * @param array{
+     *     email: string,
+     *     name: string,
+     *     car_name: string,
+     *     vin: string,
+     *     repayment_amount: numeric,
+     *     estimated_arrival: string,
+     *     user_id: string,
+     *     currency: string
+     * } $data
+     */
+    public function sendOneWeekShippingNotification($data) {
+        $url = "/send/shipping/one-week";
+        return $this->handleRequest($this->client->post($url, $data));
+    }
+
+    /**
+     * @param array{
+     *     email: string,
+     *     name: string,
+     *     car_name: string,
+     *     vin: string,
+     *     repayment_amount: numeric,
+     *     estimated_arrival: string,
+     *     user_id: string,
+     *     currency: string
+     * } $data
+     */
+    public function sendOneDayShippingNotification($data) {
+        $url = "/send/shipping/one-day";
+        return $this->handleRequest($this->client->post($url, $data));
+    }
+
+    /**
+     * @param array{
+     *     email: string,
+     *     name: string,
+     *     car_name: string,
+     *     vin: string,
+     *     repayment_amount: numeric,
+     *     estimated_arrival: string,
+     *     user_id: string,
+     *     currency: string
+     * } $data
+     */
+    public function sendShippingEstimateNotification($data) {
+        $url = "/send/shipping/estimate";
+        return $this->handleRequest($this->client->post($url, $data));
+    }
 }

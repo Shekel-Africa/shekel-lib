@@ -56,13 +56,17 @@ class ShekelServiceProvider extends ServiceProvider {
         $services = [
             \Shekel\ShekelLib\Services\v4\StoreService::class,
             \Shekel\ShekelLib\Services\v3\StoreService::class,
-            \Shekel\ShekelLib\Services\v3\MessagingService::class
+            \Shekel\ShekelLib\Services\v3\MessagingService::class,
+            \Shekel\ShekelLib\Services\v3\CarService::class,
+            \Shekel\ShekelLib\Services\v3\LoanService::class,
+            \Shekel\ShekelLib\Services\v3\AuthService::class,
+            \Shekel\ShekelLib\Services\v3\TransactionService::class,
         ];
         foreach ($services as $className) {
             $this->app->singleton($className, function (Application $app) use ($className) {
                 /** @var ShekelBaseService $service */
                 $service = new $className();
-                $service->setToken($app[Request::class]->bearerToken());
+                $service->setToken($app[Request::class]->bearerToken() ?? '');
                 return $service;
             });
         }
