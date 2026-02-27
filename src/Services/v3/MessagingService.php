@@ -339,4 +339,62 @@ class MessagingService extends ShekelBaseService {
         $url = "/send/shipping/estimate";
         return $this->handleRequest($this->client->post($url, $data));
     }
+
+    /**
+     * @param array{
+     *     email: string,
+     *     name: string,
+     *     car: string,
+     *     vin: string,
+     *     utilized_amount: numeric,
+     *     business: string,
+     *     partner_id: string,
+     *     contract_id: string,
+     *     currency: string,
+     *     import_country?: string
+     * } $data
+     */
+    public function sendPartnerUtilizedNotification(array $data) {
+        $url = "/send/partner/deal";
+        return $this->handleRequest($this->client->post($url, $data));
+    }
+    /**
+     * @param array{
+     *     email: string,
+     *     name: string,
+     *     car: string,
+     *     vin: string,
+     *     utilized_amount: numeric,
+     *     repayment_amount: numeric,
+     *     business: string,
+     *     partner_id: string,
+     *     contract_id: string,
+     *     currency: string,
+     *     import_country?: string
+     * } $data
+     */
+    public function sendPartnerRepaidNotification(array $data) {
+        $url = "/send/partner/repaid";
+        return $this->handleRequest($this->client->post($url, $data));
+    }
+
+    /**
+     * @param array{
+     *     email: string,
+     *     name: string,
+     *     car: string,
+     *     vin: string,
+     *     utilized_amount: numeric,
+     *     business: string,
+     *     partner_id: string,
+     *     currency: string,
+     *     import_country?: string
+     * } $data
+     */
+    public function sendPartnerPreApprovalNotification(array $data) {
+        $url = "/send/partner/approval";
+        return $this->handleRequest($this->client->post($url, $data));
+    }
+
+
 }
