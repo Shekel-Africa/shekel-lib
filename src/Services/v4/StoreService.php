@@ -26,4 +26,12 @@ class StoreService extends ShekelBaseService
     public function publish(string $id) {
         return $this->handleRequest($this->client->post("/store/$id/publish"));
     }
+
+    /**
+     * @param array{car: array, assessments?:array, features?: array,
+     *     uploads?: array, price:numeric, currency:string, allowed_clients:array} $data
+     */
+    public function publishToMarketPlace(array $data) {
+        return $this->handleRequest($this->client->post("/store/publish/marketplace", $data));
+    }
 }
