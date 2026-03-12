@@ -32,6 +32,6 @@ class StoreService extends ShekelBaseService
      *     uploads?: array, price:numeric, currency:string, allowed_clients:array} $data
      */
     public function publishToMarketPlace(array $data) {
-        return $this->handleRequest($this->client->post("/store/publish/marketplace", $data));
+        return $this->handleRequest($this->client->post("/marketplace/publish", $data));
     }
 }
