@@ -15,17 +15,27 @@ class CacheRegistry
         return $cache === 'redis';
     }
 
-    protected static function versionKey(string $prefix, int|string $id): string
+    protected static function versionKey(int|string $id=null, string $prefix=null): string
     {
-        return "{$prefix}:{$id}:v";
+        $pr = self::getPrefix($prefix);
+        return "{$pr}:{$id}:v";
     }
 
-    protected static function tag(string $prefix, int|string $id): string
+    protected static function tag(int|string $id, string $prefix=null): string
     {
-        return "{$prefix}:{$id}";
+        $pr = self::getPrefix($prefix);
+        return "{$pr}:{$id}";
     }
 
-    public static function register(array|int|string $ids, string $cacheKey, string $prefix = 'car'): string
+    protected static function getPrefix($prefix=null){
+        $app = Config::get("app.name");
+        if ($prefix) {
+            $app .= $prefix;
+        }
+        return $app;
+    }
+
+    public static function register(array|int|string $ids, string $cacheKey, string $prefix = null): string
     {
         if (!self::usingRedis()) return $cacheKey;
 
@@ -34,7 +44,7 @@ class CacheRegistry
         sort($ids, SORT_STRING);
 
         $tags = array_map(
-            fn($id) => self::tag($prefix, $id),
+            fn($id) => self::tag($id, $prefix),
             $ids
         );
 
@@ -50,15 +60,15 @@ class CacheRegistry
         return "{$cacheKey}:{$hash}";
     }
 
-    public static function forget(int|string $id, string $prefix = 'car'): void
+    public static function forget(int|string $id, string $prefix=null): void
     {
         if (!self::usingRedis()) return;
 
         // First call moves missing key from null -> 1, which now busts cache
-        Redis::incr(self::versionKey($prefix, $id));
+        Redis::incr(self::versionKey($id, $prefix));
     }
 
-    public static function remember(array|int|string $ids, string $key, $ttl, Closure $callback, string $prefix = 'car')
+    public static function remember(array|int|string $ids, string $key, $ttl, Closure $callback, string $prefix =null)
     {
         $key = self::register($ids, $key, $prefix);
 
