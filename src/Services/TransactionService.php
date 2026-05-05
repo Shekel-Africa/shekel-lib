@@ -141,9 +141,4 @@ class TransactionService extends ShekelBaseService {
             'user_id' => $userId
         ]));
     }
-
-    public function adminGetClientFxRate() {
-        $url = '/admin/rates/client';
-        return $this->handleRequest($this->client->get($url));
-    }
 }
