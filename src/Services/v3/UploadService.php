@@ -27,4 +27,12 @@ class UploadService extends ShekelBaseService {
         $url = "/files/exist";
         return $this->handleRequest($this->client->post($url, $data));
     }
+
+    /**
+     * @param array{files:array} $data
+     */
+    public function generatePresignedUrls($data) {
+        $url = "/generate_url";
+        return $this->handleRequest($this->client->post($url, $data));
+    }
 }
