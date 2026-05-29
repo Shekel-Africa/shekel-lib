@@ -34,4 +34,12 @@ class StoreService extends ShekelBaseService
     public function publishToMarketPlace(array $data) {
         return $this->handleRequest($this->client->post("/marketplace/publish", $data));
     }
+
+    public function getAuctionOrderById(string $id) {
+        return $this->handleRequest($this->client->get("/auctions/orders/$id"));
+    }
+
+    public function markOrderAsPaid(string $id) {
+        return $this->handleRequest($this->client->post("/auctions/orders/$id/pay"));
+    }
 }
