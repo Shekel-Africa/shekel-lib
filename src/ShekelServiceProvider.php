@@ -68,7 +68,12 @@ class ShekelServiceProvider extends ServiceProvider {
             $this->app->singleton($className, function (Application $app) use ($className) {
                 /** @var ShekelBaseService $service */
                 $service = new $className();
-                $service->setToken($app[Request::class]->bearerToken() ?? '');
+                $request = $app[Request::class];
+
+                if ($clientId = $request->header('x-client-id')) {
+                    TenantClient::setClientId($clientId);
+                }
+                $service->setToken($request->bearerToken() ?? '');
                 return $service;
             });
         }
