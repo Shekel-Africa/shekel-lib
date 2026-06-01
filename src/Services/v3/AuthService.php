@@ -192,4 +192,9 @@ class AuthService extends ShekelBaseService {
             'code' => $brokerCode
         ]));
     }
+
+    public function logAdminActivity(array $data): void
+    {
+        $this->handleRequest($this->client->post('/admin/activity-log', $data));
+    }
 }
