@@ -47,12 +47,14 @@ class AdminAuditLogMiddleware
 
         try {
             $this->logger->log([
-                'actor_id'     => $user->id,
-                'subject_id'   => $subjectId,
-                'subject_type' => $attribute->subjectType,
-                'action'       => $attribute->action,
-                'description'  => $attribute->description,
-                'client_id'    => TenantClient::getClientId(),
+                'actor_id'        => $user->id,
+                'actor_department' => $user->department,
+                'actor_role_type'  => $user->role_type,
+                'subject_id'       => $subjectId,
+                'subject_type'     => $attribute->subjectType,
+                'action'           => $attribute->action,
+                'description'      => $attribute->description,
+                'client_id'        => TenantClient::getClientId(),
             ]);
         } catch (\Throwable) {
         }
