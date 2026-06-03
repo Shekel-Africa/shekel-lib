@@ -197,4 +197,57 @@ class AuthService extends ShekelBaseService {
     {
         $this->handleRequest($this->client->post('/admin/activity-log', $data));
     }
+
+    /**
+     * @param array{
+     *     subject_id: string,
+     *     subject_type: string,
+     *     client_id?: string|null,
+     *     assigner_id?: string|null,
+     *     assigned_to?: string|null,
+     *     assigned_to_department?: string|null,
+     *     assigned_to_role_type?: string|null,
+     *     metadata?: array|null,
+     * } $data
+     */
+    public function startReviewProcess(array $data)
+    {
+        return $this->handleRequest($this->client->post('/admin/review-process', $data));
+    }
+
+    /**
+     * @param array{
+     *     comment?: string|null,
+     *     assigned_to?: string|null,
+     *     assigned_to_department?: string|null,
+     *     assigned_to_role_type?: string|null,
+     * } $data
+     */
+    public function completeReviewStage(string $id, array $data = [])
+    {
+        return $this->handleRequest($this->client->post("/admin/review-process/$id/complete", $data));
+    }
+
+    /**
+     * @param array{
+     *     subject_id: string,
+     *     subject_type: string,
+     *     comment?: string|null,
+     *     assigned_to?: string|null,
+     *     assigned_to_department?: string|null,
+     *     assigned_to_role_type?: string|null,
+     * } $data
+     */
+    public function completeReviewStageBySubject(array $data)
+    {
+        return $this->handleRequest($this->client->post('/admin/review-process/complete', $data));
+    }
+
+    public function getLatestOpenReviewProcess(string $subjectId, string $subjectType)
+    {
+        return $this->handleRequest($this->client->get('/admin/review-process/latest', [
+            'subject_id'   => $subjectId,
+            'subject_type' => $subjectType,
+        ]));
+    }
 }
