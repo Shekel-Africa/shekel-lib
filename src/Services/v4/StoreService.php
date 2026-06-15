@@ -36,10 +36,10 @@ class StoreService extends ShekelBaseService
     }
 
     public function getAuctionOrderById(string $id) {
-        return $this->handleRequest($this->client->get("/auctions/orders/$id"));
+        return $this->handleRequest($this->client->get("/auction/orders/$id"));
     }
 
     public function markOrderAsPaid(string $id) {
-        return $this->handleRequest($this->client->post("/auctions/orders/$id/pay"));
+        return $this->handleRequest($this->client->post("/auction/orders/$id/pay"));
     }
 }
