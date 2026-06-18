@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Auth\GenericUser;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
 use Shekel\ShekelLib\Exceptions\ShekelInvalidArgumentException;
 use Shekel\ShekelLib\Services\v3\AuthService;
 use Illuminate\Support\Facades\Auth;
@@ -30,6 +31,15 @@ class ShekelAuthMiddleware
         if (empty($guards)) {
             $guards = [null];
         }
+        $token   = $request->bearerToken();
+        $cacheKey = 'auth:' . hash('sha256', $token . implode(',', $guards));
+
+        $cached = Cache::get($cacheKey);
+        if ($cached) {
+            Auth::guard()->setUser(new GenericUser($cached));
+            return $next($request);
+        }
+
         try {
             $this->authService->setToken($request->bearerToken());
             ShekelAuth::setAuthToken($request->bearerToken());
@@ -40,6 +50,7 @@ class ShekelAuthMiddleware
                 $userCheck = $this->authService->getAuthenticated(['excludeImage'=>true], $guard);
                 if ($userCheck->successful()) {
                     $user = $userCheck->json('data');
+                    Cache::put($cacheKey, $user, now()->addSeconds(60));
                     Auth::guard()->setUser(new GenericUser($user));
                     return $next($request);
                 }
