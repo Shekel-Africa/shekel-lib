@@ -122,4 +122,12 @@ class CarService extends ShekelBaseService {
             $this->client->withOptions(['query' => $data])
         ->get($url));
     }
+
+    /**
+     * @param array{car_id:string,currency:string,buying_price:numeric,swap_to:string} $data
+     */
+    public function swap(array $data) {
+        $url = "/cars/swap";
+        return $this->handleRequest($this->client->post($url, $data));
+    }
 }
