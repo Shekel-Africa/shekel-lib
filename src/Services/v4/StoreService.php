@@ -42,4 +42,19 @@ class StoreService extends ShekelBaseService
     public function markOrderAsPaid(string $id) {
         return $this->handleRequest($this->client->post("/auction/orders/$id/pay"));
     }
+
+    public function getMarketplaceOffer(string $offerId)
+    {
+        return $this->handleRequest($this->client->get("/marketplace/offers/$offerId"));
+    }
+
+    public function completeMarketplaceOffer(string $offerId)
+    {
+        return $this->handleRequest($this->client->post("/admin/marketplace/offers/$offerId/complete"));
+    }
+
+    public function cancelMarketplaceOffer(string $offerId)
+    {
+        return $this->handleRequest($this->client->post("/admin/marketplace/offers/$offerId/cancel"));
+    }
 }
