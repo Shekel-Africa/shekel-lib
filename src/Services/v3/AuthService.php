@@ -243,6 +243,13 @@ class AuthService extends ShekelBaseService {
         return $this->handleRequest($this->client->post('/admin/review-process/complete', $data));
     }
 
+    public function updateCompanyCustomerStage(string $id, string $stage)
+    {
+        return $this->handleRequest($this->client->patch("/company/customer/$id/stage", [
+            'stage' => $stage,
+        ]));
+    }
+
     public function getLatestOpenReviewProcess(string $subjectId, string $subjectType)
     {
         return $this->handleRequest($this->client->get('/admin/review-process/latest', [
