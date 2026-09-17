@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.96.66
+
+* Added new method to MessagingService class:
+  * sendPurchaseOrderLink
+
 ## 1.96.65
 
 * Added new method ::filesExist to UploadService:
