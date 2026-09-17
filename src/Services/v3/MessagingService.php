@@ -204,6 +204,29 @@ class MessagingService extends ShekelBaseService {
         $url = "/send/invoice-link";
         return $this->handleRequest($this->client->post($url, $data));
     }
+
+    /**
+     * @param array{
+     *     name: string|null,
+     *     email: string,
+     *     url: string,
+     *     sender?: string|null,
+     *     reply_to?: string|null,
+     *     amount?: numeric|null,
+     *     currency?: string|null,
+     *     car_brand?: string|null,
+     *     car_model?: string|null,
+     *     car_year?: string|null,
+     *     car_colour?: string|null,
+     *     car_fuel_type?: string|null,
+     *     car_gear_type?: string|null,
+     *     car_engine?: string|null
+     * } $data
+     */
+    public function sendPurchaseOrderLink(array $data) {
+        $url = "/send/purchase-order-link";
+        return $this->handleRequest($this->client->post($url, $data));
+    }
     
     /**
      * @param array{request_id: string} $data
