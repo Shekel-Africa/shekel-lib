@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.96.144
+
+* Added new method to LoanService class:
+  * markDisbursed
+
 ## 1.96.143
 
 * Added new method to MessagingService class:
