@@ -33,6 +33,7 @@ class GenerateServiceSecret extends Command
         $this->putPermanentEnv('TRANSACTION_SERVICE_SECRET', base64_encode(Str::random(32)));
         $this->putPermanentEnv('LOAN_SERVICE_SECRET', base64_encode(Str::random(32)));
         $this->putPermanentEnv('STORE_SERVICE_SECRET', base64_encode(Str::random(32)));
+        $this->putPermanentEnv('VENDOR_SERVICE_SECRET', base64_encode(Str::random(32)));
     }
 
     public function putPermanentEnv($key, $value)

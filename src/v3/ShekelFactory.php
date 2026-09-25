@@ -2,7 +2,7 @@
 
 namespace Shekel\ShekelLib\v3;
 
-use Shekel\ShekelLib\Services\v3\{AuthService, CarService, LoanService, MessagingService, TransactionService,UploadService};
+use Shekel\ShekelLib\Services\v3\{AuthService, CarService, LoanService, MessagingService, TransactionService,UploadService, VendorService};
 
 class ShekelFactory {
     private $token;
@@ -52,6 +52,13 @@ class ShekelFactory {
             case 'messaging':
                 $this->messagingService->setToken($this->token);
                 return $this->messagingService;
+                break;
+
+            case 'vendors':
+                // Resolved lazily so the constructor signature stays unchanged for existing callers.
+                $vendorService = app(VendorService::class);
+                $vendorService->setToken($this->token);
+                return $vendorService;
                 break;
 
             default:

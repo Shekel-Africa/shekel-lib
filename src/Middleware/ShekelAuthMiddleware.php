@@ -27,7 +27,7 @@ class ShekelAuthMiddleware
      * @param string|null $guard
      * @return Response|RedirectResponse
      */
-    public function handle(Request $request, Closure $next, string $guard=null)
+    public function handle(Request $request, Closure $next, ?string $guard=null)
     {
         try {
             $this->authService->setToken($request->bearerToken());
