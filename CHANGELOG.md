@@ -14,6 +14,10 @@
   * New `vendor` and `vendor-secret` config keys (`VENDOR_SERVICE`, `VENDOR_SERVICE_SECRET`)
   * New `vendors` case in `v3\ShekelFactory::getService()`
   * `shekel:generate-secret` now also generates `VENDOR_SERVICE_SECRET`
+## 1.96.144
+
+* Added new method to LoanService class:
+  * markDisbursed
 
 ## 1.96.143
 

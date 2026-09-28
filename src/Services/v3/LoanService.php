@@ -102,4 +102,9 @@ class LoanService extends ShekelBaseService {
         $url = "/loans/$carId/updates/resell";
         return $this->handleRequest($this->client->get($url, $query));
     }
+
+    public function markDisbursed(string $loanId) {
+        $url = "/admin/loans/$loanId/disbursed";
+        return $this->handleRequest($this->client->post($url));
+    }
 }
