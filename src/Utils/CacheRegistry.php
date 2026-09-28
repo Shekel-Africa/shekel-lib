@@ -15,14 +15,14 @@ class CacheRegistry
         return $cache === 'redis';
     }
 
-    protected static function versionKey(int|string $id=null, string $prefix=null): string
+    protected static function versionKey(int|string|null $id=null, ?string $prefix=null): string
     {
         $pr = self::getPrefix($prefix);
         $t = "{$pr}:{$id}:v";
         return $t;
     }
 
-    protected static function tag(int|string $id, string $prefix=null): string
+    protected static function tag(int|string $id, ?string $prefix=null): string
     {
         $pr = self::getPrefix($prefix);
         return "{$pr}:{$id}";
@@ -34,7 +34,7 @@ class CacheRegistry
         return $app;
     }
 
-    public static function register(array|int|string $ids, string $cacheKey, string $prefix = null): string
+    public static function register(array|int|string $ids, string $cacheKey, ?string $prefix = null): string
     {
         if (!self::usingRedis()) return $cacheKey;
         $ids = array_values(array_unique(array_map('strval', (array) $ids)));
@@ -49,7 +49,7 @@ class CacheRegistry
         return "{$cacheKey}:" . md5(implode(':', $versions));
     }
 
-    public static function forget(int|string $id, string $prefix=null): void
+    public static function forget(int|string $id, ?string $prefix=null): void
     {
         if (!self::usingRedis()) return;
 
@@ -59,7 +59,7 @@ class CacheRegistry
         $new = Redis::incr($key);
     }
 
-    public static function remember(array|int|string $ids, string $key, $ttl, Closure $callback, string $prefix =null)
+    public static function remember(array|int|string $ids, string $key, $ttl, Closure $callback, ?string $prefix =null)
     {
         $key = self::register($ids, $key, $prefix);
 

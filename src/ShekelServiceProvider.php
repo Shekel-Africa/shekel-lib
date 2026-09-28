@@ -62,6 +62,7 @@ class ShekelServiceProvider extends ServiceProvider {
             \Shekel\ShekelLib\Services\v3\AuthService::class,
             \Shekel\ShekelLib\Services\v3\LocationService::class,
             \Shekel\ShekelLib\Services\v3\UploadService::class,
+            \Shekel\ShekelLib\Services\v3\VendorService::class,
             \Shekel\ShekelLib\Services\v3\TransactionService::class,
         ];
         foreach ($services as $className) {

@@ -3,7 +3,7 @@
 
 ## Installation
 
-[PHP](https://php.net) 7.2+ and [Composer](https://getcomposer.org) are required.
+[PHP](https://php.net) 8.0+ and [Composer](https://getcomposer.org) are required. Supports Laravel 9 through 13.
 
 Add this to your composer.json
 
@@ -15,7 +15,10 @@ Add this to your composer.json
     }
 },
 ```
-To install the package bash: 
-```bash
-composer require shekel/shekel-lib:dev-master
+Then require a tagged release (versions are the repository's git tags), for example:
+```json
+"require": {
+    "shekel/shekel-lib": "^1.96.145"
+}
 ```
+Avoid `dev-master`: it follows the moving `master` branch, so installs are not reproducible.
