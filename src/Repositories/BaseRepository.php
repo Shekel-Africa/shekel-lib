@@ -2,6 +2,7 @@
 
 namespace Shekel\ShekelLib\Repositories;
 
+use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -63,6 +64,18 @@ class BaseRepository {
     public function lockForUpdate(string $id) {
         $this->validateId($id);
         return $this->model->lockForUpdate()->findOrFail($id);
+    }
+
+    /**
+     * Run the callback inside a transaction on this repository's connection.
+     *
+     * @template T
+     * @param Closure(): T $callback
+     * @return T
+     */
+    public function transaction(Closure $callback): mixed
+    {
+        return $this->model->getConnection()->transaction($callback);
     }
 
     /**
