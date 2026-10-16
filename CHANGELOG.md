@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.96.146
+
+* Added new method to BaseRepository class:
+  * transaction
+
 ## 1.96.145
 
 * Added Laravel 10–13 support (existing Laravel 9 installs resolve exactly as before):
