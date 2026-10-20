@@ -419,5 +419,25 @@ class MessagingService extends ShekelBaseService {
         return $this->handleRequest($this->client->post($url, $data));
     }
 
+    /**
+     * messaging's service-to-service vendor notification. Five seconds, because a caller
+     * waiting on an admin decision must not hang on this post.
+     *
+     * @param array{
+     *     template: string,
+     *     idempotency_key: string,
+     *     resource_id?: string|null,
+     *     vendor_type?: string|null,
+     *     access_mode?: string|null,
+     *     recipients: list<array{id: string, email: string, name?: string|null, business_name?: string|null}>,
+     *     details?: list<array{field: string, reason?: string|null}>,
+     *     values?: array<string, string>
+     * } $data
+     */
+    public function sendVendorNotification(array $data) {
+        $url = "/send/vendor-notification";
+        return $this->handleRequest($this->client->timeout(5)->post($url, $data));
+    }
+
 
 }
