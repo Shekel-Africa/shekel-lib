@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.96.149
+
+* Added new method to LoanService class:
+  * createShippingOrder
+
 ## 1.96.147
 
 * Added new method to MessagingService class:
