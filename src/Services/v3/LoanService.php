@@ -107,4 +107,19 @@ class LoanService extends ShekelBaseService {
         $url = "/admin/loans/$loanId/disbursed";
         return $this->handleRequest($this->client->post($url));
     }
+
+    /**
+     * @param array{
+     *     car_id?: string|null,
+     *     auction_order_id?: string|null,
+     *     vin?: string|null,
+     *     brand?: string|null,
+     *     model?: string|null,
+     *     import_country?: string|null,
+     *     title?: string|null,
+     * } $data
+     */
+    public function createShippingOrder(array $data) {
+        return $this->handleRequest($this->client->post('/shipping/orders', $data));
+    }
 }
