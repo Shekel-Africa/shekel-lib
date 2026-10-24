@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.96.150
+
+* Widened activity_logs.url, ip and user_agent from varchar(255) to text:
+  * Long request URLs (e.g. pagination cursors) no longer fail the audit insert
+* ActivityLogMiddleware (v1 and v3) now catches activity log write failures:
+  * Logs a fixed message without the SQL, so request data stays out of logs
+
 ## 1.96.149
 
 * Added new method to LoanService class:
