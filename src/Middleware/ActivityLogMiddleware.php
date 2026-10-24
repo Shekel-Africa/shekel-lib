@@ -71,7 +71,13 @@ class ActivityLogMiddleware
         try {
             $this->activityLog->create($data);
         }catch (\Throwable $th) {
-            Log::error($th->getMessage());
+            // The exception message embeds the full insert (request body, IPs),
+            // so log a fixed message: keeps PII out of logs and groups in Sentry.
+            Log::error('Activity log write failed', [
+                'exception' => get_class($th),
+                'code' => $th->getCode(),
+                'path' => $request->path(),
+            ]);
         }
     }
 }

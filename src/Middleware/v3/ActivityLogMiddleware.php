@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 use Jenssegers\Agent\Agent;
 use Shekel\ShekelLib\Models\v3\ActivityLog;
 use Shekel\ShekelLib\Utils\PassportToken;
@@ -67,6 +68,16 @@ class ActivityLogMiddleware
         } catch (\Throwable $th) {
 
         }
-        $this->activityLog->create($data);
+        try {
+            $this->activityLog->create($data);
+        }catch (\Throwable $th) {
+            // The exception message embeds the full insert (request body, IPs),
+            // so log a fixed message: keeps PII out of logs and groups in Sentry.
+            Log::error('Activity log write failed', [
+                'exception' => get_class($th),
+                'code' => $th->getCode(),
+                'path' => $request->path(),
+            ]);
+        }
     }
 }
