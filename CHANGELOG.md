@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.96.151
+
+* Added new methods to AuthService class:
+  * getVendorUser
+  * lookupFieldAgents
+* Added new methods to LoanService class:
+  * lookupLoans
+  * listShippingLines
+  * inferShippingLine
+  * startShipmentTracking
+
 ## 1.96.150
 
 * Widened activity_logs.url, ip and user_agent from varchar(255) to text:
