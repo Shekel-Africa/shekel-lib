@@ -122,4 +122,48 @@ class LoanService extends ShekelBaseService {
     public function createShippingOrder(array $data) {
         return $this->handleRequest($this->client->post('/shipping/orders', $data));
     }
+
+    /**
+     * loan-api's /v3/s2s/loans/lookup. Up to 50 ids per call.
+     *
+     * @param list<string> $ids
+     */
+    public function lookupLoans(array $ids)
+    {
+        return $this->handleRequest($this->client->post('/s2s/loans/lookup', [
+            'ids' => $ids,
+        ]));
+    }
+
+    /**
+     * loan-api's /v3/admin/shipping/lines.
+     */
+    public function listShippingLines()
+    {
+        return $this->handleRequest($this->client->get('/admin/shipping/lines'));
+    }
+
+    /**
+     * loan-api's /v3/admin/shipping/tracking/infer.
+     */
+    public function inferShippingLine(string $trackingNumber)
+    {
+        return $this->handleRequest($this->client->post('/admin/shipping/tracking/infer', [
+            'number' => $trackingNumber,
+        ]));
+    }
+
+    /**
+     * loan-api's /v3/admin/shipping/create/item.
+     *
+     * @param list<string> $loanIds
+     */
+    public function startShipmentTracking(string $trackingNumber, string $shippingLine, array $loanIds)
+    {
+        return $this->handleRequest($this->client->post('/admin/shipping/create/item', [
+            'tracking_number' => $trackingNumber,
+            'shipping_line' => $shippingLine,
+            'items' => array_map(static fn (string $loanId): array => ['loan_id' => $loanId], $loanIds),
+        ]));
+    }
 }

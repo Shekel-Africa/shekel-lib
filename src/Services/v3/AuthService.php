@@ -257,4 +257,24 @@ class AuthService extends ShekelBaseService {
             'subject_type' => $subjectType,
         ]));
     }
+
+    /**
+     * authentication-api's /v3/s2s/vendor/users/{id}.
+     */
+    public function getVendorUser(string $vendorId)
+    {
+        return $this->handleRequest($this->client->get("/s2s/vendor/users/$vendorId"));
+    }
+
+    /**
+     * authentication-api's /v3/s2s/vendor/field-agents/lookup. Up to 50 ids per call.
+     *
+     * @param list<string> $ids
+     */
+    public function lookupFieldAgents(array $ids)
+    {
+        return $this->handleRequest($this->client->post('/s2s/vendor/field-agents/lookup', [
+            'ids' => $ids,
+        ]));
+    }
 }
