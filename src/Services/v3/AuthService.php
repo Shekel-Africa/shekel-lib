@@ -7,6 +7,12 @@ use Shekel\ShekelLib\Utils\Utils;
 
 class AuthService extends ShekelBaseService {
 
+    /** authentication-api's vendor by id, GET {VENDOR_USERS}/{id}. Callers' tests fake it by this path. */
+    public const VENDOR_USERS = '/vendor/users';
+
+    /** authentication-api's field-agent lookup, POST. Callers' tests fake it by this path. */
+    public const FIELD_AGENTS_LOOKUP = '/vendor/field-agents/lookup';
+
     public function __construct()
     {
         parent::__construct('auth');
@@ -259,21 +265,21 @@ class AuthService extends ShekelBaseService {
     }
 
     /**
-     * authentication-api's /v3/s2s/vendor/users/{id}.
+     * authentication-api's /v3/vendor/users/{id}.
      */
     public function getVendorUser(string $vendorId)
     {
-        return $this->handleRequest($this->client->get("/s2s/vendor/users/$vendorId"));
+        return $this->handleRequest($this->client->get(self::VENDOR_USERS . "/$vendorId"));
     }
 
     /**
-     * authentication-api's /v3/s2s/vendor/field-agents/lookup. Up to 50 ids per call.
+     * authentication-api's /v3/vendor/field-agents/lookup. Up to 50 ids per call.
      *
      * @param list<string> $ids
      */
     public function lookupFieldAgents(array $ids)
     {
-        return $this->handleRequest($this->client->post('/s2s/vendor/field-agents/lookup', [
+        return $this->handleRequest($this->client->post(self::FIELD_AGENTS_LOOKUP, [
             'ids' => $ids,
         ]));
     }
