@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.96.153
+
+* AuthService calls authentication-api's vendor lookups on their new paths (s2s/ dropped):
+  * getVendorUser: /vendor/users/{id}
+  * lookupFieldAgents: /vendor/field-agents/lookup
+
 ## 1.96.152
 
 * ShekelServiceRoleProtectionMiddleware (s2s_or_role.required):
