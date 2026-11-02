@@ -5,8 +5,6 @@
 * AuthService calls authentication-api's vendor lookups on their new paths (s2s/ dropped):
   * getVendorUser: /vendor/users/{id}
   * lookupFieldAgents: /vendor/field-agents/lookup
-* Added AuthService::VENDOR_USERS and AuthService::FIELD_AGENTS_LOOKUP, so callers' tests can fake
-  these calls without spelling out the URL
 
 ## 1.96.152
 
