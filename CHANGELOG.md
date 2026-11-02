@@ -2,10 +2,9 @@
 
 ## 1.96.152
 
-* ShekelServiceRoleProtectionMiddleware (s2s_or_role.required) now refuses with 401:
-  * A request with neither a matching service secret nor a signed-in user, with or without roles
-    (a wrong or missing secret on a route without roles used to be let through)
-  * A route with roles and no signed-in user (used to fail with a TypeError, 500)
+* ShekelServiceRoleProtectionMiddleware (s2s_or_role.required):
+  * A route with roles and no signed-in user now answers 401 (it failed with a TypeError, 500)
+  * A route without roles is unchanged: it still lets the request through
 * The secret is compared with hash_equals, and an unset secret never matches
 * A secret that does not match is logged (s2sName and path, never the secret)
 

@@ -7,12 +7,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Shekel\ShekelLib\Utils\PassportToken;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 /**
- * Lets a request in with the calling service's secret (the s2s and s2sName headers), or with a
- * user an earlier middleware signed in, holding one of $roles when any are given. Anything else
- * is refused with 401: a wrong or missing secret no longer falls through, and a missing user is
- * no longer handed to the role check, where it failed with a TypeError (500).
+ * Lets a request in with the calling service's secret (the s2s and s2sName headers). Without it,
+ * a route with $roles needs a user an earlier middleware signed in, holding one of them: a missing
+ * user is refused with 401 rather than handed to the role check, where it failed with a TypeError
+ * (500). A route without roles lets the request through as before.
  */
 class ShekelServiceRoleProtectionMiddleware
 {
@@ -41,11 +42,12 @@ class ShekelServiceRoleProtectionMiddleware
             ]);
         }
 
-        $user = auth()->user();
-        if ($user === null) {
-            abort(401, 'Unauthenticated');
-        }
         if (!empty($roles)) {
+            $user = auth()->user();
+            if ($user === null) {
+                // An HTTP exception, so every service renders it as 401 without a handler of its own.
+                throw new UnauthorizedHttpException('s2s', 'Unauthenticated.');
+            }
             PassportToken::validateUserRoleForAction($user, $roles);
         }
         return $next($request);
