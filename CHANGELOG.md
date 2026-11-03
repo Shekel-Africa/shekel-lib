@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.96.154
+
+* Added ShekelServiceSecretMiddleware: lets a request through only with the calling service's
+  secret (s2s and s2sName), otherwise 401 "Service authentication failed.". Register it as
+  s2s.required in place of a service's own copy
+* LoanService::lookupLoans calls loan-api's /vendor/loans/lookup (s2s/ dropped)
+
 ## 1.96.153
 
 * AuthService calls authentication-api's vendor lookups on their new paths (s2s/ dropped):
