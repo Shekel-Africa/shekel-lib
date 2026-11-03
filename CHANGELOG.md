@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.96.155
+
+* Added methods to VendorService for vendor-api's service routes (s2s/ dropped):
+  * loanStatuses: /vendor/loan-statuses
+  * assignedLoanIds: /vendor/assigned-loan-ids
+
 ## 1.96.154
 
 * Added ShekelServiceSecretMiddleware: lets a request through only with the calling service's
