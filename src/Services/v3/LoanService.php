@@ -124,13 +124,13 @@ class LoanService extends ShekelBaseService {
     }
 
     /**
-     * loan-api's /v3/s2s/loans/lookup. Up to 50 ids per call.
+     * loan-api's /v3/vendor/loans/lookup. Up to 50 ids per call.
      *
      * @param list<string> $ids
      */
     public function lookupLoans(array $ids)
     {
-        return $this->handleRequest($this->client->post('/s2s/loans/lookup', [
+        return $this->handleRequest($this->client->post('/vendor/loans/lookup', [
             'ids' => $ids,
         ]));
     }
