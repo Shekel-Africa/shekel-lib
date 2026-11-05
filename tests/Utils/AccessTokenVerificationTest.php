@@ -140,6 +140,7 @@ class AccessTokenVerificationTest extends TestCase
             'ES256 token' => Tokens::es256($this->userClaims(), Tokens::KID, null, ['typ' => 'JWT']),
             'expired beyond the leeway' => $this->userToken(['exp' => Carbon::now()->getTimestamp() - 61, 'iat' => Carbon::now()->getTimestamp() - 3600, 'nbf' => Carbon::now()->getTimestamp() - 3600]),
             'not yet valid' => $this->userToken(['nbf' => Carbon::now()->getTimestamp() + 120]),
+            'issued in the future' => $this->userToken(['iat' => Carbon::now()->getTimestamp() + 120, 'nbf' => null]),
             'no exp' => $this->userToken(['exp' => null]),
             'no sub' => $this->userToken(['sub' => null]),
             'scopes not a list of strings' => $this->userToken(['scopes' => 'loan.create']),
@@ -173,6 +174,26 @@ class AccessTokenVerificationTest extends TestCase
         Cache::flush();
         $this->jwks = fn () => Http::response(['keys' => []]);
         $this->assertRejected($this->userToken(), 'empty key set');
+    }
+
+    public function test_an_unreachable_jwks_keeps_the_last_fetched_keys(): void
+    {
+        $this->assertNotNull(PassportToken::findUserFromToken($this->userToken()));
+        Carbon::setTestNow(Carbon::now()->addHours(2)); // cached set is stale
+        $this->jwks = fn () => Http::response('down', 503);
+
+        $this->assertNotNull(PassportToken::findUserFromToken($this->userToken()));
+        $this->assertRejected($this->userToken([], TestKeys::rsa('attacker')), 'unknown key during outage');
+    }
+
+    public function test_an_unusable_published_key_does_not_stop_the_search(): void
+    {
+        $this->jwks = ['keys' => [
+            TestKeys::jwk(TestKeys::rsa('short', 1024), 'op-key-short', false),
+            TestKeys::jwk(TestKeys::rsa(), Tokens::KID, false),
+        ]];
+
+        $this->assertNotNull(PassportToken::findUserFromToken($this->userToken()));
     }
 
     public function test_jwks_refreshes_for_unverifiable_tokens_are_rate_limited(): void

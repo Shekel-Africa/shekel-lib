@@ -5,8 +5,7 @@ namespace Shekel\ShekelLib\ServiceAuth;
 use RuntimeException;
 
 /**
- * Required service-auth configuration is missing. Thrown on first use rather than swallowed, so a
- * deployment without it fails loudly instead of authenticating anyone.
+ * Required service-auth configuration is missing. Thrown on first verification use.
  */
 class ServiceAuthConfigurationException extends RuntimeException
 {

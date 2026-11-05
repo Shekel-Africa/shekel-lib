@@ -40,8 +40,10 @@ SERVICE_AUTH_JWKS_URL=https://<authentication-api host>/oauth/jwks
   each published RSA key (at most 4), and the JWKS is refreshed at most once a minute when none matches, so a
   rotated key is picked up.
 - `exp` is required; `exp`, `nbf` and `iat` are checked with the `leeway` setting (60s).
-- If the token cannot be verified, or the JWKS cannot be fetched, the token is treated as invalid:
-  `getUserFromToken` throws `ShekelInvalidArgumentException` (401), `PassportToken::findUserFromToken` returns null.
+- If the token cannot be verified, it is treated as invalid: `getUserFromToken` throws
+  `ShekelInvalidArgumentException` (401), `PassportToken::findUserFromToken` returns null.
+- If the JWKS cannot be fetched, the last successfully fetched keys stay in use (up to 24 hours, as for service
+  tokens); with no cached keys, every token is treated as invalid.
 - If `SERVICE_AUTH_JWKS_URL` is not set, the first verification throws
   `ServiceAuth\ServiceAuthConfigurationException`; the scope middlewares answer 500
   `Authentication is not configured`. Set the variable before upgrading.

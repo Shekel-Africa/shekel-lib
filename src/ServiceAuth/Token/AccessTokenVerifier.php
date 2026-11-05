@@ -105,7 +105,7 @@ class AccessTokenVerifier
                 $tried[$kid] = true;
                 $result = $this->decodeOrSignatureFailure($jwt, $key);
                 if ($result !== false) {
-                    return $result; // verified (claims) or verified-but-invalid (null)
+                    return $result; // claims, or null for a token that is invalid whatever the key
                 }
             }
         }
@@ -121,8 +121,10 @@ class AccessTokenVerifier
     }
 
     /**
-     * Claims if valid; null if the signature verified but the token is not valid now (expired,
-     * not yet valid, malformed claims); false if the signature does not verify with $key.
+     * Claims if the token verifies with $key and is valid now. False if the signature does not
+     * verify with $key or $key itself is unusable (DomainException, e.g. too short), so the next
+     * candidate is tried. Null for failures that do not depend on the key (malformed token or
+     * claims, expired, not yet valid), which no other key can fix.
      *
      * @return array|null|false
      */
@@ -130,7 +132,7 @@ class AccessTokenVerifier
     {
         try {
             return Jwt::decode($jwt, $key, $this->leeway);
-        } catch (SignatureInvalidException $e) {
+        } catch (SignatureInvalidException|\DomainException $e) {
             return false;
         } catch (Throwable $e) {
             return null;
