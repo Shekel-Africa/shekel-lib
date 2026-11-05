@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Shekel\ShekelLib\Exceptions\ShekelInvalidArgumentException;
+use Shekel\ShekelLib\ServiceAuth\ServiceAuthConfigurationException;
 use Shekel\ShekelLib\Utils\ShekelAuth;
 
 class ServiceAuthentication
@@ -26,6 +27,10 @@ class ServiceAuthentication
             ShekelAuth::verifyToken($request->bearerToken(), $scopes);
             return $next($request);
         } catch(\Throwable $th) {
+            if ($th instanceof ServiceAuthConfigurationException) {
+                report($th);
+                return response()->json(['message' => 'Authentication is not configured'], 500);
+            }
             if ($th instanceof ShekelInvalidArgumentException) {
                 return response()->json(['message' => $th->getMessage()], $th->getCode());
             }
