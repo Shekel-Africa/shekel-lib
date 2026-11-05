@@ -17,7 +17,7 @@ class InternationalLoanEnum
         ];
     }
 
-    public static function isInternationalLoan(string $loanType): bool
+    public static function isInternationalLoan(?string $loanType = null): bool
     {
         return in_array($loanType, self::getValues());
     }

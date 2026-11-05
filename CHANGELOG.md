@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.96.158
+
+* `InternationalLoanEnum::isInternationalLoan` now accepts a nullable string (defaults to `null`)
+
 ## 1.96.157
 
 * Added `InternationalLoanEnum` with constants for international loan classification:
