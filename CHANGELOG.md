@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.96.157
+
+* Added `InternationalLoanEnum` with constants for international loan classification:
+  * `IMPORT`
+  * `PROFIT_SHARE_IMPORT`
+  * `SHIPPING`
+
 ## 1.96.156
 
 * Added `InternationalLoanEnum` with constants for international loan classification
