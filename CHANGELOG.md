@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.96.156
+
+* Added `InternationalLoanEnum` with constants for international loan classification
+
 ## 1.96.155
 
 * Added methods to VendorService for vendor-api's service routes (s2s/ dropped):
