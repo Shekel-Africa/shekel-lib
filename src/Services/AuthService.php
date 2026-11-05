@@ -55,7 +55,10 @@ class AuthService extends ShekelBaseService {
         if (empty($this->token)) {
             abort(401, "Unauthenticated");
         }
-        $user = PassportToken::getUserFromToken($this->token);
+        $user = PassportToken::findUserFromToken($this->token);
+        if ($user === null) {
+            abort(401, "Unauthenticated");
+        }
         if (now()->gt($user['expiry'])) {
             abort(401, "Login Session Expired");
         }

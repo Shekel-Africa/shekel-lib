@@ -88,6 +88,38 @@ class JwksKeySet
         throw new JwksException('Unknown kid.');
     }
 
+    /**
+     * Every published key, pinned to this set's algorithm, in published order (for tokens that
+     * carry no kid). With $refresh the set is re-fetched first, subject to the same single-flight
+     * lock and cooldown as an unknown kid, so a flood of unverifiable tokens costs at most one
+     * fetch per cooldown.
+     *
+     * @return array<string, Key> keys by kid
+     *
+     * @throws JwksException when no key set can be loaded.
+     */
+    public function keys(bool $refresh = false): array
+    {
+        $set = $this->cached();
+        if ($set === null || $refresh || $set['fetched_at'] + $this->cacheTtl <= Clock::now()) {
+            $set = $this->refresh(null, $set === null || $refresh) ?? $set;
+        }
+        if ($set === null) {
+            throw new JwksException('JWKS unavailable.');
+        }
+
+        $keys = [];
+        foreach ($set['keys'] as $kid => $jwk) {
+            try {
+                $keys[$kid] = $this->parse($jwk);
+            } catch (Throwable $e) {
+                continue;
+            }
+        }
+
+        return $keys;
+    }
+
     public static function isValidKid(string $kid): bool
     {
         return $kid !== '' && strlen($kid) <= 128 && preg_match('/^[A-Za-z0-9._:\-]+$/', $kid) === 1;
@@ -96,7 +128,7 @@ class JwksKeySet
     /**
      * Single-flight refresh. Returns the newest key set available (possibly the cached one).
      */
-    private function refresh(?string $kid): ?array
+    private function refresh(?string $kid, bool $force = false): ?array
     {
         $lock = CacheLocks::lock($this->cache, $this->key('lock'), $this->timeout + 8);
         try {
@@ -110,7 +142,7 @@ class JwksKeySet
             if ($kid !== null && $set !== null && isset($set['keys'][$kid])) {
                 return $set; // another worker refreshed while we waited
             }
-            if ($kid === null && $set !== null && $set['fetched_at'] + $this->cacheTtl > Clock::now()) {
+            if ($kid === null && !$force && $set !== null && $set['fetched_at'] + $this->cacheTtl > Clock::now()) {
                 return $set;
             }
             // At most one fetch per cooldown, whatever the outcome.
