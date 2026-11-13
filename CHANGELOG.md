@@ -18,6 +18,21 @@
 * Requires firebase/php-jwt ^6.10|^7.0
 * Added a PHPUnit + Testbench test suite (`composer test`)
 
+## 1.96.158
+
+* `InternationalLoanEnum::isInternationalLoan` now accepts a nullable string (defaults to `null`)
+
+## 1.96.157
+
+* Added `InternationalLoanEnum` with constants for international loan classification:
+  * `IMPORT`
+  * `PROFIT_SHARE_IMPORT`
+  * `SHIPPING`
+
+## 1.96.156
+
+* Added `InternationalLoanEnum` with constants for international loan classification
+
 ## 1.96.155
 
 * Added methods to VendorService for vendor-api's service routes (s2s/ dropped):
