@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.97.0
+
+* Added ServiceAuth (e-signature spec §10.1, §10.2): locally verified OAuth service-token auth:
+  * OAuthServiceTokenAuthentication middleware, alias service.oauth:
+    `service.oauth:<required scope>,<accepted service>...`. RS256 only, kid, iss, exp/nbf (60s),
+    client_kind=service, namespace + endpoint scope, no `*`, caller policy, known tenant,
+    client_id = tenant_id. Selects the tenant and sets service_* request attributes
+  * JwksKeySet: fixed URL, cached, single-flight refresh at most once a minute, unknown kids
+    negatively cached for 5 minutes, 2s timeout, bounded
+  * ServiceTokenProvider (client_credentials per scope set and tenant, cached until exp - 60s,
+    one refresh on 401) and RedactsAuthorization for logs and Sentry
+  * EligibilitySnapshotVerifier (ES256 eligibility+jwt), ProjectionApplier with the revision
+    rules and the EligibilityProjectionStore interface
+  * HintReceiver, SnapshotFetcher and EligibilityGuard (the §10.2 outage matrix)
+* Config under shekel.service_auth (resources/config/shekel-service-auth.php)
+* Requires firebase/php-jwt ^6.10|^7.0
+* Added a PHPUnit + Testbench test suite (`composer test`)
+
 ## 1.96.159
 
 * Added `StoreService::syncHotDealPreferences` — syncs hot deal preferences via `/admin/auction/hot-deals/preferences/sync`
