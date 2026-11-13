@@ -24,4 +24,14 @@ class StoreService extends ShekelBaseService
     public function publish(string $id) {
         return $this->handleRequest($this->client->post("/store/$id/publish"));
     }
+
+    /**
+     * @param array{user_id: string, company_id?: string|null, brands: array<string>} $data
+     */
+    public function syncHotDealPreferences(array $data)
+    {
+        return $this->handleRequest(
+            $this->client->post('/admin/auction/hot-deals/preferences/sync', $data)
+        );
+    }
 }
