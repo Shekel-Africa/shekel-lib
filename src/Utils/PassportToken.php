@@ -4,22 +4,52 @@ namespace Shekel\ShekelLib\Utils;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
+use Shekel\ShekelLib\Exceptions\ShekelInvalidArgumentException;
+use Shekel\ShekelLib\ServiceAuth\ServiceAuthConfigurationException;
+use Shekel\ShekelLib\ServiceAuth\Token\AccessTokenVerifier;
 
 class PassportToken
 {
+    /**
+     * The user behind an access token, read only after its signature and lifetime have been
+     * verified against the OP JWKS (config shekel.service_auth.jwks_url, env SERVICE_AUTH_JWKS_URL).
+     *
+     * @return array{token_id: ?string, client_id: mixed, user_id: string, scopes: string[], expiry: Carbon}
+     *
+     * @throws ShekelInvalidArgumentException (401) when the token cannot be verified
+     * @throws ServiceAuthConfigurationException when the JWKS URL is not configured
+     */
     public static function getUserFromToken($token) {
-        return Cache::remember($token, '14440', function()use ($token) {
-            $token_parts = explode('.', $token);
-            $token_header_json = base64_decode($token_parts[1]);
-            $token_header_array = json_decode($token_header_json, true);
-            return [
-                'token_id' => $token_header_array['jti'],
-                'client_id' => $token_header_array['aud'],
-                'user_id' => $token_header_array['sub'],
-                'scopes' => $token_header_array['scopes'],
-                'expiry' => Carbon::createFromTimestamp($token_header_array['exp'])
-            ];
-        });
+        $user = self::findUserFromToken($token);
+        if ($user === null) {
+            throw new ShekelInvalidArgumentException('Unauthenticated', 401);
+        }
+
+        return $user;
+    }
+
+    /**
+     * As getUserFromToken, but null when the token cannot be verified.
+     *
+     * @throws ServiceAuthConfigurationException when the JWKS URL is not configured
+     */
+    public static function findUserFromToken($token): ?array {
+        $claims = app(AccessTokenVerifier::class)->verify(is_string($token) ? $token : null);
+        if ($claims === null || !isset($claims['sub']) || !is_string($claims['sub'])) {
+            return null;
+        }
+        $scopes = $claims['scopes'] ?? [];
+        if (!is_array($scopes) || array_filter($scopes, fn ($scope) => !is_string($scope)) !== []) {
+            return null;
+        }
+
+        return [
+            'token_id' => isset($claims['jti']) && is_string($claims['jti']) ? $claims['jti'] : null,
+            'client_id' => $claims['aud'] ?? null,
+            'user_id' => $claims['sub'],
+            'scopes' => array_values($scopes),
+            'expiry' => Carbon::createFromTimestamp((int) $claims['exp']),
+        ];
     }
 
     public static function getClientDetailFromRequest($request) {
