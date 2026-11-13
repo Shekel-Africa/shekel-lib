@@ -34,6 +34,10 @@
 * Requires firebase/php-jwt ^6.10|^7.0
 * Added a PHPUnit + Testbench test suite (`composer test`)
 
+## 1.96.159
+
+* Added `StoreService::syncHotDealPreferences` — syncs hot deal preferences via `/admin/auction/hot-deals/preferences/sync`
+
 ## 1.96.158
 
 * `InternationalLoanEnum::isInternationalLoan` now accepts a nullable string (defaults to `null`)
