@@ -23,6 +23,33 @@ Then require a tagged release (versions are the repository's git tags), for exam
 ```
 Avoid `dev-master`: it follows the moving `master` branch, so installs are not reproducible.
 
+## Access-token verification (required configuration)
+
+`PassportToken::getUserFromToken`, `ShekelAuth::verifyToken` / `verifyAnyScope` (and the scope middlewares built on
+them), `AuthService::verifyToken`, `CustomRateLimiter` and the activity-log middlewares verify the access token's
+signature locally before reading any claim (user id, scopes, expiry). Verification uses the OP JWKS:
+
+```
+SERVICE_AUTH_JWKS_URL=https://<authentication-api host>/oauth/jwks
+```
+
+(`config('shekel.service_auth.jwks_url')`, the same setting the service-token middleware below uses.)
+
+- RS256 only; `none`, `HS*` and any other algorithm are refused.
+- A token with a `kid` is checked against that key. A token without one (Passport's default) is checked against
+  each published RSA key (at most 4), and the JWKS is refreshed at most once a minute when none matches, so a
+  rotated key is picked up.
+- `exp` is required; `exp`, `nbf` and `iat` are checked with the `leeway` setting (60s).
+- If the token cannot be verified, it is treated as invalid: `getUserFromToken` throws
+  `ShekelInvalidArgumentException` (401), `PassportToken::findUserFromToken` returns null.
+- If the JWKS cannot be fetched, the last successfully fetched keys stay in use (up to 24 hours, as for service
+  tokens); with no cached keys, every token is treated as invalid.
+- If `SERVICE_AUTH_JWKS_URL` is not set, the first verification throws
+  `ServiceAuth\ServiceAuthConfigurationException`; the scope middlewares answer 500
+  `Authentication is not configured`. Set the variable before upgrading.
+
+The JWKS is cached in the cache store (`SERVICE_AUTH_CACHE_STORE`, default store if unset).
+
 ## Service-to-service auth (OAuth service tokens)
 
 `Shekel\ShekelLib\ServiceAuth` verifies and obtains OAuth `client_credentials` service tokens issued by

@@ -11,9 +11,9 @@ final class TestKeys
 {
     private static array $keys = [];
 
-    public static function rsa(string $name = 'op'): array
+    public static function rsa(string $name = 'op', int $bits = 2048): array
     {
-        return self::$keys['rsa:'.$name] ??= self::generate(['private_key_type' => OPENSSL_KEYTYPE_RSA, 'private_key_bits' => 2048], 'RS256');
+        return self::$keys['rsa:'.$name.':'.$bits] ??= self::generate(['private_key_type' => OPENSSL_KEYTYPE_RSA, 'private_key_bits' => $bits], 'RS256');
     }
 
     public static function ec(string $name = 'snapshot'): array

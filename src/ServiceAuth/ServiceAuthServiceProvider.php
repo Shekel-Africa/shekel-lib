@@ -21,6 +21,7 @@ use Shekel\ShekelLib\ServiceAuth\Snapshot\EligibilitySnapshotVerifier;
 use Shekel\ShekelLib\ServiceAuth\Snapshot\ProjectionApplier;
 use Shekel\ShekelLib\ServiceAuth\Tenant\ClientRepositoryTenantResolver;
 use Shekel\ShekelLib\ServiceAuth\Tenant\TenantResolver;
+use Shekel\ShekelLib\ServiceAuth\Token\AccessTokenVerifier;
 use Shekel\ShekelLib\ServiceAuth\Token\ServiceTokenVerifier;
 
 /**
@@ -48,6 +49,17 @@ class ServiceAuthServiceProvider extends ServiceProvider
             return new ServiceTokenVerifier(
                 $this->keySet($app, 'op', ServiceAuthConfig::string('jwks_url'), 'RS256'),
                 ServiceAuthConfig::string('issuer'),
+                ServiceAuthConfig::int('leeway', 60),
+            );
+        });
+
+        // User access tokens (Passport) share the OP JWKS with service tokens.
+        $this->app->bind(AccessTokenVerifier::class, function (Container $app) {
+            $url = ServiceAuthConfig::string('jwks_url');
+
+            return new AccessTokenVerifier(
+                $this->keySet($app, 'op', $url, 'RS256'),
+                $url,
                 ServiceAuthConfig::int('leeway', 60),
             );
         });

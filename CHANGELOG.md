@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.97.1
+
+* Access tokens are now verified locally before their claims are trusted:
+  `PassportToken::getUserFromToken`, `ShekelAuth::verifyToken` / `verifyAnyScope`,
+  `AuthService::verifyToken`, `CustomRateLimiter` and the activity-log middlewares check the RS256
+  signature against the OP JWKS, then `exp`/`nbf` (60s leeway), before reading the user id or scopes
+  * Tokens without a `kid` are checked against each published key (at most 4); the JWKS is
+    refreshed at most once a minute when none matches
+  * An unverifiable token is treated as unauthenticated (401). Claims cached by earlier versions
+    are no longer read
+  * Added `PassportToken::findUserFromToken` (null instead of an exception) and
+    `ServiceAuth\Token\AccessTokenVerifier`
+* **Required configuration:** `SERVICE_AUTH_JWKS_URL` (`shekel.service_auth.jwks_url`), the OP's
+  `/oauth/jwks`. Without it, verification throws `ServiceAuthConfigurationException` and the scope
+  middlewares answer 500
+
 ## 1.97.0
 
 * Added ServiceAuth (e-signature spec §10.1, §10.2): locally verified OAuth service-token auth:
