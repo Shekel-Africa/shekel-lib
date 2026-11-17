@@ -53,7 +53,6 @@
 * Config under shekel.service_auth (resources/config/shekel-service-auth.php)
 * Requires firebase/php-jwt ^6.10|^7.0
 * Added a PHPUnit + Testbench test suite (`composer test`)
-||||||| parent of ccf2a97 ([S20-4646] shekel-lib: bare s2s_or_role.required refuses requests without the service secret)
 
 ## 1.96.159
 
