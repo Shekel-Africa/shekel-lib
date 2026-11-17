@@ -90,11 +90,15 @@ Listen to `Events\EligibilitySnapshotConflict` and `Events\EligibilitySnapshotRe
 The suite (PHPUnit + Orchestra Testbench) needs no network or database; keys are generated with openssl.
 
 ```bash
-composer install
+composer install         # PHP 8.0 - 8.3
+composer install:php84   # PHP 8.4
 composer test            # or vendor/bin/phpunit
 ```
 
-`composer.lock` resolves for the lowest supported stack (PHP 8.0, Laravel 9). To run it there with Docker:
+`composer.lock` resolves for the lowest supported stack (PHP 8.0, Laravel 9). On PHP 8.4 a plain `composer install`
+refuses it: `nette/schema` 1.2 (via Laravel 9's `league/commonmark`) declares `php 7.1 - 8.3`, and no release
+supports both 8.0 and 8.4. `install:php84` runs `composer install --ignore-platform-req=php+`, which ignores only
+upper PHP bounds; the suite passes on 8.4. To run it on PHP 8.0 with Docker:
 
 ```bash
 docker run --rm -v "$PWD":/app -w /app php:8.0-cli vendor/bin/phpunit
