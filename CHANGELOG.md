@@ -1,5 +1,25 @@
 # Changelog
 
+## 1.97.2
+
+* **Behaviour change (S20-4646), every route that uses `s2s_or_role.required` without roles:**
+  ShekelServiceRoleProtectionMiddleware now refuses the request with 401 "Unauthenticated." unless
+  it carries the calling service's secret (`s2s` equal to the non-empty configured secret for
+  `s2sName`). Before, a missing, wrong or empty secret fell through and the request was let in. A
+  signed-in user no longer gets in on a bare route either; give the route roles
+  (`s2s_or_role.required:admin`) if users must reach it. Routes with roles are unchanged.
+* Before bumping a service, check every caller of its bare routes sends `s2s`/`s2sName` with the
+  target's `*_SERVICE_SECRET` (shekel-lib's service clients do). Known bare routes on 2026-11-16:
+  * messaging `routes/v3/api.php`: `/send/*`, `/chats/close-ch-thread`, `/comment/{type}/{id}/first`.
+    shekel-admin-fe and shekel-fe call `/send/reply-withdrawal-request/{id}` from the browser
+    without a secret: that call starts failing with 401
+  * transaction-api `routes/v3/api.php`, `routes/v4/api.php`: `POST wallet/create`
+  * authentication-api `routes/v3/api.php`: two `auth:api,admin-api` groups (`/user/permissions`,
+    worksheets, users, admins, companies, locations, …) that front-ends call with a user token
+    only: they all start failing with 401. Do not bump authentication-api until those groups
+    drop the bare middleware or get roles
+* Added feature tests for the middleware (missing, wrong, empty and unknown secrets; roles unchanged)
+
 ## 1.97.1
 
 * Access tokens are now verified locally before their claims are trusted:
@@ -33,6 +53,7 @@
 * Config under shekel.service_auth (resources/config/shekel-service-auth.php)
 * Requires firebase/php-jwt ^6.10|^7.0
 * Added a PHPUnit + Testbench test suite (`composer test`)
+||||||| parent of ccf2a97 ([S20-4646] shekel-lib: bare s2s_or_role.required refuses requests without the service secret)
 
 ## 1.96.159
 
