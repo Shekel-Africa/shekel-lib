@@ -1,5 +1,39 @@
 # Changelog
 
+## 1.97.1
+
+* Access tokens are now verified locally before their claims are trusted:
+  `PassportToken::getUserFromToken`, `ShekelAuth::verifyToken` / `verifyAnyScope`,
+  `AuthService::verifyToken`, `CustomRateLimiter` and the activity-log middlewares check the RS256
+  signature against the OP JWKS, then `exp`/`nbf` (60s leeway), before reading the user id or scopes
+  * Tokens without a `kid` are checked against each published key (at most 4); the JWKS is
+    refreshed at most once a minute when none matches
+  * An unverifiable token is treated as unauthenticated (401). Claims cached by earlier versions
+    are no longer read
+  * Added `PassportToken::findUserFromToken` (null instead of an exception) and
+    `ServiceAuth\Token\AccessTokenVerifier`
+* **Required configuration:** `SERVICE_AUTH_JWKS_URL` (`shekel.service_auth.jwks_url`), the OP's
+  `/oauth/jwks`. Without it, verification throws `ServiceAuthConfigurationException` and the scope
+  middlewares answer 500
+
+## 1.97.0
+
+* Added ServiceAuth (e-signature spec §10.1, §10.2): locally verified OAuth service-token auth:
+  * OAuthServiceTokenAuthentication middleware, alias service.oauth:
+    `service.oauth:<required scope>,<accepted service>...`. RS256 only, kid, iss, exp/nbf (60s),
+    client_kind=service, namespace + endpoint scope, no `*`, caller policy, known tenant,
+    client_id = tenant_id. Selects the tenant and sets service_* request attributes
+  * JwksKeySet: fixed URL, cached, single-flight refresh at most once a minute, unknown kids
+    negatively cached for 5 minutes, 2s timeout, bounded
+  * ServiceTokenProvider (client_credentials per scope set and tenant, cached until exp - 60s,
+    one refresh on 401) and RedactsAuthorization for logs and Sentry
+  * EligibilitySnapshotVerifier (ES256 eligibility+jwt), ProjectionApplier with the revision
+    rules and the EligibilityProjectionStore interface
+  * HintReceiver, SnapshotFetcher and EligibilityGuard (the §10.2 outage matrix)
+* Config under shekel.service_auth (resources/config/shekel-service-auth.php)
+* Requires firebase/php-jwt ^6.10|^7.0
+* Added a PHPUnit + Testbench test suite (`composer test`)
+
 ## 1.96.159
 
 * Added `StoreService::syncHotDealPreferences` — syncs hot deal preferences via `/admin/auction/hot-deals/preferences/sync`

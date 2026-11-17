@@ -49,7 +49,7 @@ class ActivityLogMiddleware
             'properties' => json_encode($request->all()),
             'response_data' => json_encode($response),
             'status' => $respStatus,
-            'initiator_id' => PassportToken::getUserFromToken($request->bearerToken())['user_id'],
+            'initiator_id' => PassportToken::findUserFromToken($request->bearerToken())['user_id'] ?? null,
             'user_agent' => $user_agent,
             'device' => json_encode([
                 'browser' => $this->agent->browser($user_agent),
@@ -59,7 +59,7 @@ class ActivityLogMiddleware
         ];
 
         if ($request->hasHeader('x-token')) {
-            $data['actor_id'] = PassportToken::getUserFromToken($request->header('x-token'))['user_id'];
+            $data['actor_id'] = PassportToken::findUserFromToken($request->header('x-token'))['user_id'] ?? null;
         }
 
         try {

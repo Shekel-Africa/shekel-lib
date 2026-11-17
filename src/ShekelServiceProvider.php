@@ -82,6 +82,8 @@ class ShekelServiceProvider extends ServiceProvider {
     }
 
     public function register() {
+        $this->app->register(\Shekel\ShekelLib\ServiceAuth\ServiceAuthServiceProvider::class);
+
         $this->commands([
             \Shekel\ShekelLib\Commands\LogsPrune::class,
             \Shekel\ShekelLib\Commands\GenerateServiceSecret::class,
