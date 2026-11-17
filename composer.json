@@ -50,6 +50,10 @@
         }
     },
     "scripts": {
-        "test": "phpunit"
+        "test": "phpunit",
+        "install:php84": "@composer install --ignore-platform-req=php+"
+    },
+    "scripts-descriptions": {
+        "install:php84": "Install the PHP 8.0 lock on PHP 8.4: ignores only the upper PHP bounds (nette/schema 1.2 caps 8.3)"
     }
 }
