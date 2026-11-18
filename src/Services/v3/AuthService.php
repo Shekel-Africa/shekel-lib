@@ -277,4 +277,25 @@ class AuthService extends ShekelBaseService {
             'ids' => $ids,
         ]));
     }
+
+    /**
+     * Create a required action for a user.
+     *
+     * Call setToken($adminToken) before this method to authenticate.
+     *
+     * @param array{
+     *     subject_type?: string|null,
+     *     subject_id?: string|null,
+     *     company_id?: string|null,
+     *     metadata?: array|null,
+     *     expires_at?: string|null,
+     * } $options
+     */
+    public function createRequiredAction(string $userId, string $action, array $options = [])
+    {
+        return $this->handleRequest($this->client->post('/user/required-actions', array_merge([
+            'user_id' => $userId,
+            'action'  => $action,
+        ], $options)));
+    }
 }

@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.97.3
+
+* `AuthService::createRequiredAction(string $userId, string $action, array $options = [])` — calls
+  `POST /v3/user/required-actions` on the authentication API. Set an admin token via
+  `setToken($adminToken)` before calling. Optional fields (`subject_type`, `subject_id`,
+  `company_id`, `metadata`, `expires_at`) go in `$options`.
+* Bootstrapped shekel-lib unit tests (`tests/Services/AuthServiceTest.php`) using
+  `orchestra/testbench` and `Http::fake()`.
+
 ## 1.97.2
 
 * **Behaviour change (S20-4646), every route that uses `s2s_or_role.required` without roles:**
