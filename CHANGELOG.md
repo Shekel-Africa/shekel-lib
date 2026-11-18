@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.97.4
+
+* `LoanService::lookupLoans()` takes an optional `$includeUploads` (default `false`, S20-4847). When
+  `true`, it also sends `include_uploads: true`, so loan-api's vendor loan lookup returns each
+  vehicle's photos and video under `vehicle.uploads`. Without it the request is unchanged (`ids` only)
+
 ## 1.97.3
 
 * `AuthService::createRequiredAction(string $userId, string $action, array $options = [])` — calls
