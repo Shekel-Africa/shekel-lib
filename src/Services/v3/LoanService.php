@@ -127,12 +127,16 @@ class LoanService extends ShekelBaseService {
      * loan-api's /v3/vendor/loans/lookup. Up to 50 ids per call.
      *
      * @param list<string> $ids
+     * @param bool $includeUploads also return each vehicle's photos and video (`vehicle.uploads`)
      */
-    public function lookupLoans(array $ids)
+    public function lookupLoans(array $ids, bool $includeUploads = false)
     {
-        return $this->handleRequest($this->client->post('/vendor/loans/lookup', [
-            'ids' => $ids,
-        ]));
+        $data = ['ids' => $ids];
+        if ($includeUploads) {
+            $data['include_uploads'] = true;
+        }
+
+        return $this->handleRequest($this->client->post('/vendor/loans/lookup', $data));
     }
 
     /**
