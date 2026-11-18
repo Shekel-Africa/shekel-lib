@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.97.5
+
+* `ShekelInvalidArgumentException` takes an optional error code (4th constructor argument,
+  `errorCode()`): a stable reason a caller tells refusals apart by, e.g. `invite_expired`
+  (S20-4851). `NotFoundHandler` renders it as `{"message": ..., "code": ...}`. Without one the
+  response is unchanged (`{"message": ...}`), so existing exceptions need no change
+
 ## 1.97.4
 
 * `LoanService::lookupLoans()` takes an optional `$includeUploads` (default `false`, S20-4847). When
