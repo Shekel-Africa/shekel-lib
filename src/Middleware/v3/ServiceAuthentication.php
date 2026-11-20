@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Shekel\ShekelLib\Exceptions\ShekelInvalidArgumentException;
 use Shekel\ShekelLib\ServiceAuth\ServiceAuthConfigurationException;
+use Shekel\ShekelLib\Utils\RestrictedClientGuard;
 use Shekel\ShekelLib\Utils\ShekelAuth;
 
 class ServiceAuthentication
@@ -25,7 +26,8 @@ class ServiceAuthentication
     {
         try {
             ShekelAuth::verifyToken($request->bearerToken(), $scopes);
-            return $next($request);
+            // Without a scope here or elsewhere on the route, a third-party client's token is refused (S20-4896).
+            return RestrictedClientGuard::check($request, $scopes) ?? $next($request);
         } catch(\Throwable $th) {
             if ($th instanceof ServiceAuthConfigurationException) {
                 report($th);

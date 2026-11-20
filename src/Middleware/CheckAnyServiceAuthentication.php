@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Shekel\ShekelLib\Exceptions\ShekelInvalidArgumentException;
 use Shekel\ShekelLib\ServiceAuth\ServiceAuthConfigurationException;
+use Shekel\ShekelLib\Utils\RestrictedClientGuard;
 use Shekel\ShekelLib\Utils\ShekelAuth;
 
 class CheckAnyServiceAuthentication
@@ -24,6 +25,10 @@ class CheckAnyServiceAuthentication
     {
         try {
             ShekelAuth::verifyAnyScope($request->bearerToken(), $scopes);
+            // Without a scope here or elsewhere on the route, a third-party client's token is refused (S20-4896).
+            if ($refused = RestrictedClientGuard::check($request, $scopes)) {
+                return $refused;
+            }
             $user = auth()->user();
             if (empty($user)) {
                 return response()->json(['message' => 'User not set'], 400);

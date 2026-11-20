@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Cache;
 use Shekel\ShekelLib\Exceptions\ShekelInvalidArgumentException;
 use Shekel\ShekelLib\Services\v3\AuthService;
 use Illuminate\Support\Facades\Auth;
+use Shekel\ShekelLib\Utils\RestrictedClientGuard;
 use Shekel\ShekelLib\Utils\ShekelAuth;
 
 class ShekelAuthMiddleware
@@ -37,7 +38,8 @@ class ShekelAuthMiddleware
         $cached = Cache::get($cacheKey);
         if ($cached) {
             Auth::guard()->setUser(new GenericUser($cached));
-            return $next($request);
+            // A third-party client's token needs a route that declares a scope (S20-4896).
+            return RestrictedClientGuard::check($request) ?? $next($request);
         }
 
         try {
@@ -52,7 +54,9 @@ class ShekelAuthMiddleware
                     $user = $userCheck->json('data');
                     Cache::put($cacheKey, $user, now()->addSeconds(60));
                     Auth::guard()->setUser(new GenericUser($user));
-                    return $next($request);
+                    // authentication-api accepted this token; a third-party client's token
+                    // still needs a route that declares a scope (S20-4896).
+                    return RestrictedClientGuard::check($request) ?? $next($request);
                 }
             }
 

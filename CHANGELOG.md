@@ -1,5 +1,27 @@
 # Changelog
 
+## 1.97.5
+
+* **Behaviour change (S20-4896): restricted (third-party) OAuth clients.** A user access token issued
+  to a restricted client is refused with 403 "This client may not use this endpoint." on every route
+  that declares no scope. That covers routes guarded only by `sAuth` / `v3.sAuth`, or by `s2sAuth` /
+  `v4.s2sAuth` / `s2sAuth.any` without a scope argument. On a route where a scope middleware is given
+  a scope (on the route or on an enclosing group), that middleware decides as before.
+  * Restricted means the token's verified `aud` (OAuth client id) is in
+    `SHEKEL_RESTRICTED_OAUTH_CLIENTS` (comma separated), or the token carries
+    `client_kind=third_party`.
+  * Tokens of every other client (shekel-fe, admin-fe, mobile), requests without a token, service
+    secrets (`s2s.required`, `s2s_or_role.required`) and OAuth service tokens are unchanged.
+  * **On by default.** It acts only on listed or claimed clients, so a service with an empty
+    `SHEKEL_RESTRICTED_OAUTH_CLIENTS` sees no change until authentication-api issues the claim.
+    Turn it off with `SHEKEL_RESTRICTED_CLIENT_GUARD=false`.
+  * Config is merged under `shekel.restricted_clients` (`resources/config/shekel-restricted-clients.php`).
+    `scope_middleware` lists extra classes that enforce a scope when given parameters.
+  * Each refusal logs `restricted_client.refused` with the client id, method and path.
+  * Added `Utils\RestrictedClientGuard` and feature tests (`tests/Middleware/RestrictedClientGuardTest.php`).
+* Before bumping a service, check that no route a third-party client must reach relies on `sAuth`
+  alone. Give such a route a scope.
+
 ## 1.97.4
 
 * `LoanService::lookupLoans()` takes an optional `$includeUploads` (default `false`, S20-4847). When
