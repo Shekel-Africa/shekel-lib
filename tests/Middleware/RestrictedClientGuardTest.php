@@ -78,6 +78,8 @@ class RestrictedClientGuardTest extends TestCase
         Route::post('/legacy/purchase', $ok)->middleware('sAuth');
         Route::get('/notifications', $ok)->middleware(['v3.sAuth', 's2sAuth']);
         Route::get('/v4-bare', $ok)->middleware('v4.s2sAuth');
+        Route::get('/s2s-bare', $ok)->middleware('s2sAuth');
+        Route::get('/any-bare', $ok)->middleware('s2sAuth.any');
 
         // A scope declared on the route itself, or on an enclosing group.
         Route::get('/wallet', $ok)->middleware(['v3.sAuth', 'v4.s2sAuth:transaction.read']);
@@ -266,5 +268,42 @@ class RestrictedClientGuardTest extends TestCase
         $request = Request::create('/x');
         $request->headers->set('Authorization', 'Bearer not-a-jwt');
         $this->assertFalse(RestrictedClientGuard::refuses($request));
+    }
+
+    public function test_the_bare_s2s_guards_alone_refuse_a_third_party_token(): void
+    {
+        $token = $this->token(self::SHAILOQ, ['loan.read']);
+
+        $this->getJson('/s2s-bare', $this->bearer($token))->assertStatus(403);
+        $this->getJson('/any-bare', $this->bearer($token))->assertStatus(403);
+    }
+
+    public function test_nothing_is_restricted_while_the_guard_is_disabled(): void
+    {
+        config(['shekel.restricted_clients.enabled' => false]);
+
+        $this->assertFalse(RestrictedClientGuard::isRestricted(['aud' => self::SHAILOQ, 'client_kind' => 'third_party']));
+    }
+
+    public function test_a_request_without_a_route_declares_no_scope(): void
+    {
+        $this->assertFalse(RestrictedClientGuard::routeDeclaresScope(Request::create('/x')));
+    }
+
+    public function test_a_router_failure_while_gathering_middleware_declares_no_scope(): void
+    {
+        $router = Mockery::mock(\Illuminate\Routing\Router::class);
+        $router->shouldReceive('gatherRouteMiddleware')->andThrow(new \RuntimeException('boom'));
+        $this->app->instance('router', $router);
+
+        $request = Request::create('/x');
+        $request->setRouteResolver(fn () => new \Illuminate\Routing\Route(['GET'], '/x', fn () => null));
+
+        $this->assertFalse(RestrictedClientGuard::routeDeclaresScope($request));
+    }
+
+    public function test_tokens_that_are_not_decodable_jwts_have_no_claims(): void
+    {
+        $this->assertNull(RestrictedClientGuard::claims('a.!!!.c'));
     }
 }
