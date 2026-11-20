@@ -9,6 +9,7 @@ use Illuminate\Auth\GenericUser;
 use Illuminate\Http\Response;
 use Shekel\ShekelLib\Services\AuthService;
 use Illuminate\Support\Facades\Auth;
+use Shekel\ShekelLib\Utils\RestrictedClientGuard;
 use Shekel\ShekelLib\Utils\ShekelAuth;
 
 class ShekelAuthMiddleware
@@ -39,7 +40,9 @@ class ShekelAuthMiddleware
             }
             $user = $userCheck->json('data');
             Auth::guard()->setUser(new GenericUser($user));
-            return $next($request);
+            // authentication-api accepted this token; a third-party client's token still needs a
+            // route that declares a scope (S20-4896).
+            return RestrictedClientGuard::check($request) ?? $next($request);
         } catch(\Throwable $th) {
             if ($th instanceof  \Symfony\Component\HttpKernel\Exception\HttpExceptionInterface) {
                 return response()->json(['message' => $th->getMessage()], $th->getStatusCode());

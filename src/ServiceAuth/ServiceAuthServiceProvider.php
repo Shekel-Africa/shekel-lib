@@ -23,6 +23,7 @@ use Shekel\ShekelLib\ServiceAuth\Tenant\ClientRepositoryTenantResolver;
 use Shekel\ShekelLib\ServiceAuth\Tenant\TenantResolver;
 use Shekel\ShekelLib\ServiceAuth\Token\AccessTokenVerifier;
 use Shekel\ShekelLib\ServiceAuth\Token\ServiceTokenVerifier;
+use Shekel\ShekelLib\Utils\RestrictedClientGuard;
 
 /**
  * Wires the service-auth classes from config('shekel.service_auth') and registers the
@@ -36,6 +37,8 @@ class ServiceAuthServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__.'/../../resources/config/shekel-service-auth.php', ServiceAuthConfig::KEY);
+        // Restricted (third-party) OAuth clients, read by RestrictedClientGuard (S20-4896).
+        $this->mergeConfigFrom(__DIR__.'/../../resources/config/shekel-restricted-clients.php', RestrictedClientGuard::CONFIG_KEY);
         // A published config/shekel-service-auth.php overrides both.
         $config = $this->app->make('config');
         if (is_array($published = $config->get('shekel-service-auth'))) {
