@@ -108,6 +108,11 @@ class LoanService extends ShekelBaseService {
         return $this->handleRequest($this->client->post($url));
     }
 
+    public function markShippingOrderPaid(string $orderId) {
+        $url = "/admin/shipping/orders/$orderId/mark-paid";
+        return $this->handleRequest($this->client->post($url));
+    }
+
     /**
      * @param array{
      *     car_id?: string|null,
