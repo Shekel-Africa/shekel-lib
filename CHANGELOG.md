@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.97.7
+
+* `LoanService::markShippingOrderPaid(string $orderId)` (S20-4879): posts to loan-api's
+  `POST /admin/shipping/orders/{id}/mark-paid`, which marks the order as paid and refreshes
+  its cost from the linked car's `additional_cost`.
+
 ## 1.97.6
 
 * `VendorService::documentReminders(array $shipments)` (S20-4922): posts `{shipments: [...]}` to
