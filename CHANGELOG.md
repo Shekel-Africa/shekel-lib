@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.97.6
+
+* `VendorService::documentReminders(array $shipments)` (S20-4922): posts `{shipments: [...]}` to
+  vendor-api's `POST /v3/vendor/shippings/document-reminders`, authenticated by the service secret
+  like `loanStatuses()`. Each shipment is `shipping_id`, `origin` (US, CA or KR, from its port of
+  loading), `point` (`four_weeks`, `two_weeks`, `one_week` or `one_day` before arrival) and
+  `estimated_arrival` (Y-m-d). loan-api's shipping notification command calls it once a day per
+  tenant; vendor-api reminds the shipping partner of the documents still missing.
+
 ## 1.97.5
 
 * **Behaviour change (S20-4896): restricted (third-party) OAuth clients.** A user access token issued
