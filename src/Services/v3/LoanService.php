@@ -124,6 +124,22 @@ class LoanService extends ShekelBaseService {
      *     title?: string|null,
      * } $data
      */
+    public function getShippingOrder(string $orderId)
+    {
+        return $this->handleRequest($this->client->get("/shipping/orders/$orderId"));
+    }
+
+    /**
+     * @param array{
+     *     car_id?: string|null,
+     *     auction_order_id?: string|null,
+     *     vin?: string|null,
+     *     brand?: string|null,
+     *     model?: string|null,
+     *     import_country?: string|null,
+     *     title?: string|null,
+     * } $data
+     */
     public function createShippingOrder(array $data) {
         return $this->handleRequest($this->client->post('/shipping/orders', $data));
     }

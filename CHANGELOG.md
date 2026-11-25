@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.97.8
+
+* `LoanService::getShippingOrder(string $orderId)` (S20-4879): fetches a single
+  shipping order from loan-api's `GET /shipping/orders/{id}` (user-scoped endpoint,
+  requires `shipping.order.read` or `loan.read` scope).
+
 ## 1.97.7
 
 * `LoanService::markShippingOrderPaid(string $orderId)` (S20-4879): posts to loan-api's
