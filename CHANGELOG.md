@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.97.9
+
+* `StoreService::syncHotDealPreferences` (S20-4972): `brands` is now an array of
+  objects `{name, models?, year_from?, year_to?}` instead of a flat string array.
+  `models` is an optional array of model name strings; `year_from` and `year_to`
+  are optional integers bounding the preferred manufacture-year range.
+
 ## 1.97.8
 
 * `LoanService::getShippingOrder(string $orderId)` (S20-4879): fetches a single

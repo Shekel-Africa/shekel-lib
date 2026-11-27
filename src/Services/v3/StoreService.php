@@ -26,7 +26,16 @@ class StoreService extends ShekelBaseService
     }
 
     /**
-     * @param array{user_id: string, company_id?: string|null, brands: array<string>} $data
+     * @param array{
+     *     user_id: string,
+     *     company_id?: string|null,
+     *     brands: array<int, array{
+     *         name: string,
+     *         models?: array<string>,
+     *         year_from?: int,
+     *         year_to?: int
+     *     }>
+     * } $data
      */
     public function syncHotDealPreferences(array $data)
     {
